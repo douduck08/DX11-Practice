@@ -1,4 +1,6 @@
 #include <Windows.h>
+#include <memory>
+#include "Graphics.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -38,6 +40,10 @@ int CALLBACK WinMain(
 	// show window
 	ShowWindow(hWnd, SW_SHOW);
 
+	// Graphic part
+	std::unique_ptr<Graphics> pGraphics;
+	pGraphics = std::make_unique<Graphics>(hWnd);
+
 	// message
 	MSG msg;
 	BOOL gResult;
@@ -45,6 +51,10 @@ int CALLBACK WinMain(
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
+
+
+		pGraphics->ClearBuffer(0.2f, 0.8f, 0.8f);
+		pGraphics->EndFrame();
 	}
 	return 0;
 }

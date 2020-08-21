@@ -18,5 +18,13 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>標頭檔</Filter>
     </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Graphics.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
