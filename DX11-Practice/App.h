@@ -11,8 +11,8 @@ public:
 	int Run();
 
 private:
-	void HandleInput(float dt);
-	void DrawFrame(float dt);
+	void HandleInput(float t, float dt);
+	void DrawFrame(float t, float dt);
 
 private:
 	Window win;
