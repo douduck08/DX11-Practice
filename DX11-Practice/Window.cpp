@@ -20,11 +20,18 @@ Window::Window(int x, int y, int width, int height, const char* name)
 	RegisterClassEx(&wc);
 
 	// create instance
-	hWnd = CreateWindowEx(
-		0, wndClassName,
+	RECT wr;
+	wr.left = 0;
+	wr.right = width;
+	wr.top = 0;
+	wr.bottom = height;
+	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+
+	hWnd = CreateWindow(
+		GetClassName(),
 		name,
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		x, y, width, height,
+		x, y, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, GetInstance(), this
 	);
 
