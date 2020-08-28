@@ -1,4 +1,5 @@
 #include "App.h"
+#include "imgui/imgui.h"
 
 App::App()
 	:win(200, 200, 800, 600, "My App")
@@ -16,7 +17,8 @@ void App::HandleInput(float t, float dt)
 void App::DrawFrame(float t, float dt)
 {
 	win.SetTitle(std::to_string(t));
-	win.GetGraphics().ClearBuffer(0.2f, 0.8f, 0.8f);
+
+	win.GetGraphics().BeginFrame(0.2f, 0.8f, 0.8f);
 	win.GetGraphics().DrawTest(t);
 	win.GetGraphics().EndFrame();
 }

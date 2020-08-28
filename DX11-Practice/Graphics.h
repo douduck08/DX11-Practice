@@ -11,9 +11,9 @@ public:
 	Graphics(HWND hWnd);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
-	~Graphics() = default;
+	~Graphics();
+	void BeginFrame(float r, float g, float b);
 	void EndFrame();
-	void ClearBuffer(float r, float g, float b);
 	void DrawTest(float angle);
 
 private:

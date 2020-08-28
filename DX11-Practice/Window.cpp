@@ -1,4 +1,7 @@
 #include "Window.h"
+#include "imgui/imgui_impl_win32.h"
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 Window::Window(int x, int y, int width, int height, const char* name)
 	: hInstance(GetModuleHandle(nullptr))
@@ -40,10 +43,14 @@ Window::Window(int x, int y, int width, int height, const char* name)
 
 	// create Graphic part
 	pGraphics = std::make_unique<Graphics>(hWnd);
+
+	// Init ImGui Win32 Impl
+	ImGui_ImplWin32_Init(hWnd);
 }
 
 Window::~Window()
 {
+	ImGui_ImplWin32_Shutdown();
 	UnregisterClass(GetClassName(), GetInstance());
 }
 
@@ -115,6 +122,11 @@ LRESULT Window::WindowProcNormal(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
+	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+	{
+		return true;
+	}
+
 	switch (msg)
 	{
 	case WM_CLOSE:

@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "Graphics.h"
 #include "DTimer.h"
+#include "ImguiManager.h"
 
 class App
 {
@@ -15,6 +16,7 @@ private:
 	void DrawFrame(float t, float dt);
 
 private:
+	ImguiManager imguiManager;
 	Window win;
 	DTimer timer;
 	DTimer deltaTime;
