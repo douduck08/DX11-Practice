@@ -93,6 +93,9 @@ Graphics::Graphics(HWND hWnd)
 	vp.TopLeftY = 0;
 	pContext->RSSetViewports(1u, &vp);
 
+	// Set primitive topology to triangle list (groups of 3 vertices)
+	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	// init imgui d3d impl
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 }
@@ -100,6 +103,16 @@ Graphics::Graphics(HWND hWnd)
 Graphics::~Graphics()
 {
 	ImGui_ImplDX11_Shutdown();
+}
+
+ID3D11Device* Graphics::GetDevice()
+{
+	return pDevice.Get();
+}
+
+ID3D11DeviceContext* Graphics::GetContext()
+{
+	return pContext.Get();
 }
 
 void Graphics::BeginFrame(float r, float g, float b)
@@ -115,10 +128,6 @@ void Graphics::BeginFrame(float r, float g, float b)
 
 void Graphics::EndFrame()
 {
-	static auto show_imgui_demo = true;
-	if (show_imgui_demo) {
-		ImGui::ShowDemoWindow(&show_imgui_demo);
-	}
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
@@ -137,7 +146,7 @@ void Graphics::DrawTest(float angle)
 		} pos;
 	};
 
-	Vertex vertices[] = {
+	static Vertex vertices[] = {
 		{ -0.5f,-0.5f,-0.5f },
 		{  0.5f,-0.5f,-0.5f },
 		{ -0.5f, 0.5f,-0.5f },
@@ -204,7 +213,7 @@ void Graphics::DrawTest(float angle)
 			DirectX::XMMatrixRotationZ(angle) *
 			DirectX::XMMatrixRotationX(angle) *
 			DirectX::XMMatrixTranslation(0, 0, 5) * 
-			DirectX::XMMatrixPerspectiveFovLH(30, 800.f / 600.f, 0.1, 100)
+			DirectX::XMMatrixPerspectiveFovLH(30, 800.f / 600.f, 0.1f, 100)
 		}
 	};
 
@@ -247,9 +256,6 @@ void Graphics::DrawTest(float angle)
 	D3DReadFileToBlob(L"Shaders/PixelShader.cso", &pBlob);
 	pDevice->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader);
 	pContext->PSSetShader(pPixelShader.Get(), nullptr, 0u);
-
-	// Set primitive topology to triangle list (groups of 3 vertices)
-	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	pContext->DrawIndexed((UINT)std::size(indices), 0u, 0u);
 }

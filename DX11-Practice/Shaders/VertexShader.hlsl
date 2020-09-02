@@ -3,7 +3,16 @@ cbuffer CBuffer
     matrix transform;
 };
 
-float4 main( float3 pos : POSITION ) : SV_POSITION
+struct VSOut
 {
-    return mul(transform, float4(pos, 1));
+    float4 position : SV_POSITION;
+    float4 color : COLOR;
+};
+
+VSOut main(float3 pos : POSITION)
+{
+    VSOut o;
+    o.position = mul(transform, float4(pos, 1));
+    o.color = float4(pos + 0.5, 1);
+    return o;
 }

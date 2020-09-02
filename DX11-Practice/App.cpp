@@ -1,26 +1,40 @@
 #include "App.h"
 #include "imgui/imgui.h"
+#include "Geometry.h"
+
 
 App::App()
-	:win(200, 200, 800, 600, "My App")
+	: win(200, 200, 800, 600, "My App")
 {
+	auto cube = Geometry::GenerateCube();
+	model.SetMesh(win.GetGraphics(), cube.vertices, 8, cube.indices, 36u);
 }
 
-App::~App()
+void App::DoFrame(float t, float dt)
 {
-}
+	win.GetGraphics().BeginFrame(backcolor.x, backcolor.y, backcolor.z);
 
-void App::HandleInput(float t, float dt)
-{
-}
+	// ImGui
+	if (ImGui::Begin("Test"))
+	{
+		ImGui::ColorEdit3("Backcolor", &backcolor.x);
+	}
+	ImGui::End();
 
-void App::DrawFrame(float t, float dt)
-{
-	win.SetTitle(std::to_string(t));
+	// draw
+	//win.GetGraphics().DrawTest(t);
+	model.Draw(win.GetGraphics(), t);
 
-	win.GetGraphics().BeginFrame(0.2f, 0.8f, 0.8f);
-	win.GetGraphics().DrawTest(t);
+	// present
 	win.GetGraphics().EndFrame();
+}
+
+void App::ShowImguiDemoWindow()
+{
+	static auto show_imgui_demo = true;
+	if (show_imgui_demo) {
+		ImGui::ShowDemoWindow(&show_imgui_demo);
+	}
 }
 
 int App::Run()
@@ -35,8 +49,7 @@ int App::Run()
 
 		const auto t = timer.Peek();
 		const auto dt = deltaTime.Delta();
-		HandleInput(t, dt);
-		DrawFrame(t, dt);
+		DoFrame(t, dt);
 	}
 	return 0;;
 }

@@ -57,6 +57,12 @@
     <ClCompile Include="ImguiManager.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h">
@@ -96,6 +102,12 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="ImguiManager.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>

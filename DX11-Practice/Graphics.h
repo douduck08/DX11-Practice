@@ -12,6 +12,10 @@ public:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
+	
+	ID3D11Device* GetDevice();
+	ID3D11DeviceContext* GetContext();
+	
 	void BeginFrame(float r, float g, float b);
 	void EndFrame();
 	void DrawTest(float angle);
