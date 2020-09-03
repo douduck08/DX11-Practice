@@ -26,8 +26,7 @@ public:
 		transform.objectToClip =
 			DirectX::XMMatrixRotationZ(angle) *
 			DirectX::XMMatrixRotationX(angle) *
-			DirectX::XMMatrixTranslation(x, y, z) *
-			DirectX::XMMatrixPerspectiveFovLH(30, 800.f / 600.f, 0.1f, 100);
+			DirectX::XMMatrixTranslation(x, y, z);
 	}
 
 private:
@@ -36,6 +35,6 @@ private:
 		DirectX::XMMATRIX objectToClip;
 	};
 
-	ModelTransform transform;
+	ModelTransform transform = { DirectX::XMMatrixIdentity() };
 	VertexConstantBuffer<ModelTransform>* pTransformbuffer = nullptr;
 };

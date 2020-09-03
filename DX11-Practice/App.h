@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "DTimer.h"
 #include "ImguiManager.h"
+#include "Camera.h"
 #include "Model.h"
 
 class App
@@ -24,5 +25,6 @@ private:
 	DTimer deltaTime;
 
 	DirectX::XMFLOAT3 backcolor = DirectX::XMFLOAT3(0.2f, 0.8f, 0.8f);
+	Camera camera;
 	Model model;
 };

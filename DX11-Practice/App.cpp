@@ -4,6 +4,7 @@
 
 App::App()
 	: win(200, 200, 800, 600, "My App")
+	, camera(win.GetGraphics(), 30, 800.f / 600.f, 0.1f, 100)
 {
 	auto cube = Geometry::GenerateCube();
 	model.SetGeometry(win.GetGraphics(), cube);
@@ -14,18 +15,38 @@ void App::DoFrame(float t, float dt)
 {
 	win.GetGraphics().BeginFrame(backcolor.x, backcolor.y, backcolor.z);
 
-	static float pos[3] = {0, 0, 5};
+	static float pos[3] = {0, 0, 0};
+	static float radius = 5, pitch = 0, yaw = 0, roll = 0;
+	const float degree2rad = 3.1415926f / 180.0f;
 
 	// ImGui
-	if (ImGui::Begin("Test"))
+	if (ImGui::Begin("Test Cube"))
+	{
+		ImGui::SliderFloat3("Position", pos, -10, 10);
+		if (ImGui::Button("Reset"))
+		{
+			pos[0] = pos[1] = pos[2] = 0;
+		}
+	}
+	ImGui::End();
+	if (ImGui::Begin("Camera"))
 	{
 		ImGui::ColorEdit3("Backcolor", &backcolor.x);
-		ImGui::SliderFloat3("Position", pos, -10, 10);
+		ImGui::SliderFloat("Radius", &radius, 0.1f, 20.0f);
+		ImGui::SliderFloat("Pitch", &pitch, -89.0f, 89.0f);
+		ImGui::SliderFloat("Yaw", &yaw, -180.0f, 180.0f);
+		ImGui::SliderFloat("Roll", &roll, -180.0f, 180.0f);
+		if (ImGui::Button("Reset"))
+		{
+			radius = 5, pitch = 0, yaw = 0, roll = 0;
+		}
 	}
 	ImGui::End();
 
 	// draw
-	model.UpdateTransform(t, pos[0], pos[1], pos[2]);
+	camera.SetCamera(0, 0, 0, radius, pitch * degree2rad, yaw * degree2rad, roll * degree2rad);
+	camera.Bind(win.GetGraphics());
+	model.UpdateTransform(0, pos[0], pos[1], pos[2]);
 	model.Draw(win.GetGraphics(), t);
 
 	// present

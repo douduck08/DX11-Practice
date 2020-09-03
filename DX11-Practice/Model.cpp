@@ -16,7 +16,7 @@ void Model::SetGeometry(Graphics& graphics, Geometry& geometry)
 	AddBind(std::make_unique<VertexBuffer>(graphics, geometry.vertices));
 	AddIndexBuffer(std::make_unique<IndexBuffer>(graphics, geometry.indices));
 
-	auto pt = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, 0u);
+	auto pt = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, 1u);
 	pTransformbuffer = pt.get();
 	AddBind(std::move(pt));
 }
