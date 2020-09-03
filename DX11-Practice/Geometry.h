@@ -18,6 +18,7 @@ public:
 	};
 
 	static Geometry GenerateCube();
+	static Geometry GenerateSphere(float radius = 0.5f);
 
 public:
 	std::vector<Vertex> vertices;

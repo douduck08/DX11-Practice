@@ -9,23 +9,27 @@ App::App()
 	auto cube = Geometry::GenerateCube();
 	model.SetGeometry(win.GetGraphics(), cube);
 	model.SetShader(win.GetGraphics(), L"Shaders/VertexShader.cso", L"Shaders/PixelShader.cso");
+
+	auto sphere = Geometry::GenerateSphere(0.1f);
+	lightProxy.SetGeometry(win.GetGraphics(), sphere);
+	lightProxy.SetShader(win.GetGraphics(), L"Shaders/UnlitVertexShader.cso", L"Shaders/UnlitPixelShader.cso");
 }
 
 void App::DoFrame(float t, float dt)
 {
 	win.GetGraphics().BeginFrame(backcolor.x, backcolor.y, backcolor.z);
 
-	static float pos[3] = {0, 0, 0};
+	static float lightPos[3] = {0, 0, 0};
 	static float radius = 5, pitch = 0, yaw = 0, roll = 0;
 	const float degree2rad = 3.1415926f / 180.0f;
 
 	// ImGui
-	if (ImGui::Begin("Test Cube"))
+	if (ImGui::Begin("Light"))
 	{
-		ImGui::SliderFloat3("Position", pos, -10, 10);
+		ImGui::SliderFloat3("Position", lightPos, -10, 10);
 		if (ImGui::Button("Reset"))
 		{
-			pos[0] = pos[1] = pos[2] = 0;
+			lightPos[0] = lightPos[1] = lightPos[2] = 0;
 		}
 	}
 	ImGui::End();
@@ -46,7 +50,8 @@ void App::DoFrame(float t, float dt)
 	// draw
 	camera.SetCamera(0, 0, 0, radius, pitch * degree2rad, yaw * degree2rad, roll * degree2rad);
 	camera.Bind(win.GetGraphics());
-	model.UpdateTransform(0, pos[0], pos[1], pos[2]);
+	lightProxy.UpdateTransform(0, lightPos[0], lightPos[1], lightPos[2]);
+	lightProxy.Draw(win.GetGraphics(), t);
 	model.Draw(win.GetGraphics(), t);
 
 	// present

@@ -27,4 +27,5 @@ private:
 	DirectX::XMFLOAT3 backcolor = DirectX::XMFLOAT3(0.2f, 0.8f, 0.8f);
 	Camera camera;
 	Model model;
+	Model lightProxy;
 };
