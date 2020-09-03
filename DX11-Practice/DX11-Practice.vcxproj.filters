@@ -1,40 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="來源檔案">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="標頭檔">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="資源檔">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{a6cca439-1563-4481-9ed8-0b8f9e1099ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="imgui">
       <UniqueIdentifier>{c076184b-4baa-44c4-880f-d94ef804a425}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Bindable">
+      <UniqueIdentifier>{f0e072f4-f85d-4b25-9eae-d6c5790635ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Drawable">
+      <UniqueIdentifier>{fdd254e4-e455-4653-93a9-3045c62753e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="HeaderFiles">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
-      <Filter>標頭檔</Filter>
+      <Filter>HeaderFiles</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>來源檔案</Filter>
+      <Filter>SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>來源檔案</Filter>
+      <Filter>SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="DTimer.cpp">
-      <Filter>來源檔案</Filter>
+      <Filter>SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="App.cpp">
-      <Filter>來源檔案</Filter>
+      <Filter>SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>imgui</Filter>
@@ -55,27 +61,30 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="ImguiManager.cpp">
-      <Filter>來源檔案</Filter>
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Bindable.cpp">
+      <Filter>Bindable</Filter>
     </ClCompile>
     <ClCompile Include="Geometry.cpp">
-      <Filter>來源檔案</Filter>
+      <Filter>Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>來源檔案</Filter>
+      <Filter>Drawable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h">
-      <Filter>標頭檔</Filter>
+      <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
-      <Filter>標頭檔</Filter>
+      <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="DTimer.h">
-      <Filter>標頭檔</Filter>
+      <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="App.h">
-      <Filter>標頭檔</Filter>
+      <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui</Filter>
@@ -102,13 +111,34 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="ImguiManager.h">
-      <Filter>標頭檔</Filter>
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Bindable.h">
+      <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Geometry.h">
-      <Filter>標頭檔</Filter>
+      <Filter>Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawable.h">
+      <Filter>Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>標頭檔</Filter>
+      <Filter>Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

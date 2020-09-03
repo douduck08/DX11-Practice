@@ -2,27 +2,30 @@
 #include "imgui/imgui.h"
 #include "Geometry.h"
 
-
 App::App()
 	: win(200, 200, 800, 600, "My App")
 {
 	auto cube = Geometry::GenerateCube();
-	model.SetMesh(win.GetGraphics(), cube.vertices, 8, cube.indices, 36u);
+	model.SetGeometry(win.GetGraphics(), cube);
+	model.SetShader(win.GetGraphics(), L"Shaders/VertexShader.cso", L"Shaders/PixelShader.cso");
 }
 
 void App::DoFrame(float t, float dt)
 {
 	win.GetGraphics().BeginFrame(backcolor.x, backcolor.y, backcolor.z);
 
+	static float pos[3] = {0, 0, 5};
+
 	// ImGui
 	if (ImGui::Begin("Test"))
 	{
 		ImGui::ColorEdit3("Backcolor", &backcolor.x);
+		ImGui::SliderFloat3("Position", pos, -10, 10);
 	}
 	ImGui::End();
 
 	// draw
-	//win.GetGraphics().DrawTest(t);
+	model.UpdateTransform(t, pos[0], pos[1], pos[2]);
 	model.Draw(win.GetGraphics(), t);
 
 	// present

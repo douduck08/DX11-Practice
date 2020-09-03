@@ -1,12 +1,16 @@
 #pragma once
 #include <Windows.h>
 #include <d3d11.h>
+#include <d3dcompiler.h>
 #include <wrl/client.h>
 
 using Microsoft::WRL::ComPtr;
 
 class Graphics
 {
+	friend class Bindable;
+	friend class Drawable;
+
 public:
 	Graphics(HWND hWnd);
 	Graphics(const Graphics&) = delete;
@@ -18,7 +22,6 @@ public:
 	
 	void BeginFrame(float r, float g, float b);
 	void EndFrame();
-	void DrawTest(float angle);
 
 private:
 	ComPtr<ID3D11Device> pDevice;
