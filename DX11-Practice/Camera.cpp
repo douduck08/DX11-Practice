@@ -20,7 +20,7 @@ void Camera::SetCamera(float originX, float originY, float originZ, float radius
 	using namespace DirectX;
 
 	const auto origin = XMVectorSet(originX, originY, originZ, 1.0f);
-	const auto rot = XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
+	const auto rot = XMMatrixRotationRollPitchYaw(pitch, -yaw, roll);
 
 	const auto up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 	const auto upVector = XMVector3Transform(up, rot);

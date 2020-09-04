@@ -4,7 +4,7 @@
 
 App::App()
 	: win(200, 200, 800, 600, "My App")
-	, camera(win.GetGraphics(), 30, 800.f / 600.f, 0.1f, 100)
+	, camera(win.GetGraphics(), 0.3f * 3.1415926f, 800.f / 600.f, 0.1f, 100)
 	, light(win.GetGraphics(), 1.0f, 1.0f, 1.0f)
 {
 	auto cube = Geometry::GenerateCube();
