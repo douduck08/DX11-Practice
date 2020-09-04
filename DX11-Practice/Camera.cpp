@@ -6,13 +6,13 @@ Camera::Camera(Graphics& graphics, float fovY, float aspectRatio, float nearZ, f
 	matrices.view = DirectX::XMMatrixIdentity();
 	matrices.project = DirectX::XMMatrixPerspectiveFovLH(fovY, aspectRatio, nearZ, farZ);
 
-	pTransformbuffer = std::make_unique<VertexConstantBuffer<CameraMatrices>>(graphics, matrices, 0u);
+	pCameraBuffer = std::make_unique<SharedConstantBuffer<CameraData>>(graphics, matrices, 0u);
 }
 
 void Camera::Bind(Graphics& graphics) noexcept
 {
-	pTransformbuffer->Update(graphics, matrices);
-	pTransformbuffer->Bind(graphics);
+	pCameraBuffer->Update(graphics, matrices);
+	pCameraBuffer->Bind(graphics);
 }
 
 void Camera::SetCamera(float originX, float originY, float originZ, float radius, float pitch, float yaw, float roll)
@@ -29,5 +29,6 @@ void Camera::SetCamera(float originX, float originY, float originZ, float radius
 	const auto lookVector = XMVector3Transform(forward, rot);
 	const auto pos = origin - lookVector;
 
+	matrices.position = pos;
 	matrices.view = XMMatrixLookAtLH(pos, origin, upVector);
 }

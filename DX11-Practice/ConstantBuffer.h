@@ -82,3 +82,18 @@ public:
 		GetContext(graphics)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
 	}
 };
+
+template<typename T>
+class SharedConstantBuffer : public ConstantBuffer<T>
+{
+	using ConstantBuffer<T>::pConstantBuffer;
+	using ConstantBuffer<T>::slot;
+	using Bindable::GetContext;
+public:
+	using ConstantBuffer<T>::ConstantBuffer;
+	void Bind(Graphics& graphics) noexcept override
+	{
+		GetContext(graphics)->VSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+		GetContext(graphics)->PSSetConstantBuffers(slot, 1u, pConstantBuffer.GetAddressOf());
+	}
+};

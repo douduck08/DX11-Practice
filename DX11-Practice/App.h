@@ -6,6 +6,7 @@
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "Model.h"
+#include "Light.h"
 
 class App
 {
@@ -26,6 +27,7 @@ private:
 
 	DirectX::XMFLOAT3 backcolor = DirectX::XMFLOAT3(0.2f, 0.8f, 0.8f);
 	Camera camera;
+	Light light;
 	Model model;
 	Model lightProxy;
 };

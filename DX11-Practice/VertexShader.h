@@ -15,6 +15,7 @@ public:
 		const D3D11_INPUT_ELEMENT_DESC ied[] =
 		{
 			{ "Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "Normal", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		};
 		graphics.GetDevice()->CreateInputLayout(
 			ied, (UINT)std::size(ied),

@@ -72,8 +72,11 @@
     <ClCompile Include="Model.cpp">
       <Filter>Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Drawable</Filter>
+    </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>HeaderFiles</Filter>
+      <Filter>Drawable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,8 +146,11 @@
     <ClInclude Include="PixelShader.h">
       <Filter>Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Drawable</Filter>
+    </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>SourceFiles</Filter>
+      <Filter>Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,11 +160,22 @@
     <FxCompile Include="Shaders\VertexShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="UnlitVertexShader.hlsl">
+    <FxCompile Include="Shaders\SimpleLitPixelShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="UnlitPixelShader.hlsl">
+    <FxCompile Include="Shaders\SimpleLitVertexShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Shaders\UnlitPixelShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\UnlitVertexShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\Cbuffers.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

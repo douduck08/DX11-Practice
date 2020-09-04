@@ -1,7 +1,4 @@
 #include "Model.h"
-#include <sstream>
-#include <d3dcompiler.h>
-
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "VertexBuffer.h"
@@ -31,4 +28,11 @@ void Model::Draw(Graphics& graphics, float angle)
 {
 	pTransformbuffer->Update(graphics, transform);
 	Drawable::Draw(graphics);
+}
+
+void Model::UpdateTransform(float x, float y, float z, float pitch, float yaw, float roll)
+{
+	transform.objectToWorld =
+		DirectX::XMMatrixRotationRollPitchYaw(pitch, yaw, roll) *
+		DirectX::XMMatrixTranslation(x, y, z);
 }

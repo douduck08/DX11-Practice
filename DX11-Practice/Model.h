@@ -1,12 +1,9 @@
 #pragma once
-#include <Windows.h>
-#include <d3d11.h>
-#include <wrl/client.h>
 #include <string>
 #include <DirectXMath.h>
+#include "Graphics.h"
 #include "Geometry.h"
 #include "Drawable.h"
-
 #include "ConstantBuffer.h"
 
 using Microsoft::WRL::ComPtr;
@@ -20,19 +17,12 @@ public:
 	void SetGeometry(Graphics& graphics, Geometry& geometry);
 	void SetShader(Graphics& graphics, const std::wstring& vsFile, const std::wstring& psFile);
 	void Draw(Graphics& graphics, float angle);
-
-	void UpdateTransform(float angle, float x, float y, float z) {
-		// test code
-		transform.objectToClip =
-			DirectX::XMMatrixRotationZ(angle) *
-			DirectX::XMMatrixRotationX(angle) *
-			DirectX::XMMatrixTranslation(x, y, z);
-	}
+	void UpdateTransform(float x, float y, float z, float pitch = 0, float yaw = 0, float roll = 0);
 
 private:
 	struct ModelTransform
 	{
-		DirectX::XMMATRIX objectToClip;
+		DirectX::XMMATRIX objectToWorld;
 	};
 
 	ModelTransform transform = { DirectX::XMMatrixIdentity() };

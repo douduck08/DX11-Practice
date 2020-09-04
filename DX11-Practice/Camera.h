@@ -12,10 +12,11 @@ public:
 	void SetCamera(float originX, float originY, float originZ, float radius, float pitch, float yaw, float roll);
 
 private:
-	struct CameraMatrices
+	struct CameraData
 	{
 		DirectX::XMMATRIX view;
 		DirectX::XMMATRIX project;
+		DirectX::XMVECTOR position;
 	};
 
 	float fovY;
@@ -23,6 +24,6 @@ private:
 	float nearZ;
 	float farZ;
 
-	CameraMatrices matrices;
-	std::unique_ptr<VertexConstantBuffer<CameraMatrices>> pTransformbuffer = nullptr;
+	CameraData matrices;
+	std::unique_ptr<SharedConstantBuffer<CameraData>> pCameraBuffer = nullptr;
 };

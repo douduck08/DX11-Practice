@@ -1,13 +1,4 @@
-cbuffer CameraBuffer : register(b0)
-{
-    matrix view;
-    matrix project;
-};
-
-cbuffer PreDrawBuffer : register(b1)
-{
-    matrix transform;
-};
+#include "Cbuffers.hlsli"
 
 struct VSOut
 {
@@ -17,7 +8,7 @@ struct VSOut
 
 VSOut main(float3 pos : POSITION)
 {
-    matrix matrix_VP = mul(project, view);
+    matrix matrix_VP = mul(cameraProject, cameraView);
     matrix matrix_MVP = mul(matrix_VP, transform);
 
     VSOut o;

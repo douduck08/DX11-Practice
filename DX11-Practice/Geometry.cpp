@@ -1,80 +1,112 @@
-# include "Geometry.h"
+#include "Geometry.h"
 
 Geometry Geometry::GenerateCube()
 {
+	const float size = 0.5f;
+
 	std::vector<Geometry::Vertex> vertices = {
-		{ -0.5f,-0.5f,-0.5f },
-		{  0.5f,-0.5f,-0.5f },
-		{ -0.5f, 0.5f,-0.5f },
-		{  0.5f, 0.5f,-0.5f },
-		{ -0.5f,-0.5f, 0.5f },
-		{  0.5f,-0.5f, 0.5f },
-		{ -0.5f, 0.5f, 0.5f },
-		{  0.5f, 0.5f, 0.5f },
+		// Back face
+		{-0.5, -0.5,  0.5, 0, 0, 1 },
+		{ 0.5, -0.5,  0.5, 0, 0, 1 },
+		{ 0.5,  0.5,  0.5, 0, 0, 1 },
+		{ -0.5, 0.5,  0.5, 0, 0, 1 },
+
+		// Front face
+		{ -0.5, -0.5, -0.5, 0, 0, -1 },
+		{ -0.5,  0.5, -0.5, 0, 0, -1 },
+		{  0.5,  0.5, -0.5, 0, 0, -1 },
+		{  0.5, -0.5, -0.5, 0, 0, -1 },
+
+		// Top face
+		{ -0.5,  0.5, -0.5, 0, 1, 0 },
+		{ -0.5,  0.5,  0.5, 0, 1, 0 },
+		{  0.5,  0.5,  0.5, 0, 1, 0 },
+		{  0.5,  0.5, -0.5, 0, 1, 0 },
+
+		// Bottom face
+		{ -0.5, -0.5, -0.5, 0, -1, 0 },
+		{  0.5, -0.5, -0.5, 0, -1, 0 },
+		{  0.5, -0.5,  0.5, 0, -1, 0 },
+		{ -0.5, -0.5,  0.5, 0, -1, 0 },
+
+		// Left face
+		{ -0.5,  0.5, -0.5, -1, 0, 0 },
+		{ -0.5, -0.5, -0.5, -1, 0, 0 },
+		{ -0.5, -0.5,  0.5, -1, 0, 0 },
+		{ -0.5,  0.5,  0.5, -1, 0, 0 },
+
+		// Right face
+		{ 0.5, -0.5,  0.5, 1, 0, 0 },
+		{ 0.5, -0.5, -0.5, 1, 0, 0 },
+		{ 0.5,  0.5, -0.5, 1, 0, 0 },
+		{ 0.5,  0.5,  0.5, 1, 0, 0 },
 	};
 
 	std::vector<unsigned short> indices = {
-		0,2,1, 2,3,1,
-		1,3,5, 3,7,5,
-		2,6,3, 3,6,7,
-		4,5,7, 4,7,6,
-		0,4,2, 2,4,6,
-		0,1,4, 1,5,4
+		0,  1,  2,  0,  2,  3,    // back
+		4,  5,  6,  4,  6,  7,    // front
+		8,  9,  10, 8,  10, 11,   // top
+		12, 13, 14, 12, 14, 15,   // bottom
+		16, 17, 18, 16, 18, 19,   // left
+		20, 21, 22, 20, 22, 23    // right
 	};
 
 	return { std::move(vertices), std::move(indices) };
 }
 
-Geometry Geometry::GenerateSphere(float radius)
+Geometry Geometry::GenerateSphere(float radius, int widthSegment, int heightSegment)
 {
-    std::vector<Geometry::Vertex> vertices;
-    std::vector<unsigned short> indices;
+	const float PI = 3.1415926536f;
+	widthSegment = std::max(widthSegment, 4);
+	heightSegment = std::max(heightSegment, 4);
 
-    float latitudeBands = 30;
-    float longitudeBands = 30;
+	std::vector<Geometry::Vertex> vertices;
+	std::vector<unsigned short> indices;
 
-    for (float latNumber = 0; latNumber <= latitudeBands; latNumber++)
-    {
-        float theta = latNumber * 3.1415926f / latitudeBands;
-        float sinTheta = sin(theta);
-        float cosTheta = cos(theta);
+	for (float y = 0; y <= heightSegment; y++)
+	{
+		float theta = y * PI / heightSegment;
+		float sinTheta = sin(theta);
+		float cosTheta = cos(theta);
 
-        for (float longNumber = 0; longNumber <= longitudeBands; longNumber++)
-        {
-            float phi = longNumber * 2 * 3.1415926f / longitudeBands;
-            float sinPhi = sin(phi);
-            float cosPhi = cos(phi);
+		for (float x = 0; x <= widthSegment; x++)
+		{
+			float phi = x * 2 * PI / widthSegment;
+			float sinPhi = sin(phi);
+			float cosPhi = cos(phi);
 
-            float position[3], normal[3], texcoord[2];
-            normal[0] = cosPhi * sinTheta;   // x
-            normal[1] = cosTheta;            // y
-            normal[2] = sinPhi * sinTheta;   // z
-            texcoord[0] = 1 - (longNumber / longitudeBands); // u
-            texcoord[1] = 1 - (latNumber / latitudeBands);   // v
-            position[0] = radius * normal[0];
-            position[1] = radius * normal[1];
-            position[2] = radius * normal[2];
+			float position[3], normal[3], texcoord[2];
+			normal[0] = cosPhi * sinTheta;   // x
+			normal[1] = cosTheta;            // y
+			normal[2] = sinPhi * sinTheta;   // z
 
-            vertices.push_back({ position[0], position[1], position[2] });
-        }
+			position[0] = radius * normal[0];
+			position[1] = radius * normal[1];
+			position[2] = radius * normal[2];
 
-        for (int latNumber = 0; latNumber < latitudeBands; latNumber++)
-        {
-            for (int longNumber = 0; longNumber < longitudeBands; longNumber++)
-            {
-                int first = (latNumber * (longitudeBands + 1)) + longNumber;
-                int second = first + longitudeBands + 1;
+			texcoord[0] = 1 - (x / widthSegment); // u
+			texcoord[1] = 1 - (y / heightSegment); // v
 
-                indices.push_back(first);
-                indices.push_back(second);
-                indices.push_back(first + 1);
+			vertices.push_back({ position[0], position[1], position[2], normal[0], normal[1], normal[2] });
+		}
+	}
 
-                indices.push_back(second);
-                indices.push_back(second + 1);
-                indices.push_back(first + 1);
-            }
-        }
-    }
+	for (int y = 0; y < heightSegment; y++)
+	{
+		for (int x = 0; x < widthSegment; x++)
+		{
+			int first = (y * (widthSegment + 1)) + x;
+			int second = first + widthSegment + 1;
+
+			indices.push_back(first);
+			indices.push_back(second);
+			indices.push_back(first + 1);
+
+			indices.push_back(second);
+			indices.push_back(second + 1);
+			indices.push_back(first + 1);
+		}
+	}
 
 	return { std::move(vertices), std::move(indices) };
 }
