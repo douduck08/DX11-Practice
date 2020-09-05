@@ -1,7 +1,6 @@
 #pragma once
 #include "Graphics.h"
-#include "Bindable.h"
-#include "IndexBuffer.h"
+#include "BindableResources.h"
 #include <vector>
 #include <memory>
 

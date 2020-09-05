@@ -1,0 +1,4 @@
+#pragma once
+#define CAMERA_CBUFFER_SLOT 0u
+#define TRANSFORM_CBUFFER_SLOT 1u
+#define LIGHT_CBUFFER_SLOT 2u

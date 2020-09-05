@@ -12,7 +12,7 @@ class Graphics
 	friend class Drawable;
 
 public:
-	Graphics(HWND hWnd);
+	Graphics(HWND hWnd, UINT width, UINT height);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics();
@@ -21,6 +21,7 @@ public:
 	ID3D11DeviceContext* GetContext();
 	
 	void BeginFrame(float r, float g, float b);
+	void BeginFrame(float* backcolor);
 	void EndFrame();
 
 private:

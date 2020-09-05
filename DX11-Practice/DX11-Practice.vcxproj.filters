@@ -78,6 +78,18 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="LightConstantBuffer.cpp">
+      <Filter>Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="PerFrameConatantBuffer.cpp">
+      <Filter>Bindable</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraConstantBuffer.cpp">
+      <Filter>Bindable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h">
@@ -151,6 +163,24 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableResources.h">
+      <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="LightConstantBuffer.h">
+      <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="PerFrameConatantBuffer.h">
+      <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraConstantBuffer.h">
+      <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="SlotConfig.h">
+      <Filter>Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

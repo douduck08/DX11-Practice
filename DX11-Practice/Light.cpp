@@ -1,25 +1,43 @@
 #include "Light.h"
+#include "imgui/imgui.h"
 
 Light::Light(Graphics& graphics, float r, float g, float b)
+	: lightColor{ 1, 1, 1 }
+	, lightPosition{ 0, 0, 0 }
 {
-	lightData.lightColor = { r, g, b, 1.0f };
-	lightData.lightPosition = { 0.0f, 0.0f, 0.0f, 1.0f };
-
-	pLightBuffer = std::make_unique<SharedConstantBuffer<LightData>>(graphics, lightData, 2u);
+	pLightBuffer = std::make_unique<LightConstantBuffer>(graphics);
 }
 
-void Light::Bind(Graphics& graphics) noexcept
+void Light::Bind(Graphics& graphics)
 {
-	pLightBuffer->Update(graphics, lightData);
 	pLightBuffer->Bind(graphics);
 }
 
 void Light::SetColor(float r, float g, float b)
 {
-	lightData.lightColor = { r, g, b, 1.0f };
+	lightColor[0] = r;
+	lightColor[1] = g;
+	lightColor[2] = b;
+	pLightBuffer->SetColor(r, g, b);
 }
 
 void Light::SetPosition(float x, float y, float z)
 {
-	lightData.lightPosition = { x, y, z, 1.0f };
+	lightPosition[0] = x;
+	lightPosition[1] = y;
+	lightPosition[2] = z;
+	pLightBuffer->SetPosition(x, y, z);
+}
+
+void Light::ShowImguiWindow()
+{
+	ImGui::Text("Light");
+	if(ImGui::ColorEdit3("Color", lightColor))
+	{
+		pLightBuffer->SetColor(lightColor[0], lightColor[1], lightColor[2]);
+	}
+	if (ImGui::InputFloat3("Position", lightPosition))
+	{
+		pLightBuffer->SetPosition(lightPosition[0], lightPosition[1], lightPosition[2]);
+	}
 }

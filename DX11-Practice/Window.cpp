@@ -3,7 +3,7 @@
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-Window::Window(int x, int y, int width, int height, const char* name)
+Window::Window(UINT x, UINT y, UINT width, UINT height, const char* name)
 	: hInstance(GetModuleHandle(nullptr))
 {
 	// register window class
@@ -42,7 +42,7 @@ Window::Window(int x, int y, int width, int height, const char* name)
 	ShowWindow(hWnd, SW_SHOW);
 
 	// create Graphic part
-	pGraphics = std::make_unique<Graphics>(hWnd);
+	pGraphics = std::make_unique<Graphics>(hWnd, width, height);
 
 	// Init ImGui Win32 Impl
 	ImGui_ImplWin32_Init(hWnd);

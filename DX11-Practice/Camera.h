@@ -1,29 +1,21 @@
 #pragma once
 #include <DirectXMath.h>
 #include <memory>
-#include "Bindable.h"
-#include "ConstantBuffer.h"
+#include "CameraConstantBuffer.h"
 
-class Camera : Bindable
+class Camera
 {
 public:
 	Camera(Graphics& graphics, float fovY, float aspectRatio, float nearZ, float farZ);
-	void Bind(Graphics& graphics) noexcept override;
-	void SetCamera(float originX, float originY, float originZ, float radius, float pitch, float yaw, float roll);
+	void Bind(Graphics& graphics);
+	void SetCameraView(float originX, float originY, float originZ, float radius, float pitch, float yaw, float roll);
+	void ShowImguiWindow();
 
 private:
-	struct CameraData
-	{
-		DirectX::XMMATRIX view;
-		DirectX::XMMATRIX project;
-		DirectX::XMVECTOR position;
-	};
-
 	float fovY;
 	float aspectRatio;
 	float nearZ;
 	float farZ;
 
-	CameraData matrices;
-	std::unique_ptr<SharedConstantBuffer<CameraData>> pCameraBuffer = nullptr;
+	std::unique_ptr<CameraConstantBuffer> pCameraBuffer = nullptr;
 };

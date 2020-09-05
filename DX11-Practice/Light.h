@@ -1,24 +1,19 @@
 #pragma once
 #include <DirectXMath.h>
 #include <memory>
-#include "Bindable.h"
-#include "ConstantBuffer.h"
+#include "LightConstantBuffer.h"
 
-class Light : public Bindable
+class Light
 {
 public:
 	Light(Graphics& graphics, float r, float g, float b);
-	void Bind(Graphics& graphics) noexcept override;
+	void Bind(Graphics& graphics);
 	void SetColor(float r, float g, float b);
 	void SetPosition(float x, float y, float z);
+	void ShowImguiWindow();
 
 private:
-	struct LightData
-	{
-		DirectX::XMVECTOR lightColor;
-		DirectX::XMVECTOR lightPosition;
-	};
-
-	LightData lightData;
-	std::unique_ptr<SharedConstantBuffer<LightData>> pLightBuffer = nullptr;
+	float lightColor[3];
+	float lightPosition[3];
+	std::unique_ptr<LightConstantBuffer> pLightBuffer = nullptr;
 };

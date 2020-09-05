@@ -7,7 +7,7 @@
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib")
 
-Graphics::Graphics(HWND hWnd)
+Graphics::Graphics(HWND hWnd, UINT width, UINT height)
 {
 	DXGI_SWAP_CHAIN_DESC sd = {};
 	sd.BufferDesc.Width = 0;
@@ -61,8 +61,8 @@ Graphics::Graphics(HWND hWnd)
 	// create depth stensil texture
 	ComPtr<ID3D11Texture2D> pDepthStencil;
 	D3D11_TEXTURE2D_DESC depthDesc = {};
-	depthDesc.Width = 800u;
-	depthDesc.Height = 600u;
+	depthDesc.Width = width;
+	depthDesc.Height = height;
 	depthDesc.MipLevels = 1u;
 	depthDesc.ArraySize = 1u;
 	depthDesc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -84,8 +84,8 @@ Graphics::Graphics(HWND hWnd)
 
 	// configure viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = 800;
-	vp.Height = 600;
+	vp.Width = width;
+	vp.Height = height;
 	vp.MinDepth = 0;
 	vp.MaxDepth = 1;
 	vp.TopLeftX = 0;
@@ -116,10 +116,15 @@ ID3D11DeviceContext* Graphics::GetContext()
 
 void Graphics::BeginFrame(float r, float g, float b)
 {
-	const float color[] = { r,g,b };
-	pContext->ClearRenderTargetView(pTarget.Get(), color);
+	float color[] = { r,g,b };
+	Graphics::BeginFrame(color);
+}
+
+void Graphics::BeginFrame(float* backcolor)
+{
+	pContext->ClearRenderTargetView(pTarget.Get(), backcolor);
 	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
-	
+
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
