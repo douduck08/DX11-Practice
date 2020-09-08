@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 class Geometry
 {
@@ -25,6 +26,7 @@ public:
 
 	static Geometry GenerateCube();
 	static Geometry GenerateSphere(float radius = 0.5f, int widthSegment = 16, int heightSegment = 8);
+	static Geometry LoadFromFile(const std::string fileName);
 
 public:
 	std::vector<Vertex> vertices;

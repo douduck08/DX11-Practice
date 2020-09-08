@@ -25,22 +25,13 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{15556b1e-34b1-4a68-95c0-ac0a227c00af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
       <Filter>HeaderFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>SourceFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>SourceFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="DTimer.cpp">
-      <Filter>SourceFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>imgui</Filter>
@@ -59,9 +50,6 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_win32.cpp">
       <Filter>imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImguiManager.cpp">
-      <Filter>SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Bindable.cpp">
       <Filter>Bindable</Filter>
@@ -90,20 +78,26 @@
     <ClCompile Include="CameraConstantBuffer.cpp">
       <Filter>Bindable</Filter>
     </ClCompile>
+    <ClCompile Include="SceneNode.cpp">
+      <Filter>Drawable</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="DTimer.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ImguiManager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Graphics.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="DTimer.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>HeaderFiles</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -127,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="imgui\imgui_impl_win32.h">
       <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImguiManager.h">
-      <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="Bindable.h">
       <Filter>Bindable</Filter>
@@ -181,6 +172,24 @@
     </ClInclude>
     <ClInclude Include="SlotConfig.h">
       <Filter>Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNode.h">
+      <Filter>Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ImguiManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

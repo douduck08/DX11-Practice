@@ -3,7 +3,7 @@
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-Window::Window(UINT x, UINT y, UINT width, UINT height, const char* name)
+Window::Window(UINT width, UINT height, const char* name)
 	: hInstance(GetModuleHandle(nullptr))
 {
 	// register window class
@@ -34,7 +34,7 @@ Window::Window(UINT x, UINT y, UINT width, UINT height, const char* name)
 		GetClassName(),
 		name,
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		x, y, wr.right - wr.left, wr.bottom - wr.top,
+		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, GetInstance(), this
 	);
 

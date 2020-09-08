@@ -8,7 +8,7 @@
 class Window
 {
 public:
-	Window(UINT x, UINT y, UINT width, UINT height, const char* name);
+	Window(UINT width, UINT height, const char* name);
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;

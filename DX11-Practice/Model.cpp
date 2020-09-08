@@ -20,15 +20,28 @@ void Model::SetShader(Graphics& graphics, const std::wstring& vsFile, const std:
 	AddBind(std::make_unique<PixelShader>(graphics, psFile));
 }
 
+void Model::SetSceneNode(SceneNode* pNode)
+{
+	pSceneNode = pNode;
+}
+
 void Model::Draw(Graphics& graphics)
 {
-	pTransformbuffer->Update(graphics, transform);
+	ModelTransform data;
+	if (pSceneNode) {
+		data.model = pSceneNode->GetTransform();
+	}
+	else {
+		DirectX::XMStoreFloat4x4(&(data.model), DirectX::XMMatrixIdentity());
+	}
+
+	pTransformbuffer->Update(graphics, data);
 	Drawable::Draw(graphics);
 }
 
-void Model::SetPositionAndRotation(float x, float y, float z, float pitch, float yaw, float roll)
-{
-	transform.objectToWorld =
-		DirectX::XMMatrixRotationRollPitchYaw(pitch, yaw, roll) *
-		DirectX::XMMatrixTranslation(x, y, z);
-}
+//void Model::SetPositionAndRotation(float x, float y, float z, float pitch, float yaw, float roll)
+//{
+//	transform.objectToWorld =
+//		DirectX::XMMatrixRotationRollPitchYaw(pitch, yaw, roll) *
+//		DirectX::XMMatrixTranslation(x, y, z);
+//}

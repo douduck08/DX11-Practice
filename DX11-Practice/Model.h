@@ -1,10 +1,12 @@
 #pragma once
 #include <string>
 #include <DirectXMath.h>
+#include <memory>
 #include "Graphics.h"
 #include "Geometry.h"
 #include "Drawable.h"
 #include "BindableResources.h"
+#include "SceneNode.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -16,15 +18,17 @@ public:
 
 	void SetGeometry(Graphics& graphics, Geometry& geometry);
 	void SetShader(Graphics& graphics, const std::wstring& vsFile, const std::wstring& psFile);
+	void SetSceneNode(SceneNode* pNode);
 	void Draw(Graphics& graphics);
-	void SetPositionAndRotation(float x, float y, float z, float pitch = 0, float yaw = 0, float roll = 0);
+
+	//void SetPositionAndRotation(float x, float y, float z, float pitch = 0, float yaw = 0, float roll = 0);
 
 private:
 	struct ModelTransform
 	{
-		DirectX::XMMATRIX objectToWorld;
+		DirectX::XMFLOAT4X4 model;
 	};
 
-	ModelTransform transform = { DirectX::XMMatrixIdentity() };
+	SceneNode *pSceneNode = nullptr;
 	VertexConstantBuffer<ModelTransform>* pTransformbuffer = nullptr;
 };

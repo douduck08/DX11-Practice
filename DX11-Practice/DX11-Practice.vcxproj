@@ -78,9 +78,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(SolutionDir)DX11-Practice\assimp\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)DX11-Practice\assimp\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(SolutionDir)DX11-Practice\assimp\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)DX11-Practice\assimp\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -164,6 +168,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PerFrameConatantBuffer.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -194,6 +199,7 @@
     <ClInclude Include="PerFrameConatantBuffer.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneNode.h" />
     <ClInclude Include="SlotConfig.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
