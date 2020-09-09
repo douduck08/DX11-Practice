@@ -1,5 +1,5 @@
 #pragma once
-#include <Windows.h>
+#include "DWin32.h"
 #include <memory>
 #include <optional>
 #include <string>
