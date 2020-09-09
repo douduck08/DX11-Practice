@@ -25,10 +25,11 @@ void LightConstantBuffer::SetColor(float r, float g, float b)
 	lightData.lightColor[2] = b;
 }
 
-void LightConstantBuffer::SetPosition(float x, float y, float z)
+void LightConstantBuffer::SetPosition(float x, float y, float z, float w)
 {
 	needUpdate = true;
 	lightData.lightPosition[0] = x;
 	lightData.lightPosition[1] = y;
 	lightData.lightPosition[2] = z;
+	lightData.lightPosition[3] = w;
 }

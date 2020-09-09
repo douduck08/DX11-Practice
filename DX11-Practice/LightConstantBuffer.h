@@ -8,7 +8,7 @@ public:
 	LightConstantBuffer(Graphics& graphics);
 	void Bind(Graphics& graphics) noexcept override;
 	void SetColor(float r, float g, float b);
-	void SetPosition(float x, float y, float z);
+	void SetPosition(float x, float y, float z, float w);
 
 private:
 	struct LightData

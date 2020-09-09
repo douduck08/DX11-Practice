@@ -11,7 +11,7 @@ Scene::Scene(Graphics& graphics)
 	: backcolor{ 0.2f, 0.8f, 0.8f }
 {
 	pCamera = std::make_unique<Camera>(graphics, 0.3f * 3.1415926f, 1280.f / 720.f, 0.1f, 500);
-	pLight = std::make_unique<Light>(graphics, 1.0f, 1.0f, 1.0f);
+	pLight = std::make_unique<Light>(graphics, LightType::Directional, 1.0f, 1.0f, 1.0f);
 	pLight->SetPosition(0, 10, 0);
 	pRootNode = std::make_unique<SceneNode>("Root");
 }
