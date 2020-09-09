@@ -1,7 +1,6 @@
 #include "App.h"
 #include "imgui/imgui.h"
 #include "Geometry.h"
-#include "SceneNode.h"
 #include <random>
 
 App::App()
@@ -12,15 +11,14 @@ App::App()
 	std::uniform_real_distribution<float> unif(-5.0, 5.0);
 
 	//*
-	int id_offset = 1;
 	auto cube = Geometry::GenerateCube();
-	auto node = std::make_unique<SceneNode>(id_offset, "Cubes");
+	auto node = std::make_unique<SceneNode>("Cubes");
 	for (int i = 0; i < 20; i++) {
 		float x = unif(generator);
 		float y = unif(generator);
 		float z = unif(generator);
 
-		auto childNode = std::make_unique<SceneNode>(id_offset + i + 1, "Cube " + std::to_string(i));
+		auto childNode = std::make_unique<SceneNode>("Cube " + std::to_string(i));
 		childNode->SetPosition(x, y, z);
 
 		auto model = std::make_unique<Model>();
@@ -34,25 +32,10 @@ App::App()
 	scene.AddSceneNode(std::move(node));
 	//*/
 
-	/*
-	{
-		auto suzanne = Geometry::LoadFromFile("Models/suzanne.obj");
-		auto model = std::make_unique<Model>();
-		model->SetGeometry(win.GetGraphics(), suzanne);
-		model->SetShader(win.GetGraphics(), L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso");
-		scene.AddModel(std::move(model));
-	}
-	//*/
+	scene.LoadModelFromFile(win.GetGraphics(), "suzanne", "Models/suzanne.obj");
+	scene.LoadModelFromFile(win.GetGraphics(), "sponza", "Models/sponza.obj");
 
-	/*
-	{
-		auto sponza = Geometry::LoadFromFile("Models/sponza.obj");
-		auto model = std::make_unique<Model>();
-		model->SetGeometry(win.GetGraphics(), sponza);
-		model->SetShader(win.GetGraphics(), L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso");
-		scene.AddModel(std::move(model));
-	}
-	//*/
+	scene.RecalculateId();
 }
 
 void App::DoFrame(float t, float dt)

@@ -32,6 +32,6 @@ protected:
 	}
 
 private:
-	UINT indexCount;
+	UINT indexCount = 0;
 	std::vector<std::unique_ptr<Bindable>> binds;
 };

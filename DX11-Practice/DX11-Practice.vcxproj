@@ -181,6 +181,7 @@
     <ClInclude Include="ConstantBuffer.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="DTimer.h" />
+    <ClInclude Include="DWin32.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="ImguiManager.h" />

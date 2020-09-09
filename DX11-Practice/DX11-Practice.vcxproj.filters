@@ -191,6 +191,9 @@
     <ClInclude Include="Window.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="DWin32.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShader.hlsl">

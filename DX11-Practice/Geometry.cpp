@@ -1,9 +1,4 @@
 #include "Geometry.h"
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
-#pragma comment(lib,"assimp-vc140-mt.lib")
 
 Geometry Geometry::GenerateCube()
 {
@@ -110,43 +105,6 @@ Geometry Geometry::GenerateSphere(float radius, int widthSegment, int heightSegm
 			indices.push_back(second);
 			indices.push_back(second + 1);
 			indices.push_back(first + 1);
-		}
-	}
-
-	return { std::move(vertices), std::move(indices) };
-}
-
-Geometry Geometry::LoadFromFile(const std::string fileName)
-{
-	Assimp::Importer imp;
-	const auto pScene = imp.ReadFile(fileName,
-		aiProcess_Triangulate |
-		aiProcess_JoinIdenticalVertices |
-		aiProcess_ConvertToLeftHanded |
-		aiProcess_GenNormals
-	);
-
-	std::vector<Geometry::Vertex> vertices;
-	std::vector<unsigned short> indices;
-
-	// for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
-	{
-		const auto& mesh = pScene->mMeshes[0];
-		for (unsigned int idx = 0; idx < mesh->mNumVertices; idx++)
-		{
-			vertices.push_back(
-				{ 
-					mesh->mVertices[idx].x, mesh->mVertices[idx].y, mesh->mVertices[idx].z,
-					mesh->mNormals[idx].x, mesh->mNormals[idx].y, mesh->mNormals[idx].z
-				}
-			);
-		}
-		for (unsigned int idx = 0; idx < mesh->mNumFaces; idx++)
-		{
-			const auto& face = mesh->mFaces[idx];
-			indices.push_back(face.mIndices[0]);
-			indices.push_back(face.mIndices[1]);
-			indices.push_back(face.mIndices[2]);
 		}
 	}
 

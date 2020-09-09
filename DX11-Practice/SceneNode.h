@@ -10,9 +10,9 @@ class SceneNode
 
 public:
 	SceneNode(const std::string& name);
-	SceneNode(int id, const std::string& name);
 	void AddChild(std::unique_ptr<SceneNode> pChild);
 	void RecalculateTransform(DirectX::FXMMATRIX parantTransform);
+	int RecalculateId(int base);
 	
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);

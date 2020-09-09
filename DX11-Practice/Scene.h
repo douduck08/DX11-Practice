@@ -16,6 +16,9 @@ public:
 	void AddModel(std::unique_ptr<Model> model);
 	void AddSceneNode(std::unique_ptr<SceneNode> SceneNode);
 
+	void LoadModelFromFile(Graphics& graphics, const std::string name, const std::string fileName);
+	void RecalculateId();
+
 private:
 	float backcolor[3];
 

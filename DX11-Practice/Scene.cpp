@@ -1,12 +1,16 @@
 #include "Scene.h"
-#include "Geometry.h"
-#include "imgui/imgui.h"
 #include <DirectXMath.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "imgui/imgui.h"
+
+#pragma comment(lib,"assimp-vc140-mt.lib")
 
 Scene::Scene(Graphics& graphics)
 	: backcolor{ 0.2f, 0.8f, 0.8f }
 {
-	pCamera = std::make_unique<Camera>(graphics, 0.3f * 3.1415926f, 1280.f / 720.f, 0.1f, 100);
+	pCamera = std::make_unique<Camera>(graphics, 0.3f * 3.1415926f, 1280.f / 720.f, 0.1f, 500);
 	pLight = std::make_unique<Light>(graphics, 1.0f, 1.0f, 1.0f);
 	pLight->SetPosition(0, 10, 0);
 	pRootNode = std::make_unique<SceneNode>("Root");
@@ -59,5 +63,40 @@ void Scene::AddModel(std::unique_ptr<Model> model)
 void Scene::AddSceneNode(std::unique_ptr<SceneNode> SceneNode)
 {
 	pRootNode->AddChild(std::move(SceneNode));
+}
+
+void Scene::LoadModelFromFile(Graphics& graphics, const std::string name, const std::string fileName)
+{
+	
+	Assimp::Importer imp;
+	const auto pScene = imp.ReadFile(fileName,
+		aiProcess_Triangulate |
+		aiProcess_JoinIdenticalVertices |
+		aiProcess_ConvertToLeftHanded |
+		aiProcess_GenNormals
+	);
+
+
+	if (pScene != nullptr) {
+		auto node = std::make_unique<SceneNode>(name);
+		for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
+		{
+			const auto& mesh = pScene->mMeshes[i];
+			auto model = std::make_unique<Model>();
+			model->SetMesh(graphics, *mesh);
+			model->SetShader(graphics, L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso");
+			
+			auto childNode = std::make_unique<SceneNode>(mesh->mName.C_Str());
+			model->SetSceneNode(childNode.get());
+			node->AddChild(std::move(childNode));
+			this->AddModel(std::move(model));
+		}
+		this->AddSceneNode(std::move(node));
+	}
+}
+
+void Scene::RecalculateId()
+{
+	pRootNode->RecalculateId(0);
 }
 

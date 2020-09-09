@@ -22,11 +22,12 @@ float4 main(PSIn input) : SV_TARGET
     float att = 1.0f / (attConst + attLin * dist + attQuad * (dist * dist));
     
     float nl = saturate(dot(input.normal.xyz, l));
+    float3 light = lightColor.rgb * att * nl;
     
-    float3 diffuse = input.color.rgb * lightColor.rgb * att * nl;
+    float3 diffuse = input.color.rgb * light;
     
     float3 r = reflect(-l, input.normal.xyz);
-    float3 spec = input.color.rgb * pow(saturate(dot(v, r)), 128);
+    float3 spec = input.color.rgb * light * pow(saturate(dot(v, r)), 128);
     
     return float4(saturate(diffuse + spec), 1.0);
 }

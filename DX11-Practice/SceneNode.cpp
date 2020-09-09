@@ -11,16 +11,6 @@ SceneNode::SceneNode(const std::string& name)
 {
 }
 
-SceneNode::SceneNode(int id, const std::string& name)
-	: id(id)
-	, name(name)
-	, position(0, 0, 0)
-	, rotation(0, 0, 0)
-	, scale(1, 1, 1)
-	, transform()
-{
-}
-
 void SceneNode::AddChild(std::unique_ptr<SceneNode> pChild)
 {
 	children.push_back(std::move(pChild));
@@ -42,6 +32,16 @@ void SceneNode::RecalculateTransform(DirectX::FXMMATRIX parantTransform)
 	{
 		node->RecalculateTransform(matrix);
 	}
+}
+
+int SceneNode::RecalculateId(int base)
+{
+	id = base;
+	for (auto& node : children)
+	{
+		base = node->RecalculateId(base + 1);
+	}
+	return base;
 }
 
 void SceneNode::SetPosition(float x, float y, float z)
@@ -78,7 +78,7 @@ void SceneNode::ShowImguiTree(SceneNode*& pSelectedNode)
 		| ((children.size() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
 	
 	const auto expanded = ImGui::TreeNodeEx(
-		(void*)(intptr_t)id, node_flags, name.c_str()
+		(void*)(intptr_t)id, node_flags, (std::to_string(id) + ": " + name).c_str()
 	);
 
 	if (ImGui::IsItemClicked())

@@ -7,6 +7,9 @@
 #include "Drawable.h"
 #include "BindableResources.h"
 #include "SceneNode.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 using Microsoft::WRL::ComPtr;
 
@@ -17,11 +20,10 @@ public:
 	~Model() = default;
 
 	void SetGeometry(Graphics& graphics, Geometry& geometry);
+	void SetMesh(Graphics& graphics, const aiMesh& mesh);
 	void SetShader(Graphics& graphics, const std::wstring& vsFile, const std::wstring& psFile);
 	void SetSceneNode(SceneNode* pNode);
 	void Draw(Graphics& graphics);
-
-	//void SetPositionAndRotation(float x, float y, float z, float pitch = 0, float yaw = 0, float roll = 0);
 
 private:
 	struct ModelTransform

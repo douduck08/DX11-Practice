@@ -37,7 +37,7 @@ void Camera::ShowImguiWindow()
 	static float radius = 10, pitch = 0, yaw = 0, roll = 0;
 
 	ImGui::Text("Camera");
-	ImGui::SliderFloat("Radius", &radius, 0.1f, 20.0f);
+	ImGui::SliderFloat("Radius", &radius, 0.1f, 100.0f);
 	ImGui::SliderFloat("Pitch", &pitch, -89.0f, 89.0f);
 	ImGui::SliderFloat("Yaw", &yaw, -180.0f, 180.0f);
 	ImGui::SliderFloat("Roll", &roll, -180.0f, 180.0f);
