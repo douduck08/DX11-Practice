@@ -50,7 +50,19 @@ void Model::SetShader(Graphics& graphics, const std::wstring& vsFile, const std:
 	AddBind(std::make_unique<PixelShader>(graphics, psFile));
 }
 
-void Model::SetSceneNode(SceneNode* pNode)
+Model::Model(Graphics& graphics, Geometry& geometry, const std::wstring& vsFile, const std::wstring& psFile)
+{
+	SetGeometry(graphics, geometry);
+	SetShader(graphics, vsFile, psFile);
+}
+
+Model::Model(Graphics& graphics, const aiMesh& mesh, const std::wstring& vsFile, const std::wstring& psFile)
+{
+	SetMesh(graphics, mesh);
+	SetShader(graphics, vsFile, psFile);
+}
+
+void Model::AttachToNode(SceneNode* pNode)
 {
 	pSceneNode = pNode;
 }

@@ -16,14 +16,17 @@ using Microsoft::WRL::ComPtr;
 class Model : public Drawable
 {
 public:
-	Model() = default;
+	Model(Graphics& graphics, Geometry& geometry, const std::wstring& vsFile, const std::wstring& psFile);
+	Model(Graphics& graphics, const aiMesh& mesh, const std::wstring& vsFile, const std::wstring& psFile);
 	~Model() = default;
+	
+	void AttachToNode(SceneNode* pNode);
+	void Draw(Graphics& graphics);
 
+private:
 	void SetGeometry(Graphics& graphics, Geometry& geometry);
 	void SetMesh(Graphics& graphics, const aiMesh& mesh);
 	void SetShader(Graphics& graphics, const std::wstring& vsFile, const std::wstring& psFile);
-	void SetSceneNode(SceneNode* pNode);
-	void Draw(Graphics& graphics);
 
 private:
 	struct ModelTransform

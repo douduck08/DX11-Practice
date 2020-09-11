@@ -194,6 +194,9 @@
     <ClInclude Include="DWin32.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Attachable.h">
+      <Filter>Drawable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShader.hlsl">

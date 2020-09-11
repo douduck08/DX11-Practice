@@ -65,11 +65,11 @@ void Scene::AddSceneNode(std::unique_ptr<SceneNode> SceneNode)
 	pRootNode->AddChild(std::move(SceneNode));
 }
 
-void Scene::LoadModelFromFile(Graphics& graphics, const std::string name, const std::string fileName)
+void Scene::LoadModelFromFile(Graphics& graphics, const std::string name, const std::string filePath)
 {
 	
 	Assimp::Importer imp;
-	const auto pScene = imp.ReadFile(fileName,
+	const auto pScene = imp.ReadFile(filePath,
 		aiProcess_Triangulate |
 		aiProcess_JoinIdenticalVertices |
 		aiProcess_ConvertToLeftHanded |
@@ -82,12 +82,13 @@ void Scene::LoadModelFromFile(Graphics& graphics, const std::string name, const 
 		for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
 		{
 			const auto& mesh = pScene->mMeshes[i];
-			auto model = std::make_unique<Model>();
-			model->SetMesh(graphics, *mesh);
-			model->SetShader(graphics, L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso");
+			auto model = std::make_unique<Model>(
+				graphics, *mesh,
+				L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso"
+			);
 			
 			auto childNode = std::make_unique<SceneNode>(mesh->mName.C_Str());
-			model->SetSceneNode(childNode.get());
+			model->AttachToNode(childNode.get());
 			node->AddChild(std::move(childNode));
 			this->AddModel(std::move(model));
 		}

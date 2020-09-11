@@ -18,7 +18,6 @@ public:
 	void SetRotation(float x, float y, float z);
 	void SetScale(float x, float y, float z);
 	DirectX::XMFLOAT4X4 GetTransform();
-
 	void ShowImguiTree(SceneNode*& pSelectedNode);
 
 private:

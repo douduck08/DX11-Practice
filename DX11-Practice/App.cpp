@@ -21,10 +21,11 @@ App::App()
 		auto childNode = std::make_unique<SceneNode>("Cube " + std::to_string(i));
 		childNode->SetPosition(x, y, z);
 
-		auto model = std::make_unique<Model>();
-		model->SetGeometry(win.GetGraphics(), cube);
-		model->SetShader(win.GetGraphics(), L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso");
-		model->SetSceneNode(childNode.get());
+		auto model = std::make_unique<Model>(
+			win.GetGraphics(), cube,
+			L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso"
+		);
+		model->AttachToNode(childNode.get());
 		
 		node->AddChild(std::move(childNode));
 		scene.AddModel(std::move(model));
