@@ -44,19 +44,19 @@ void Model::SetMesh(Graphics& graphics, const aiMesh& mesh)
 	AddBind(std::move(pt));
 }
 
-void Model::SetShader(Graphics& graphics, const std::wstring& vsFile, const std::wstring& psFile)
+void Model::SetShader(Graphics& graphics, const std::string& vsFile, const std::string& psFile)
 {
-	AddBind(std::make_unique<VertexShader>(graphics, vsFile));
-	AddBind(std::make_unique<PixelShader>(graphics, psFile));
+	AddSharedBind(ResourceManager::Resolve<VertexShader>(graphics, vsFile));
+	AddSharedBind(ResourceManager::Resolve<PixelShader>(graphics, psFile));
 }
 
-Model::Model(Graphics& graphics, Geometry& geometry, const std::wstring& vsFile, const std::wstring& psFile)
+Model::Model(Graphics& graphics, Geometry& geometry, const std::string& vsFile, const std::string& psFile)
 {
 	SetGeometry(graphics, geometry);
 	SetShader(graphics, vsFile, psFile);
 }
 
-Model::Model(Graphics& graphics, const aiMesh& mesh, const std::wstring& vsFile, const std::wstring& psFile)
+Model::Model(Graphics& graphics, const aiMesh& mesh, const std::string& vsFile, const std::string& psFile)
 {
 	SetMesh(graphics, mesh);
 	SetShader(graphics, vsFile, psFile);

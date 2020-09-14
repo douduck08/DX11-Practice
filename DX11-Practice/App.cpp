@@ -23,7 +23,7 @@ App::App()
 
 		auto model = std::make_unique<Model>(
 			win.GetGraphics(), cube,
-			L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso"
+			"Shaders/SimpleLitVertexShader.cso", "Shaders/SimpleLitPixelShader.cso"
 		);
 		model->AttachToNode(childNode.get());
 		

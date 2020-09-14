@@ -7,12 +7,6 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{c076184b-4baa-44c4-880f-d94ef804a425}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Bindable">
-      <UniqueIdentifier>{f0e072f4-f85d-4b25-9eae-d6c5790635ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Drawable">
-      <UniqueIdentifier>{fdd254e4-e455-4653-93a9-3045c62753e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SourceFiles">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -25,8 +19,20 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Common">
+    <Filter Include="DuEngine">
+      <UniqueIdentifier>{0858e8ca-c59c-40fe-b5e8-00a787c2bd54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DuEngine\ResourceSystem">
+      <UniqueIdentifier>{a6a80941-550d-4ec3-939e-442cc693e9b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DuEngine\Drawable">
+      <UniqueIdentifier>{fdd254e4-e455-4653-93a9-3045c62753e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DuEngine\Common">
       <UniqueIdentifier>{15556b1e-34b1-4a68-95c0-ac0a227c00af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DuEngine\Bindable">
+      <UniqueIdentifier>{f0e072f4-f85d-4b25-9eae-d6c5790635ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,49 +58,49 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="Bindable.cpp">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="Geometry.cpp">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="LightConstantBuffer.cpp">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="PerFrameConatantBuffer.cpp">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="CameraConstantBuffer.cpp">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClCompile>
     <ClCompile Include="SceneNode.cpp">
-      <Filter>Drawable</Filter>
-    </ClCompile>
-    <ClCompile Include="App.cpp">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
     <ClCompile Include="DTimer.cpp">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
     </ClCompile>
     <ClCompile Include="ImguiManager.cpp">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,79 +129,85 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="Bindable.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="ConstantBuffer.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="IndexBuffer.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Geometry.h">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Drawable.h">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="PixelShader.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="BindableResources.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="LightConstantBuffer.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="PerFrameConatantBuffer.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="CameraConstantBuffer.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="SlotConfig.h">
-      <Filter>Bindable</Filter>
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="SceneNode.h">
-      <Filter>Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="App.h">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
     <ClInclude Include="DTimer.h">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
     </ClInclude>
     <ClInclude Include="ImguiManager.h">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
     </ClInclude>
     <ClInclude Include="DWin32.h">
-      <Filter>Common</Filter>
+      <Filter>DuEngine\Common</Filter>
     </ClInclude>
     <ClInclude Include="Attachable.h">
-      <Filter>Drawable</Filter>
+      <Filter>DuEngine\Drawable</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>DuEngine\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>DuEngine\ResourceSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,15 @@
 #pragma once
+#include "ResourceManager.h"
 #include "Bindable.h"
 #include <string>
 
-class VertexShader : public Bindable
+class VertexShader : public Bindable, public Resource
 {
 public:
-	VertexShader(Graphics& graphics, const std::wstring& filePath)
+	VertexShader(Graphics& graphics, const std::string& filePath)
 	{
 		ComPtr<ID3DBlob> pBlob;
-		D3DReadFileToBlob(filePath.c_str(), &pBlob);
+		D3DReadFileToBlob(std::wstring(filePath.begin(), filePath.end()).c_str(), &pBlob);
 		graphics.GetDevice()->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVertexShader);
 
 		// input (vertex) layout
@@ -29,6 +30,15 @@ public:
 	{
 		GetContext(graphics)->VSSetShader(pVertexShader.Get(), nullptr, 0u);
 		GetContext(graphics)->IASetInputLayout(pInputLayout.Get());
+	}
+
+	static std::shared_ptr<VertexShader> Resolve(Graphics& gfx, const std::string& path) {
+		return ResourceManager::Resolve<VertexShader>(gfx, path);
+	}
+
+	static std::string GetUID(const std::string& path) {
+		using namespace std::string_literals;
+		return typeid(VertexShader).name() + "#"s + path;
 	}
 
 private:

@@ -1,5 +1,4 @@
 #pragma once
-#include "Graphics.h"
 #include "BindableResources.h"
 #include <vector>
 #include <memory>
@@ -16,6 +15,10 @@ public:
 		{
 			b->Bind(graphics);
 		}
+		for (auto& b : sharedBinds)
+		{
+			b->Bind(graphics);
+		}
 		graphics.pContext->DrawIndexed(indexCount, 0u, 0u);
 	}
 
@@ -23,6 +26,11 @@ protected:
 	void AddBind(std::unique_ptr<Bindable> bind) 
 	{
 		binds.push_back(std::move(bind));
+	}
+
+	void AddSharedBind(std::shared_ptr<Bindable> bind)
+	{
+		sharedBinds.push_back(std::move(bind));
 	}
 
 	void AddIndexBuffer(std::unique_ptr<IndexBuffer> indexBuffer)
@@ -34,4 +42,5 @@ protected:
 private:
 	UINT indexCount = 0;
 	std::vector<std::unique_ptr<Bindable>> binds;
+	std::vector<std::shared_ptr<Bindable>> sharedBinds;
 };

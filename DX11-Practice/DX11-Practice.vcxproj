@@ -200,6 +200,8 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="PerFrameConatantBuffer.h" />
     <ClInclude Include="PixelShader.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="SlotConfig.h" />

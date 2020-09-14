@@ -84,7 +84,7 @@ void Scene::LoadModelFromFile(Graphics& graphics, const std::string name, const 
 			const auto& mesh = pScene->mMeshes[i];
 			auto model = std::make_unique<Model>(
 				graphics, *mesh,
-				L"Shaders/SimpleLitVertexShader.cso", L"Shaders/SimpleLitPixelShader.cso"
+				"Shaders/SimpleLitVertexShader.cso", "Shaders/SimpleLitPixelShader.cso"
 			);
 			
 			auto childNode = std::make_unique<SceneNode>(mesh->mName.C_Str());

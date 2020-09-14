@@ -2,10 +2,8 @@
 #include <string>
 #include <DirectXMath.h>
 #include <memory>
-#include "Graphics.h"
 #include "Geometry.h"
 #include "Drawable.h"
-#include "BindableResources.h"
 #include "SceneNode.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -16,8 +14,8 @@ using Microsoft::WRL::ComPtr;
 class Model : public Drawable
 {
 public:
-	Model(Graphics& graphics, Geometry& geometry, const std::wstring& vsFile, const std::wstring& psFile);
-	Model(Graphics& graphics, const aiMesh& mesh, const std::wstring& vsFile, const std::wstring& psFile);
+	Model(Graphics& graphics, Geometry& geometry, const std::string& vsFile, const std::string& psFile);
+	Model(Graphics& graphics, const aiMesh& mesh, const std::string& vsFile, const std::string& psFile);
 	~Model() = default;
 	
 	void AttachToNode(SceneNode* pNode);
@@ -26,7 +24,7 @@ public:
 private:
 	void SetGeometry(Graphics& graphics, Geometry& geometry);
 	void SetMesh(Graphics& graphics, const aiMesh& mesh);
-	void SetShader(Graphics& graphics, const std::wstring& vsFile, const std::wstring& psFile);
+	void SetShader(Graphics& graphics, const std::string& vsFile, const std::string& psFile);
 
 private:
 	struct ModelTransform
