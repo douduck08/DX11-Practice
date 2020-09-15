@@ -32,11 +32,13 @@ public:
 		GetContext(graphics)->IASetInputLayout(pInputLayout.Get());
 	}
 
-	static std::shared_ptr<VertexShader> Resolve(Graphics& gfx, const std::string& path) {
+	static std::shared_ptr<VertexShader> Resolve(Graphics& gfx, const std::string& path)
+	{
 		return ResourceManager::Resolve<VertexShader>(gfx, path);
 	}
 
-	static std::string GetUID(const std::string& path) {
+	static std::string GetUID(const std::string& path)
+	{
 		using namespace std::string_literals;
 		return typeid(VertexShader).name() + "#"s + path;
 	}

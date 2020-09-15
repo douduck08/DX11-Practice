@@ -6,9 +6,6 @@
 
 class ResourceManager
 {
-private:
-    ResourceManager() = default;
-
 public:
     ResourceManager(const ResourceManager&) = delete;
     ResourceManager(ResourceManager&&) = delete;
@@ -19,17 +16,19 @@ public:
     static std::shared_ptr<T> Resolve(Graphics& graphics, Params&&...p)
     {
         static_assert(std::is_base_of<Resource, T>::value, "Can only resolve classes derived from Bindable");
-        return Instance().ResolveImp<T>(graphics, std::forward<Params>(p)...);
+        return Instance().ResolveImpl<T>(graphics, std::forward<Params>(p)...);
     }
 
 private:
+    ResourceManager() = default;
+
     static auto& Instance() {
         static ResourceManager resourceManager;
         return resourceManager;
     }
 
     template<class T, typename...Params>
-    std::shared_ptr<T> ResolveImp(Graphics& graphics, Params&&...p)
+    std::shared_ptr<T> ResolveImpl(Graphics& graphics, Params&&...p)
     {
         const std::string key = T::GetUID(std::forward<Params>(p)...);
         const auto i = resources.find(key);

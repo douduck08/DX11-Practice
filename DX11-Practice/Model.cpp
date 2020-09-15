@@ -1,13 +1,16 @@
 #include "Model.h"
 #include "SlotConfig.h"
+#include "Mesh.h"
+#include "Material.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib")
 
 void Model::SetGeometry(Graphics& graphics, Geometry& geometry)
 {
-	AddBind(std::make_unique<VertexBuffer>(graphics, geometry.vertices));
-	AddIndexBuffer(std::make_unique<IndexBuffer>(graphics, geometry.indices));
+	auto mesh = ResourceManager::Resolve<Mesh>(graphics, "Cube", geometry.vertices, geometry.indices);
+	AddSharedBind(mesh);
+	SetIndexCount(mesh->GetIndexCount());
 
 	auto pt = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
 	pTransformbuffer = pt.get();
@@ -36,8 +39,9 @@ void Model::SetMesh(Graphics& graphics, const aiMesh& mesh)
 		indices.push_back(face.mIndices[2]);
 	}
 
-	AddBind(std::make_unique<VertexBuffer>(graphics, vertices));
-	AddIndexBuffer(std::make_unique<IndexBuffer>(graphics, indices));
+	auto mymesh = ResourceManager::Resolve<Mesh>(graphics, mesh.mName.C_Str(), vertices, indices);
+	AddSharedBind(mymesh);
+	SetIndexCount(mymesh->GetIndexCount());
 
 	auto pt = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
 	pTransformbuffer = pt.get();
@@ -46,8 +50,7 @@ void Model::SetMesh(Graphics& graphics, const aiMesh& mesh)
 
 void Model::SetShader(Graphics& graphics, const std::string& vsFile, const std::string& psFile)
 {
-	AddSharedBind(ResourceManager::Resolve<VertexShader>(graphics, vsFile));
-	AddSharedBind(ResourceManager::Resolve<PixelShader>(graphics, psFile));
+	AddSharedBind(ResourceManager::Resolve<Material>(graphics, "SimpleLit", vsFile, psFile));
 }
 
 Model::Model(Graphics& graphics, Geometry& geometry, const std::string& vsFile, const std::string& psFile)

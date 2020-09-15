@@ -165,6 +165,8 @@
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PerFrameConatantBuffer.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -176,7 +178,6 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="Attachable.h" />
     <ClInclude Include="Bindable.h" />
-    <ClInclude Include="BindableResources.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraConstantBuffer.h" />
     <ClInclude Include="ConstantBuffer.h" />
@@ -197,6 +198,8 @@
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightConstantBuffer.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="PerFrameConatantBuffer.h" />
     <ClInclude Include="PixelShader.h" />

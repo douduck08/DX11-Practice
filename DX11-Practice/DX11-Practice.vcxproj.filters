@@ -34,6 +34,9 @@
     <Filter Include="DuEngine\Bindable">
       <UniqueIdentifier>{f0e072f4-f85d-4b25-9eae-d6c5790635ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DuEngine\Bindable\HighLevel">
+      <UniqueIdentifier>{0379deb8-186c-41ca-a7bd-f12d4947ce88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -102,6 +105,12 @@
     <ClCompile Include="App.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -164,9 +173,6 @@
     <ClInclude Include="Scene.h">
       <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="BindableResources.h">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClInclude>
     <ClInclude Include="LightConstantBuffer.h">
       <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
@@ -208,6 +214,12 @@
     </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>DuEngine\ResourceSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

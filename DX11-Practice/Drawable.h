@@ -1,5 +1,6 @@
 #pragma once
-#include "BindableResources.h"
+#include "Bindable.h"
+#include "IndexBuffer.h"
 #include <vector>
 #include <memory>
 
@@ -33,10 +34,9 @@ protected:
 		sharedBinds.push_back(std::move(bind));
 	}
 
-	void AddIndexBuffer(std::unique_ptr<IndexBuffer> indexBuffer)
+	void SetIndexCount(UINT indexCount)
 	{
-		indexCount = indexBuffer.get()->GetCount();
-		binds.push_back(std::move(indexBuffer));
+		this->indexCount = indexCount;
 	}
 
 private:
