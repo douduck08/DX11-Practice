@@ -78,15 +78,6 @@
     <ClCompile Include="Scene.cpp">
       <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
-    <ClCompile Include="LightConstantBuffer.cpp">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="PerFrameConatantBuffer.cpp">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraConstantBuffer.cpp">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClCompile>
     <ClCompile Include="SceneNode.cpp">
       <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
@@ -109,6 +100,15 @@
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PerFrameConatantBuffer.cpp">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="LightConstantBuffer.cpp">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraConstantBuffer.cpp">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClCompile>
   </ItemGroup>
@@ -173,18 +173,6 @@
     <ClInclude Include="Scene.h">
       <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
-    <ClInclude Include="LightConstantBuffer.h">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="PerFrameConatantBuffer.h">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraConstantBuffer.h">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClInclude>
-    <ClInclude Include="SlotConfig.h">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClInclude>
     <ClInclude Include="SceneNode.h">
       <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
@@ -219,6 +207,18 @@
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="PerFrameConatantBuffer.h">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="LightConstantBuffer.h">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraConstantBuffer.h">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="SlotConfig.h">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClInclude>
   </ItemGroup>
