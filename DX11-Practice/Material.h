@@ -3,6 +3,7 @@
 #include "Bindable.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "SamplerState.h"
 #include "TextureView.h"
 #include <memory>
 #include <vector>
@@ -24,5 +25,6 @@ private:
 	std::string name;
 	std::shared_ptr<VertexShader> pVertexShader;
 	std::shared_ptr<PixelShader> pPixelShader;
+	std::shared_ptr<SamplerState> pSamplerState;
 	std::vector<std::shared_ptr<TextureView>> pTextureViews;
 };

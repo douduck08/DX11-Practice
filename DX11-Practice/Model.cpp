@@ -27,7 +27,8 @@ void Model::SetMesh(Graphics& graphics, const aiMesh& mesh)
 		vertices.push_back(
 			{
 				mesh.mVertices[idx].x, mesh.mVertices[idx].y, mesh.mVertices[idx].z,
-				mesh.mNormals[idx].x, mesh.mNormals[idx].y, mesh.mNormals[idx].z
+				mesh.mNormals[idx].x, mesh.mNormals[idx].y, mesh.mNormals[idx].z,
+				mesh.mTextureCoords[0][idx].x, mesh.mTextureCoords[0][idx].y
 			}
 		);
 	}
@@ -56,7 +57,7 @@ void Model::SetMaterial(Graphics& graphics, const aiMaterial& material)
 	auto pMaterial = ResourceManager::Resolve<Material>(
 		graphics,
 		name.C_Str(),
-		"Shaders/SimpleLitVertexShader.cso", "Shaders/SimpleLitPixelShader.cso"
+		"Shaders/LitVertexShader.cso", "Shaders/LitPixelShader.cso"
 	);
 
 	aiString texFileName;

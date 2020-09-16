@@ -22,6 +22,11 @@ public:
 			float y;
 			float z;
 		} normal;
+		struct
+		{
+			float u;
+			float v;
+		} uv;
 	};
 
 	static Geometry GenerateCube();

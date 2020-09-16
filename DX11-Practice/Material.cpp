@@ -5,12 +5,15 @@ Material::Material(Graphics& graphics, const std::string& name, const std::strin
 {
 	pVertexShader = ResourceManager::Resolve<VertexShader>(graphics, vsFile);
 	pPixelShader = ResourceManager::Resolve<PixelShader>(graphics, psFile);
+	pSamplerState = ResourceManager::Resolve<SamplerState>(graphics, 0);
 }
 
 void Material::Bind(Graphics& graphics) noexcept
 {
 	pVertexShader->Bind(graphics);
 	pPixelShader->Bind(graphics);
+	pSamplerState->Bind(graphics);
+
 	for (auto& tex : pTextureViews)
 	{
 		tex->Bind(graphics);
