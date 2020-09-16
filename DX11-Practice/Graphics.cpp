@@ -92,9 +92,6 @@ Graphics::Graphics(HWND hWnd, UINT width, UINT height)
 	vp.TopLeftY = 0;
 	pContext->RSSetViewports(1u, &vp);
 
-	// Set primitive topology to triangle list (groups of 3 vertices)
-	pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
 	// init imgui d3d impl
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
 }

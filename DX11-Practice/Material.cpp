@@ -11,4 +11,13 @@ void Material::Bind(Graphics& graphics) noexcept
 {
 	pVertexShader->Bind(graphics);
 	pPixelShader->Bind(graphics);
+	for (auto& tex : pTextureViews)
+	{
+		tex->Bind(graphics);
+	}
+}
+
+void Material::AddTextureView(std::shared_ptr<TextureView> textureView)
+{
+	pTextureViews.push_back(textureView);
 }

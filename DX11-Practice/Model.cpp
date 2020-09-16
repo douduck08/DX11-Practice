@@ -8,13 +8,13 @@
 
 void Model::SetGeometry(Graphics& graphics, Geometry& geometry)
 {
-	auto mesh = ResourceManager::Resolve<Mesh>(graphics, "Cube", geometry.vertices, geometry.indices);
-	AddSharedBind(mesh);
-	SetIndexCount(mesh->GetIndexCount());
+	auto pMesh = ResourceManager::Resolve<Mesh>(graphics, "Cube", geometry.vertices, geometry.indices);
+	AddSharedBind(pMesh);
+	SetIndexCount(pMesh->GetIndexCount());
 
-	auto pt = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
-	pTransformbuffer = pt.get();
-	AddBind(std::move(pt));
+	auto pTransform = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
+	pTransformbuffer = pTransform.get();
+	AddBind(std::move(pTransform));
 }
 
 void Model::SetMesh(Graphics& graphics, const aiMesh& mesh)
@@ -39,30 +39,52 @@ void Model::SetMesh(Graphics& graphics, const aiMesh& mesh)
 		indices.push_back(face.mIndices[2]);
 	}
 
-	auto mymesh = ResourceManager::Resolve<Mesh>(graphics, mesh.mName.C_Str(), vertices, indices);
-	AddSharedBind(mymesh);
-	SetIndexCount(mymesh->GetIndexCount());
+	auto pMesh = ResourceManager::Resolve<Mesh>(graphics, mesh.mName.C_Str(), vertices, indices);
+	AddSharedBind(pMesh);
+	SetIndexCount(pMesh->GetIndexCount());
 
-	auto pt = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
-	pTransformbuffer = pt.get();
-	AddBind(std::move(pt));
+	auto pTransform = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
+	pTransformbuffer = pTransform.get();
+	AddBind(std::move(pTransform));
 }
 
-void Model::SetShader(Graphics& graphics, const std::string& vsFile, const std::string& psFile)
+void Model::SetMaterial(Graphics& graphics, const aiMaterial& material)
 {
-	AddSharedBind(ResourceManager::Resolve<Material>(graphics, "SimpleLit", vsFile, psFile));
+	aiString name;
+	material.Get(AI_MATKEY_NAME, name);
+
+	auto pMaterial = ResourceManager::Resolve<Material>(
+		graphics,
+		name.C_Str(),
+		"Shaders/SimpleLitVertexShader.cso", "Shaders/SimpleLitPixelShader.cso"
+	);
+
+	aiString texFileName;
+
+	if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texFileName) == aiReturn_SUCCESS)
+	{
+		std::string rootPath = "Models/Sponza/";
+		auto pTex = ResourceManager::Resolve<TextureView>(graphics, rootPath.append(texFileName.C_Str()), 0);
+		pMaterial->AddTextureView(pTex);
+	}
+
+	AddSharedBind(pMaterial);
 }
 
-Model::Model(Graphics& graphics, Geometry& geometry, const std::string& vsFile, const std::string& psFile)
+Model::Model(Graphics& graphics, Geometry& geometry)
 {
 	SetGeometry(graphics, geometry);
-	SetShader(graphics, vsFile, psFile);
+	AddSharedBind(ResourceManager::Resolve<Material>(
+		graphics,
+		"SimpleLit",
+		"Shaders/SimpleLitVertexShader.cso", "Shaders/SimpleLitPixelShader.cso"
+	));
 }
 
-Model::Model(Graphics& graphics, const aiMesh& mesh, const std::string& vsFile, const std::string& psFile)
+Model::Model(Graphics& graphics, const aiMesh& mesh, const aiMaterial& material)
 {
 	SetMesh(graphics, mesh);
-	SetShader(graphics, vsFile, psFile);
+	SetMaterial(graphics, material);
 }
 
 void Model::AttachToNode(SceneNode* pNode)

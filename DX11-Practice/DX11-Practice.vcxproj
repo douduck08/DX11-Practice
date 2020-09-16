@@ -78,13 +78,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)DX11-Practice\assimp\lib\x64;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)DX11-Practice\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)DX11-Practice\assimp\lib\x64;$(SolutionDir)DX11-Practice\dxtex\bin\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)DX11-Practice\dxtex\include;$(SolutionDir)DX11-Practice\assimp\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(SolutionDir)DX11-Practice\assimp\lib\x64;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)DX11-Practice\assimp\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)DX11-Practice\assimp\lib\x64;$(SolutionDir)DX11-Practice\dxtex\bin\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)DX11-Practice\dxtex\include;$(SolutionDir)DX11-Practice\assimp\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -125,6 +125,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,6 +154,7 @@
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraConstantBuffer.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="LightConstantBuffer.cpp" />
     <ClCompile Include="DTimer.cpp" />
     <ClCompile Include="Geometry.cpp" />
@@ -186,6 +188,7 @@
     <ClInclude Include="DWin32.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
@@ -208,6 +211,8 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="SlotConfig.h" />
+    <ClInclude Include="TextureView.h" />
+    <ClInclude Include="Topology.h" />
     <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />

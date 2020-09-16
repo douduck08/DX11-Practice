@@ -111,6 +111,9 @@
     <ClCompile Include="CameraConstantBuffer.cpp">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>DuEngine\Drawable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -220,6 +223,15 @@
     </ClInclude>
     <ClInclude Include="SlotConfig.h">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Topology.h">
+      <Filter>DuEngine\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureView.h">
+      <Filter>DuEngine\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>DuEngine\Drawable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

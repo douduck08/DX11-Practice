@@ -18,11 +18,6 @@ public:
 		GetContext(graphics)->PSSetShader(pPixelShader.Get(), nullptr, 0u);
 	}
 
-	static std::shared_ptr<PixelShader> Resolve(Graphics& gfx, const std::string& path)
-	{
-		return ResourceManager::Resolve<PixelShader>(gfx, path);
-	}
-
 	static std::string GetUID(const std::string& path)
 	{
 		using namespace std::string_literals;

@@ -15,8 +15,8 @@ using Microsoft::WRL::ComPtr;
 class Model : public Drawable
 {
 public:
-	Model(Graphics& graphics, Geometry& geometry, const std::string& vsFile, const std::string& psFile);
-	Model(Graphics& graphics, const aiMesh& mesh, const std::string& vsFile, const std::string& psFile);
+	Model(Graphics& graphics, Geometry& geometry);
+	Model(Graphics& graphics, const aiMesh& mesh, const aiMaterial& material);
 	~Model() = default;
 	
 	void AttachToNode(SceneNode* pNode);
@@ -25,7 +25,7 @@ public:
 private:
 	void SetGeometry(Graphics& graphics, Geometry& geometry);
 	void SetMesh(Graphics& graphics, const aiMesh& mesh);
-	void SetShader(Graphics& graphics, const std::string& vsFile, const std::string& psFile);
+	void SetMaterial(Graphics& graphics, const aiMaterial& material);
 
 private:
 	struct ModelTransform

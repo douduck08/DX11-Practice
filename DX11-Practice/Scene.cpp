@@ -10,7 +10,7 @@
 Scene::Scene(Graphics& graphics)
 	: backcolor{ 0.2f, 0.8f, 0.8f }
 {
-	pCamera = std::make_unique<Camera>(graphics, 0.3f * 3.1415926f, 1280.f / 720.f, 0.1f, 500);
+	pCamera = std::make_unique<Camera>(graphics, 0.3f * 3.1415926f, 1280.f / 720.f, 0.1f, 1000);
 	pLight = std::make_unique<Light>(graphics, LightType::Directional, 1.0f, 1.0f, 1.0f);
 	pLight->SetPosition(0, 10, 0);
 	pRootNode = std::make_unique<SceneNode>("Root");
@@ -78,21 +78,19 @@ void Scene::LoadModelFromFile(Graphics& graphics, const std::string name, const 
 
 
 	if (pScene != nullptr) {
-		auto node = std::make_unique<SceneNode>(name);
+		auto rootNode = std::make_unique<SceneNode>(name);
 		for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
 		{
 			const auto& mesh = pScene->mMeshes[i];
-			auto model = std::make_unique<Model>(
-				graphics, *mesh,
-				"Shaders/SimpleLitVertexShader.cso", "Shaders/SimpleLitPixelShader.cso"
-			);
+			const auto& material = pScene->mMaterials[mesh->mMaterialIndex];
+			auto model = std::make_unique<Model>(graphics, *mesh, *material);
 			
 			auto childNode = std::make_unique<SceneNode>(mesh->mName.C_Str());
 			model->AttachToNode(childNode.get());
-			node->AddChild(std::move(childNode));
+			rootNode->AddChild(std::move(childNode));
 			this->AddModel(std::move(model));
 		}
-		this->AddSceneNode(std::move(node));
+		this->AddSceneNode(std::move(rootNode));
 	}
 }
 
