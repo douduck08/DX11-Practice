@@ -363,3 +363,5 @@ FodyWeavers.xsd
 
 # Custom
 *.cso
+/DX11-Practice/imgui.ini
+/DX11-Practice/Models/*
