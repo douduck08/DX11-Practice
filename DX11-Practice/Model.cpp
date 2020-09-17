@@ -1,10 +1,5 @@
 #include "Model.h"
 #include "SlotConfig.h"
-#include "Mesh.h"
-#include "Material.h"
-
-#pragma comment(lib,"d3d11.lib")
-#pragma comment(lib,"D3DCompiler.lib")
 
 void Model::SetGeometry(Graphics& graphics, Geometry& geometry)
 {
@@ -17,86 +12,11 @@ void Model::SetGeometry(Graphics& graphics, Geometry& geometry)
 	AddBind(std::move(pTransform));
 }
 
-void Model::SetMesh(Graphics& graphics, const aiMesh& mesh)
+Model::Model(Graphics& graphics)
 {
-	std::vector<Geometry::Vertex> vertices;
-	std::vector<unsigned short> indices;
-
-	for (unsigned int idx = 0; idx < mesh.mNumVertices; idx++)
-	{
-		if (mesh.HasTangentsAndBitangents())
-		{
-			vertices.push_back(
-				{
-					mesh.mVertices[idx].x, mesh.mVertices[idx].y, mesh.mVertices[idx].z,
-					mesh.mNormals[idx].x, mesh.mNormals[idx].y, mesh.mNormals[idx].z,
-					mesh.mTextureCoords[0][idx].x, mesh.mTextureCoords[0][idx].y,
-					mesh.mTangents[idx].x, mesh.mTangents[idx].y, mesh.mTangents[idx].z,
-					mesh.mBitangents[idx].x, mesh.mBitangents[idx].y, mesh.mBitangents[idx].z,
-				}
-			);
-		}
-		else
-		{
-			vertices.push_back(
-				{
-					mesh.mVertices[idx].x, mesh.mVertices[idx].y, mesh.mVertices[idx].z,
-					mesh.mNormals[idx].x, mesh.mNormals[idx].y, mesh.mNormals[idx].z,
-					mesh.mTextureCoords[0][idx].x, mesh.mTextureCoords[0][idx].y,
-					0, 0, 0,
-					0, 0, 0,
-				}
-			);
-		}
-	}
-	for (unsigned int idx = 0; idx < mesh.mNumFaces; idx++)
-	{
-		const auto& face = mesh.mFaces[idx];
-		indices.push_back(face.mIndices[0]);
-		indices.push_back(face.mIndices[1]);
-		indices.push_back(face.mIndices[2]);
-	}
-
-	auto pMesh = ResourceManager::Resolve<Mesh>(graphics, mesh.mName.C_Str(), vertices, indices);
-	AddSharedBind(pMesh);
-	SetIndexCount(pMesh->GetIndexCount());
-
 	auto pTransform = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
 	pTransformbuffer = pTransform.get();
 	AddBind(std::move(pTransform));
-}
-
-void Model::SetMaterial(Graphics& graphics, const aiMaterial& material)
-{
-	aiString name;
-	material.Get(AI_MATKEY_NAME, name);
-
-	auto pMaterial = ResourceManager::Resolve<Material>(
-		graphics,
-		name.C_Str(),
-		"Shaders/LitVertexShader.cso", "Shaders/LitPixelShader.cso"
-	);
-
-	aiString texFileName;
-	if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texFileName) == aiReturn_SUCCESS)
-	{
-		std::string rootPath = "Models/Sponza/";
-		auto pTex = ResourceManager::Resolve<TextureView>(graphics, rootPath.append(texFileName.C_Str()), 0);
-		pMaterial->AddTextureView(pTex);
-	}
-	/*if (material.GetTexture(aiTextureType_SPECULAR, 0, &texFileName) == aiReturn_SUCCESS)
-	{
-		auto pTex = ResourceManager::Resolve<TextureView>(graphics, rootPath.append(texFileName.C_Str()), 1);
-		pMaterial->AddTextureView(pTex);
-	}*/
-	if (material.GetTexture(aiTextureType_NORMALS, 0, &texFileName) == aiReturn_SUCCESS)
-	{
-		std::string rootPath = "Models/Sponza/";
-		auto pTex = ResourceManager::Resolve<TextureView>(graphics, rootPath.append(texFileName.C_Str()), 2);
-		pMaterial->AddTextureView(pTex);
-	}
-
-	AddSharedBind(pMaterial);
 }
 
 Model::Model(Graphics& graphics, Geometry& geometry)
@@ -109,10 +29,15 @@ Model::Model(Graphics& graphics, Geometry& geometry)
 	));
 }
 
-Model::Model(Graphics& graphics, const aiMesh& mesh, const aiMaterial& material)
+void Model::SetMesh(const std::shared_ptr<Mesh> pMesh)
 {
-	SetMesh(graphics, mesh);
-	SetMaterial(graphics, material);
+	AddSharedBind(pMesh);
+	SetIndexCount(pMesh->GetIndexCount());
+}
+
+void Model::SetMaterial(const std::shared_ptr<Material> pMaterial)
+{
+	AddSharedBind(pMaterial);
 }
 
 void Model::AttachToNode(SceneNode* pNode)

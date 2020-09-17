@@ -114,6 +114,9 @@
     <ClCompile Include="Image.cpp">
       <Filter>DuEngine\Drawable</Filter>
     </ClCompile>
+    <ClCompile Include="AssimpKit.cpp">
+      <Filter>DuEngine\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="SamplerState.h">
       <Filter>DuEngine\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpKit.h">
+      <Filter>DuEngine\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 #include "App.h"
+#include "AssimpKit.h"
 #include "imgui/imgui.h"
 #include "Geometry.h"
 #include <random>
@@ -31,7 +32,10 @@ App::App()
 	//*/
 
 	//scene.LoadModelFromFile(win.GetGraphics(), "suzanne", "Models/suzanne.obj");
-	scene.LoadModelFromFile(win.GetGraphics(), "sponza", "Models/Sponza/sponza.obj");
+	//scene.LoadModelFromFile(win.GetGraphics(), "sponza", "Models/Sponza/sponza.obj");
+	auto rootNode = AssimpKit::LoadModelFromFile(win.GetGraphics(), scene, "sponza", "Models/Sponza/sponza.obj");
+	rootNode->SetPosition(0, -10, 0);
+	rootNode->SetScale(0.1, 0.1, 0.1);
 
 	scene.RecalculateId();
 }

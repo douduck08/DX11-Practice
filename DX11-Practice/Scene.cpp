@@ -1,11 +1,6 @@
 #include "Scene.h"
 #include <DirectXMath.h>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 #include "imgui/imgui.h"
-
-#pragma comment(lib,"assimp-vc140-mt.lib")
 
 Scene::Scene(Graphics& graphics)
 	: backcolor{ 0.2f, 0.8f, 0.8f }
@@ -63,38 +58,6 @@ void Scene::AddModel(std::unique_ptr<Model> model)
 void Scene::AddSceneNode(std::unique_ptr<SceneNode> SceneNode)
 {
 	pRootNode->AddChild(std::move(SceneNode));
-}
-
-void Scene::LoadModelFromFile(Graphics& graphics, const std::string name, const std::string filePath)
-{
-	
-	Assimp::Importer imp;
-	const auto pScene = imp.ReadFile(filePath,
-		aiProcess_Triangulate |
-		aiProcess_JoinIdenticalVertices |
-		aiProcess_ConvertToLeftHanded |
-		aiProcess_GenNormals |
-		aiProcess_CalcTangentSpace
-	);
-
-
-	if (pScene != nullptr) {
-		auto rootNode = std::make_unique<SceneNode>(name);
-		rootNode->SetPosition(0, -10, 0);
-		rootNode->SetScale(0.1, 0.1, 0.1);
-		for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
-		{
-			const auto& mesh = pScene->mMeshes[i];
-			const auto& material = pScene->mMaterials[mesh->mMaterialIndex];
-			auto model = std::make_unique<Model>(graphics, *mesh, *material);
-			
-			auto childNode = std::make_unique<SceneNode>(mesh->mName.C_Str());
-			model->AttachToNode(childNode.get());
-			rootNode->AddChild(std::move(childNode));
-			this->AddModel(std::move(model));
-		}
-		this->AddSceneNode(std::move(rootNode));
-	}
 }
 
 void Scene::RecalculateId()
