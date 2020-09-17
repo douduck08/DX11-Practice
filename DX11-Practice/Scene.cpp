@@ -73,12 +73,15 @@ void Scene::LoadModelFromFile(Graphics& graphics, const std::string name, const 
 		aiProcess_Triangulate |
 		aiProcess_JoinIdenticalVertices |
 		aiProcess_ConvertToLeftHanded |
-		aiProcess_GenNormals
+		aiProcess_GenNormals |
+		aiProcess_CalcTangentSpace
 	);
 
 
 	if (pScene != nullptr) {
 		auto rootNode = std::make_unique<SceneNode>(name);
+		rootNode->SetPosition(0, -10, 0);
+		rootNode->SetScale(0.1, 0.1, 0.1);
 		for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
 		{
 			const auto& mesh = pScene->mMeshes[i];

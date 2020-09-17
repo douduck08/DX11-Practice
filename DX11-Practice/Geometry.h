@@ -27,6 +27,18 @@ public:
 			float u;
 			float v;
 		} uv;
+		struct
+		{
+			float x;
+			float y;
+			float z;
+		} tangent;
+		struct
+		{
+			float x;
+			float y;
+			float z;
+		} bitangent;
 	};
 
 	static Geometry GenerateCube();

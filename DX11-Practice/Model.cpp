@@ -24,13 +24,30 @@ void Model::SetMesh(Graphics& graphics, const aiMesh& mesh)
 
 	for (unsigned int idx = 0; idx < mesh.mNumVertices; idx++)
 	{
-		vertices.push_back(
-			{
-				mesh.mVertices[idx].x, mesh.mVertices[idx].y, mesh.mVertices[idx].z,
-				mesh.mNormals[idx].x, mesh.mNormals[idx].y, mesh.mNormals[idx].z,
-				mesh.mTextureCoords[0][idx].x, mesh.mTextureCoords[0][idx].y
-			}
-		);
+		if (mesh.HasTangentsAndBitangents())
+		{
+			vertices.push_back(
+				{
+					mesh.mVertices[idx].x, mesh.mVertices[idx].y, mesh.mVertices[idx].z,
+					mesh.mNormals[idx].x, mesh.mNormals[idx].y, mesh.mNormals[idx].z,
+					mesh.mTextureCoords[0][idx].x, mesh.mTextureCoords[0][idx].y,
+					mesh.mTangents[idx].x, mesh.mTangents[idx].y, mesh.mTangents[idx].z,
+					mesh.mBitangents[idx].x, mesh.mBitangents[idx].y, mesh.mBitangents[idx].z,
+				}
+			);
+		}
+		else
+		{
+			vertices.push_back(
+				{
+					mesh.mVertices[idx].x, mesh.mVertices[idx].y, mesh.mVertices[idx].z,
+					mesh.mNormals[idx].x, mesh.mNormals[idx].y, mesh.mNormals[idx].z,
+					mesh.mTextureCoords[0][idx].x, mesh.mTextureCoords[0][idx].y,
+					0, 0, 0,
+					0, 0, 0,
+				}
+			);
+		}
 	}
 	for (unsigned int idx = 0; idx < mesh.mNumFaces; idx++)
 	{
@@ -61,11 +78,21 @@ void Model::SetMaterial(Graphics& graphics, const aiMaterial& material)
 	);
 
 	aiString texFileName;
-
 	if (material.GetTexture(aiTextureType_DIFFUSE, 0, &texFileName) == aiReturn_SUCCESS)
 	{
 		std::string rootPath = "Models/Sponza/";
 		auto pTex = ResourceManager::Resolve<TextureView>(graphics, rootPath.append(texFileName.C_Str()), 0);
+		pMaterial->AddTextureView(pTex);
+	}
+	/*if (material.GetTexture(aiTextureType_SPECULAR, 0, &texFileName) == aiReturn_SUCCESS)
+	{
+		auto pTex = ResourceManager::Resolve<TextureView>(graphics, rootPath.append(texFileName.C_Str()), 1);
+		pMaterial->AddTextureView(pTex);
+	}*/
+	if (material.GetTexture(aiTextureType_NORMALS, 0, &texFileName) == aiReturn_SUCCESS)
+	{
+		std::string rootPath = "Models/Sponza/";
+		auto pTex = ResourceManager::Resolve<TextureView>(graphics, rootPath.append(texFileName.C_Str()), 2);
 		pMaterial->AddTextureView(pTex);
 	}
 
