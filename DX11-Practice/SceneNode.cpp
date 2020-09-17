@@ -9,11 +9,25 @@ SceneNode::SceneNode(const std::string& name)
 	, scale(1, 1, 1)
 	, transform()
 {
+	pParent.reset();
 }
 
-void SceneNode::AddChild(std::unique_ptr<SceneNode> pChild)
+std::shared_ptr<SceneNode> SceneNode::GetPointer()
 {
-	children.push_back(std::move(pChild));
+	return shared_from_this();
+}
+
+std::shared_ptr<SceneNode> SceneNode::CreateChild(const std::string& name)
+{
+	auto pChild = std::make_shared<SceneNode>(name);
+	AddChild(pChild);
+	return pChild;
+}
+
+void SceneNode::AddChild(std::shared_ptr<SceneNode> pChild)
+{
+	pChildren.push_back(pChild);
+	pChild->pParent = GetPointer();
 }
 
 void SceneNode::RecalculateTransform(DirectX::FXMMATRIX parantTransform)
@@ -28,18 +42,18 @@ void SceneNode::RecalculateTransform(DirectX::FXMMATRIX parantTransform)
 
 	DirectX::XMStoreFloat4x4(&transform, matrix);
 
-	for (auto& node : children)
+	for (auto& pChild : pChildren)
 	{
-		node->RecalculateTransform(matrix);
+		pChild->RecalculateTransform(matrix);
 	}
 }
 
 int SceneNode::RecalculateId(int base)
 {
 	id = base;
-	for (auto& node : children)
+	for (auto& pChild : pChildren)
 	{
-		base = node->RecalculateId(base + 1);
+		base = pChild->RecalculateId(base + 1);
 	}
 	return base;
 }
@@ -75,7 +89,7 @@ void SceneNode::ShowImguiTree(SceneNode*& pSelectedNode)
 	const int selectedId = (pSelectedNode == nullptr) ? -1 : pSelectedNode->id;
 	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
 		| ((id == selectedId) ? ImGuiTreeNodeFlags_Selected : 0)
-		| ((children.size() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
+		| ((pChildren.size() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
 	
 	const auto expanded = ImGui::TreeNodeEx(
 		(void*)(intptr_t)id, node_flags, (std::to_string(id) + ": " + name).c_str()
@@ -88,7 +102,7 @@ void SceneNode::ShowImguiTree(SceneNode*& pSelectedNode)
 	
 	if (expanded)
 	{
-		for (const auto& pChild : children)
+		for (const auto& pChild : pChildren)
 		{
 			pChild->ShowImguiTree(pSelectedNode);
 		}

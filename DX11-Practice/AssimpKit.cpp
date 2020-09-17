@@ -17,7 +17,7 @@ SceneNode* AssimpKit::LoadModelFromFile(Graphics& graphics, Scene& targetScene, 
 
 	const std::string rootPath = std::filesystem::path(filePath).parent_path().string() + "\\";
 	if (pScene != nullptr) {
-		auto rootNode = std::make_unique<SceneNode>(name);
+		auto rootNode = targetScene.CreateChildSceneNode(name);
 		for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
 		{
 			const auto& mesh = pScene->mMeshes[i];
@@ -27,14 +27,12 @@ SceneNode* AssimpKit::LoadModelFromFile(Graphics& graphics, Scene& targetScene, 
 			model->SetMesh(AssimpKit::ParseMesh(graphics, *mesh));
 			model->SetMaterial(AssimpKit::ParseMaterial(graphics, *material, rootPath));
 
-			auto childNode = std::make_unique<SceneNode>(mesh->mName.C_Str());
+			auto childNode = rootNode->CreateChild(mesh->mName.C_Str());
 			model->AttachToNode(childNode.get());
-			rootNode->AddChild(std::move(childNode));
 			targetScene.AddModel(std::move(model));
 		}
 
 		auto rootNodePtr = rootNode.get();
-		targetScene.AddSceneNode(std::move(rootNode));
 		return rootNodePtr;
 	}
 	return nullptr;

@@ -4,13 +4,16 @@
 #include <memory>
 #include <DirectXMath.h>
 
-class SceneNode
+class SceneNode : public std::enable_shared_from_this<SceneNode>
 {
 	friend class Scene;
 
 public:
 	SceneNode(const std::string& name);
-	void AddChild(std::unique_ptr<SceneNode> pChild);
+	std::shared_ptr<SceneNode> GetPointer();
+	std::shared_ptr<SceneNode> CreateChild(const std::string& name);
+	void AddChild(std::shared_ptr<SceneNode> pChild);
+
 	void RecalculateTransform(DirectX::FXMMATRIX parantTransform);
 	int RecalculateId(int base);
 	
@@ -23,7 +26,8 @@ public:
 private:
 	int id;
 	std::string name;
-	std::vector<std::unique_ptr<SceneNode>> children;
+	std::weak_ptr<SceneNode> pParent;
+	std::vector<std::shared_ptr<SceneNode>> pChildren;
 
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 rotation;

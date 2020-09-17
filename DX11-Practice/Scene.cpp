@@ -55,9 +55,9 @@ void Scene::AddModel(std::unique_ptr<Model> model)
 	models.push_back(std::move(model));
 }
 
-void Scene::AddSceneNode(std::unique_ptr<SceneNode> SceneNode)
+std::shared_ptr<SceneNode> Scene::CreateChildSceneNode(const std::string& name)
 {
-	pRootNode->AddChild(std::move(SceneNode));
+	return pRootNode->CreateChild(name);
 }
 
 void Scene::RecalculateId()
