@@ -97,15 +97,17 @@ std::shared_ptr<Material> AssimpKit::ParseMaterial(Graphics& graphics, const aiM
 		auto pTex = ResourceManager::Resolve<TextureView>(graphics, fileRootPath + texFileName.C_Str(), 0);
 		pMaterial->AddTextureView(pTex);
 	}
-	/*if (material.GetTexture(aiTextureType_SPECULAR, 0, &texFileName) == aiReturn_SUCCESS)
+	if (material.GetTexture(aiTextureType_SPECULAR, 0, &texFileName) == aiReturn_SUCCESS)
 	{
 		auto pTex = ResourceManager::Resolve<TextureView>(graphics, fileRootPath + texFileName.C_Str(), 1);
 		pMaterial->AddTextureView(pTex);
-	}*/
+		pMaterial->SetSpecularMapEnable();
+	}
 	if (material.GetTexture(aiTextureType_NORMALS, 0, &texFileName) == aiReturn_SUCCESS)
 	{
 		auto pTex = ResourceManager::Resolve<TextureView>(graphics, fileRootPath + texFileName.C_Str(), 2);
 		pMaterial->AddTextureView(pTex);
+		pMaterial->SetNormalMapEnable();
 	}
 
 	return pMaterial;

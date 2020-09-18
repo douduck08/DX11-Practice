@@ -242,6 +242,9 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>DuEngine\Common\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="GuiAdapter.h">
+      <Filter>DuEngine\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\PixelShader.hlsl">

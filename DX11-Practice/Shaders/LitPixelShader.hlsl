@@ -12,8 +12,16 @@ struct PSIn
     uint id : SV_PrimitiveID;
 };
 
+cbuffer PreMaterialBuffer : register(b3)
+{
+    int useSpecularMap;
+    int useNormalMap;
+    int pad0;
+    int pad1;
+};
+
 Texture2D diffuseMap : register(t0);
-//Texture2D specularMap : register(t1);
+Texture2D specularMap : register(t1);
 Texture2D normalMap : register(t2);
 SamplerState texSampler : register(s0);
 
@@ -21,7 +29,7 @@ float4 main(PSIn input) : SV_TARGET
 {
     const float2 uv = input.uv;
     float3 n = input.normal.xyz;
-    if (length(input.tangent.xyz) > 0)
+    if (useNormalMap && length(input.tangent.xyz) > 0)
     {
         float3 tanSpaceNormal = normalMap.Sample(texSampler, uv).xyz * 2.0 - 1.0;
         float3x3 tanToWorld = float3x3(input.tangent.xyz, input.bitangent.xyz, input.normal.xyz);
@@ -45,8 +53,16 @@ float4 main(PSIn input) : SV_TARGET
     float3 ambient = float3(0.2, 0.2, 0.2);
     float3 diffuse = (ambient + input.color.rgb * light) * diffuseMap.Sample(texSampler, uv).rgb;
 
+    float3 specColor = 1;
+    float specularPower = 128;
+    if (useSpecularMap)
+    {
+        float4 specularSample = specularMap.Sample(texSampler, uv);
+        specColor = specularSample.rgb;
+        // specularPower = pow(2.0f, specularSample.a * 13.0f);
+    }
     float3 r = reflect(-l, n);
-    float3 spec = input.color.rgb * light * pow(saturate(dot(v, r)), 128);
+    float3 spec = specColor * input.color.rgb * light * pow(saturate(dot(v, r)), specularPower);
 
     
     return float4(saturate(diffuse + spec), 1.0);

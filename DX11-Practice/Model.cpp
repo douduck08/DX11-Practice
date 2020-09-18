@@ -6,17 +6,12 @@ void Model::SetGeometry(Graphics& graphics, Geometry& geometry)
 	auto pMesh = ResourceManager::Resolve<Mesh>(graphics, "Cube", geometry.vertices, geometry.indices);
 	AddSharedBind(pMesh);
 	indexCount = pMesh->GetIndexCount();
-
-	auto pTransform = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
-	pTransformbuffer = pTransform.get();
-	AddBind(std::move(pTransform));
+	pTransformBuffer = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
 }
 
 Model::Model(Graphics& graphics)
 {
-	auto pTransform = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
-	pTransformbuffer = pTransform.get();
-	AddBind(std::move(pTransform));
+	pTransformBuffer = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
 }
 
 Model::Model(Graphics& graphics, Geometry& geometry)
@@ -55,7 +50,8 @@ void Model::Draw(Graphics& graphics)
 	if (IsAttached()) {
 		ModelTransform data;
 		data.model = pNode->GetTransform();
-		pTransformbuffer->Update(graphics, data);
+		pTransformBuffer->Update(graphics, data);
+		pTransformBuffer->Bind(graphics);
 		
 		for (auto& b : binds)
 		{

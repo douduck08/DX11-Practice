@@ -32,8 +32,7 @@ private:
 	};
 
 	UINT indexCount = 0;
-	VertexConstantBuffer<ModelTransform>* pTransformbuffer = nullptr;
-
+	std::unique_ptr<VertexConstantBuffer<ModelTransform>> pTransformBuffer = nullptr;
 	std::vector<std::unique_ptr<Bindable>> binds;
 	std::vector<std::shared_ptr<Bindable>> sharedBinds;
 };

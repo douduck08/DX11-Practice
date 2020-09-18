@@ -190,6 +190,7 @@
     <ClInclude Include="DWin32.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="GuiAdapter.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="imgui\imconfig.h" />
