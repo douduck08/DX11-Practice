@@ -22,7 +22,7 @@ void Scene::Draw(Graphics& graphics)
 	pLight->Bind(graphics);
 	pRootNode->RecalculateTransform(DirectX::XMMatrixIdentity());
 
-	for (auto& m : models)
+	for (auto& m : pModels)
 	{
 		m->Draw(graphics);
 	}
@@ -50,9 +50,10 @@ void Scene::ShowImguiWindow()
 	pLight->ShowImguiWindow();
 }
 
-void Scene::AddModel(std::unique_ptr<Model> model)
+void Scene::AddModel(std::shared_ptr<SceneNode> pNode, std::unique_ptr<Model> pModel)
 {
-	models.push_back(std::move(model));
+	pModel->SetAttachNode(pNode);
+	pModels.push_back(std::move(pModel));
 }
 
 std::shared_ptr<SceneNode> Scene::CreateChildSceneNode(const std::string& name)

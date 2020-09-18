@@ -9,7 +9,6 @@ using Microsoft::WRL::ComPtr;
 class Graphics
 {
 	friend class Bindable;
-	friend class Drawable;
 
 public:
 	Graphics(HWND hWnd, UINT width, UINT height);
@@ -23,6 +22,7 @@ public:
 	void BeginFrame(float r, float g, float b);
 	void BeginFrame(float* backcolor);
 	void EndFrame();
+	void DrawIndexed(UINT indexCount, UINT startIndexLocation = 0u, INT baseVertexLocation = 0u);
 
 private:
 	ComPtr<ID3D11Device> pDevice;

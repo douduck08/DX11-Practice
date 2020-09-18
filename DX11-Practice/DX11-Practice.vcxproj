@@ -152,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="AssimpKit.cpp" />
+    <ClCompile Include="Attachable.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraConstantBuffer.cpp" />
@@ -185,7 +186,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraConstantBuffer.h" />
     <ClInclude Include="ConstantBuffer.h" />
-    <ClInclude Include="Drawable.h" />
     <ClInclude Include="DTimer.h" />
     <ClInclude Include="DWin32.h" />
     <ClInclude Include="Geometry.h" />

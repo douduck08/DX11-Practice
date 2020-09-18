@@ -134,3 +134,8 @@ void Graphics::EndFrame()
 
 	pSwap->Present(1u, 0u);
 }
+
+void Graphics::DrawIndexed(UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
+{
+	pContext->DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
+}

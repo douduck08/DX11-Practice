@@ -4,7 +4,7 @@
 
 #pragma comment(lib,"assimp-vc140-mt.lib")
 
-SceneNode* AssimpKit::LoadModelFromFile(Graphics& graphics, Scene& targetScene, const std::string& name, const std::string& filePath)
+std::shared_ptr<SceneNode> AssimpKit::LoadModelFromFile(Graphics& graphics, Scene& targetScene, const std::string& name, const std::string& filePath)
 {
 	Assimp::Importer imp;
 	const auto pScene = imp.ReadFile(filePath,
@@ -17,7 +17,7 @@ SceneNode* AssimpKit::LoadModelFromFile(Graphics& graphics, Scene& targetScene, 
 
 	const std::string rootPath = std::filesystem::path(filePath).parent_path().string() + "\\";
 	if (pScene != nullptr) {
-		auto rootNode = targetScene.CreateChildSceneNode(name);
+		auto pParentNode = targetScene.CreateChildSceneNode(name);
 		for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
 		{
 			const auto& mesh = pScene->mMeshes[i];
@@ -27,13 +27,11 @@ SceneNode* AssimpKit::LoadModelFromFile(Graphics& graphics, Scene& targetScene, 
 			model->SetMesh(AssimpKit::ParseMesh(graphics, *mesh));
 			model->SetMaterial(AssimpKit::ParseMaterial(graphics, *material, rootPath));
 
-			auto childNode = rootNode->CreateChild(mesh->mName.C_Str());
-			model->AttachToNode(childNode.get());
-			targetScene.AddModel(std::move(model));
+			auto pChildNode = pParentNode->CreateChild(mesh->mName.C_Str());
+			targetScene.AddModel(pChildNode, std::move(model));
 		}
 
-		auto rootNodePtr = rootNode.get();
-		return rootNodePtr;
+		return pParentNode;
 	}
 	return nullptr;
 }

@@ -22,12 +22,6 @@
     <Filter Include="DuEngine">
       <UniqueIdentifier>{0858e8ca-c59c-40fe-b5e8-00a787c2bd54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DuEngine\ResourceSystem">
-      <UniqueIdentifier>{a6a80941-550d-4ec3-939e-442cc693e9b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DuEngine\Drawable">
-      <UniqueIdentifier>{fdd254e4-e455-4653-93a9-3045c62753e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DuEngine\Common">
       <UniqueIdentifier>{15556b1e-34b1-4a68-95c0-ac0a227c00af}</UniqueIdentifier>
     </Filter>
@@ -36,6 +30,12 @@
     </Filter>
     <Filter Include="DuEngine\Bindable\HighLevel">
       <UniqueIdentifier>{0379deb8-186c-41ca-a7bd-f12d4947ce88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DuEngine\SceneSystem">
+      <UniqueIdentifier>{fdd254e4-e455-4653-93a9-3045c62753e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DuEngine\Common\Resources">
+      <UniqueIdentifier>{4411062c-bd22-48a2-acaf-727f3cad5791}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -63,23 +63,20 @@
     <ClCompile Include="Bindable.cpp">
       <Filter>DuEngine\Bindable</Filter>
     </ClCompile>
-    <ClCompile Include="Geometry.cpp">
-      <Filter>DuEngine\Drawable</Filter>
-    </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClCompile>
     <ClCompile Include="Light.cpp">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClCompile>
     <ClCompile Include="SceneNode.cpp">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClCompile>
     <ClCompile Include="DTimer.cpp">
       <Filter>DuEngine\Common</Filter>
@@ -111,11 +108,17 @@
     <ClCompile Include="CameraConstantBuffer.cpp">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>DuEngine\Drawable</Filter>
+    <ClCompile Include="Attachable.cpp">
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClCompile>
     <ClCompile Include="AssimpKit.cpp">
-      <Filter>DuEngine\Common</Filter>
+      <Filter>DuEngine\Common\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>DuEngine\Common\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry.cpp">
+      <Filter>DuEngine\Common\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,14 +158,8 @@
     <ClInclude Include="IndexBuffer.h">
       <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Geometry.h">
-      <Filter>DuEngine\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>DuEngine\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
       <Filter>DuEngine\Bindable</Filter>
@@ -171,16 +168,16 @@
       <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="Light.h">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClInclude>
     <ClInclude Include="SceneNode.h">
-      <Filter>DuEngine\Drawable</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClInclude>
     <ClInclude Include="DTimer.h">
       <Filter>DuEngine\Common</Filter>
@@ -198,16 +195,10 @@
       <Filter>DuEngine\Common</Filter>
     </ClInclude>
     <ClInclude Include="Attachable.h">
-      <Filter>DuEngine\Drawable</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>DuEngine\ResourceSystem</Filter>
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClInclude>
     <ClInclude Include="App.h">
       <Filter>HeaderFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>DuEngine\ResourceSystem</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
@@ -233,14 +224,23 @@
     <ClInclude Include="TextureView.h">
       <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>DuEngine\Drawable</Filter>
-    </ClInclude>
     <ClInclude Include="SamplerState.h">
       <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
     <ClInclude Include="AssimpKit.h">
-      <Filter>DuEngine\Common</Filter>
+      <Filter>DuEngine\Common\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>DuEngine\Common\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>DuEngine\Common\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>DuEngine\Common\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>DuEngine\Common\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

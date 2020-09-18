@@ -48,16 +48,6 @@ void SceneNode::RecalculateTransform(DirectX::FXMMATRIX parantTransform)
 	}
 }
 
-int SceneNode::RecalculateId(int base)
-{
-	id = base;
-	for (auto& pChild : pChildren)
-	{
-		base = pChild->RecalculateId(base + 1);
-	}
-	return base;
-}
-
 void SceneNode::SetPosition(float x, float y, float z)
 {
 	position.x = x;
@@ -79,9 +69,34 @@ void SceneNode::SetScale(float x, float y, float z)
 	scale.z = z;
 }
 
+DirectX::XMFLOAT3 SceneNode::GetPosition()
+{
+	return position;
+}
+
+DirectX::XMFLOAT3 SceneNode::GetRotation()
+{
+	return rotation;
+}
+
+DirectX::XMFLOAT3 SceneNode::GetScale()
+{
+	return scale;
+}
+
 DirectX::XMFLOAT4X4 SceneNode::GetTransform()
 {
 	return transform;
+}
+
+int SceneNode::RecalculateId(int base)
+{
+	id = base;
+	for (auto& pChild : pChildren)
+	{
+		base = pChild->RecalculateId(base + 1);
+	}
+	return base;
 }
 
 void SceneNode::ShowImguiTree(SceneNode*& pSelectedNode)

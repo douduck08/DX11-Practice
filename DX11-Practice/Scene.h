@@ -13,7 +13,7 @@ public:
 	void Draw(Graphics& graphics);
 	void ShowImguiWindow();
 
-	void AddModel(std::unique_ptr<Model> model);
+	void AddModel(std::shared_ptr<SceneNode> pNode, std::unique_ptr<Model> pModel);
 	std::shared_ptr<SceneNode> CreateChildSceneNode(const std::string& name);
 	void RecalculateId();
 
@@ -24,5 +24,5 @@ private:
 	std::unique_ptr<Light> pLight;
 	std::shared_ptr<SceneNode> pRootNode;
 
-	std::vector<std::unique_ptr<Model>> models;
+	std::vector<std::unique_ptr<Model>> pModels;
 };

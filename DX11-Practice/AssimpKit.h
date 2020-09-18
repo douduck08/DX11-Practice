@@ -12,7 +12,7 @@
 class AssimpKit
 {
 public:
-	static SceneNode* LoadModelFromFile(Graphics& graphics, Scene& targetScene, const std::string& name, const std::string& filePath);
+	static std::shared_ptr<SceneNode> LoadModelFromFile(Graphics& graphics, Scene& targetScene, const std::string& name, const std::string& filePath);
 	static std::shared_ptr<Mesh> ParseMesh(Graphics& graphics, const aiMesh& mesh);
 	static std::shared_ptr<Material> ParseMaterial(Graphics& graphics, const aiMaterial& material, const std::string& fileRootPath);
 };

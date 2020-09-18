@@ -12,16 +12,21 @@ public:
 	SceneNode(const std::string& name);
 	std::shared_ptr<SceneNode> GetPointer();
 	std::shared_ptr<SceneNode> CreateChild(const std::string& name);
-	void AddChild(std::shared_ptr<SceneNode> pChild);
 
 	void RecalculateTransform(DirectX::FXMMATRIX parantTransform);
-	int RecalculateId(int base);
-	
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);
 	void SetScale(float x, float y, float z);
+	DirectX::XMFLOAT3 GetPosition();
+	DirectX::XMFLOAT3 GetRotation();
+	DirectX::XMFLOAT3 GetScale();
 	DirectX::XMFLOAT4X4 GetTransform();
+
+	int RecalculateId(int base);
 	void ShowImguiTree(SceneNode*& pSelectedNode);
+
+private:
+	void AddChild(std::shared_ptr<SceneNode> pChild);
 
 private:
 	int id;

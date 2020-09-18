@@ -5,7 +5,7 @@ void Model::SetGeometry(Graphics& graphics, Geometry& geometry)
 {
 	auto pMesh = ResourceManager::Resolve<Mesh>(graphics, "Cube", geometry.vertices, geometry.indices);
 	AddSharedBind(pMesh);
-	SetIndexCount(pMesh->GetIndexCount());
+	indexCount = pMesh->GetIndexCount();
 
 	auto pTransform = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
 	pTransformbuffer = pTransform.get();
@@ -32,7 +32,7 @@ Model::Model(Graphics& graphics, Geometry& geometry)
 void Model::SetMesh(const std::shared_ptr<Mesh> pMesh)
 {
 	AddSharedBind(pMesh);
-	SetIndexCount(pMesh->GetIndexCount());
+	indexCount = pMesh->GetIndexCount();
 }
 
 void Model::SetMaterial(const std::shared_ptr<Material> pMaterial)
@@ -40,21 +40,31 @@ void Model::SetMaterial(const std::shared_ptr<Material> pMaterial)
 	AddSharedBind(pMaterial);
 }
 
-void Model::AttachToNode(SceneNode* pNode)
+void Model::AddBind(std::unique_ptr<Bindable> bind)
 {
-	pSceneNode = pNode;
+	binds.push_back(std::move(bind));
+}
+
+void Model::AddSharedBind(std::shared_ptr<Bindable> bind)
+{
+	sharedBinds.push_back(std::move(bind));
 }
 
 void Model::Draw(Graphics& graphics)
 {
-	ModelTransform data;
-	if (pSceneNode) {
-		data.model = pSceneNode->GetTransform();
+	if (IsAttached()) {
+		ModelTransform data;
+		data.model = pNode->GetTransform();
+		pTransformbuffer->Update(graphics, data);
+		
+		for (auto& b : binds)
+		{
+			b->Bind(graphics);
+		}
+		for (auto& b : sharedBinds)
+		{
+			b->Bind(graphics);
+		}
+		graphics.DrawIndexed(indexCount);
 	}
-	else {
-		DirectX::XMStoreFloat4x4(&(data.model), DirectX::XMMatrixIdentity());
-	}
-
-	pTransformbuffer->Update(graphics, data);
-	Drawable::Draw(graphics);
 }
