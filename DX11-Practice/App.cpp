@@ -2,6 +2,7 @@
 #include "AssimpKit.h"
 #include "imgui/imgui.h"
 #include "Geometry.h"
+#include "DebugGuiWindow.h"
 #include <random>
 
 App::App()
@@ -46,8 +47,9 @@ void App::DoFrame(float t, float dt)
 	win.GetGraphics().BeginFrame(scene.GetBackcolor());
 
 	// draw
-	scene.ShowImguiWindow();
 	scene.Draw(win.GetGraphics());
+
+	DebugGuiWindow::ShowSceneHierarchy(scene);
 
 	// present
 	win.GetGraphics().EndFrame();

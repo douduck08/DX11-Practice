@@ -156,6 +156,7 @@
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraConstantBuffer.cpp" />
+    <ClCompile Include="DebugGuiWindow.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="LightConstantBuffer.cpp" />
     <ClCompile Include="DTimer.cpp" />
@@ -186,11 +187,11 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraConstantBuffer.h" />
     <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="DebugGuiWindow.h" />
     <ClInclude Include="DTimer.h" />
     <ClInclude Include="DWin32.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="Graphics.h" />
-    <ClInclude Include="GuiAdapter.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="ImguiManager.h" />
     <ClInclude Include="imgui\imconfig.h" />

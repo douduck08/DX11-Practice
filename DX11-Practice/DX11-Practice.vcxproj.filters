@@ -120,6 +120,9 @@
     <ClCompile Include="Geometry.cpp">
       <Filter>DuEngine\Common\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DebugGuiWindow.cpp">
+      <Filter>DuEngine\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\imconfig.h">
@@ -242,7 +245,7 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>DuEngine\Common\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="GuiAdapter.h">
+    <ClInclude Include="DebugGuiWindow.h">
       <Filter>DuEngine\Common</Filter>
     </ClInclude>
   </ItemGroup>

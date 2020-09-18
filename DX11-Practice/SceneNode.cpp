@@ -1,5 +1,4 @@
 #include "SceneNode.h"
-#include "imgui/imgui.h"
 
 SceneNode::SceneNode(const std::string& name)
 	: id(0)
@@ -97,30 +96,4 @@ int SceneNode::RecalculateId(int base)
 		base = pChild->RecalculateId(base + 1);
 	}
 	return base;
-}
-
-void SceneNode::ShowImguiTree(SceneNode*& pSelectedNode)
-{
-	const int selectedId = (pSelectedNode == nullptr) ? -1 : pSelectedNode->id;
-	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
-		| ((id == selectedId) ? ImGuiTreeNodeFlags_Selected : 0)
-		| ((pChildren.size() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
-	
-	const auto expanded = ImGui::TreeNodeEx(
-		(void*)(intptr_t)id, node_flags, (std::to_string(id) + ": " + name).c_str()
-	);
-
-	if (ImGui::IsItemClicked())
-	{
-		pSelectedNode = const_cast<SceneNode*>(this);
-	}
-	
-	if (expanded)
-	{
-		for (const auto& pChild : pChildren)
-		{
-			pChild->ShowImguiTree(pSelectedNode);
-		}
-		ImGui::TreePop();
-	}
 }

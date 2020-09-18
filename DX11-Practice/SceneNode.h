@@ -7,6 +7,7 @@
 class SceneNode : public std::enable_shared_from_this<SceneNode>
 {
 	friend class Scene;
+	friend class DebugGuiWindow;
 
 public:
 	SceneNode(const std::string& name);
@@ -23,7 +24,6 @@ public:
 	DirectX::XMFLOAT4X4 GetTransform();
 
 	int RecalculateId(int base);
-	void ShowImguiTree(SceneNode*& pSelectedNode);
 
 private:
 	void AddChild(std::shared_ptr<SceneNode> pChild);

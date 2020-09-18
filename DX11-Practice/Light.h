@@ -9,6 +9,8 @@ enum class LightType {
 
 class Light
 {
+	friend class DebugGuiWindow;
+
 public:
 	Light(Graphics& graphics, LightType type, float r, float g, float b);
 	void Bind(Graphics& graphics);
@@ -16,7 +18,6 @@ public:
 	void SetColor(float r, float g, float b);
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);
-	void ShowImguiWindow();
 
 private:
 	LightType type;
