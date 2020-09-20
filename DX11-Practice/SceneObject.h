@@ -1,10 +1,10 @@
 #pragma once
 #include "SceneNode.h"
 
-class Attachable
+class SceneObject
 {
 public:
-	Attachable() = default;
+	SceneObject() = default;
 	bool IsAttached();
 	void SetAttachNode(std::shared_ptr<SceneNode> pNode);
 

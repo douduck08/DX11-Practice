@@ -3,7 +3,7 @@
 
 LightConstantBuffer::LightConstantBuffer(Graphics& graphics)
 	: needUpdate(false)
-	, lightData({ 1, 1, 1, 1, 0, 0, 0, 1 })
+	, lightData()
 {
 	pLightBuffer = std::make_unique<SharedConstantBuffer<LightData>>(graphics, lightData, LIGHT_CBUFFER_SLOT);
 }
@@ -17,19 +17,25 @@ void LightConstantBuffer::Bind(Graphics& graphics) noexcept
 	pLightBuffer->Bind(graphics);
 }
 
-void LightConstantBuffer::SetColor(float r, float g, float b)
+void LightConstantBuffer::SetLightNumber(int number)
 {
 	needUpdate = true;
-	lightData.lightColor[0] = r;
-	lightData.lightColor[1] = g;
-	lightData.lightColor[2] = b;
+	lightData.lightNumber = number;
 }
 
-void LightConstantBuffer::SetPosition(float x, float y, float z, float w)
+void LightConstantBuffer::SetColor(int index, float r, float g, float b)
 {
 	needUpdate = true;
-	lightData.lightPosition[0] = x;
-	lightData.lightPosition[1] = y;
-	lightData.lightPosition[2] = z;
-	lightData.lightPosition[3] = w;
+	lightData.lights[index].color[0] = r;
+	lightData.lights[index].color[1] = g;
+	lightData.lights[index].color[2] = b;
+}
+
+void LightConstantBuffer::SetPosition(int index, float x, float y, float z, float w)
+{
+	needUpdate = true;
+	lightData.lights[index].position[0] = x;
+	lightData.lights[index].position[1] = y;
+	lightData.lights[index].position[2] = z;
+	lightData.lights[index].position[3] = w;
 }

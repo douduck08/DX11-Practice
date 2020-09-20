@@ -1,15 +1,14 @@
 #pragma once
 #include <string>
 #include <DirectXMath.h>
-#include "SceneNode.h"
-#include "Attachable.h"
+#include "SceneObject.h"
 #include "ConstantBuffer.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "Geometry.h"
 #include <memory>
 
-class Model : public Attachable
+class Model : public SceneObject
 {
 public:
 	Model(Graphics& graphics);

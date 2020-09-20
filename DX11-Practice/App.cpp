@@ -2,8 +2,10 @@
 #include "AssimpKit.h"
 #include "imgui/imgui.h"
 #include "Geometry.h"
+#include "Light.h"
 #include "DebugGuiWindow.h"
 #include <random>
+#include <memory>
 
 App::App()
 	: win(1280, 720, "My D3D Engine")
@@ -37,6 +39,10 @@ App::App()
 	auto rootNode = AssimpKit::LoadModelFromFile(win.GetGraphics(), scene, "sponza", "Models/Sponza/sponza.obj");
 	rootNode->SetPosition(0, -10, 0);
 	rootNode->SetScale(0.1, 0.1, 0.1);
+
+	auto pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Directional, 1.0f, 1.0f, 1.0f);
+	auto pNode = scene.CreateChildSceneNode("Light");
+	scene.AddLight(pNode, std::move(pLight));
 
 	scene.RecalculateId();
 }

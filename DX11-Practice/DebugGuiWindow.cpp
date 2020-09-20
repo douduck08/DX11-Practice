@@ -56,7 +56,7 @@ void DebugGuiWindow::ShowSceneHierarchy(Scene& scene)
 	ImGui::ColorEdit3("Backcolor", scene.backcolor);
 
 	ShowCameraWindow(*scene.pCamera);
-	ShowLightWindow(*scene.pLight);
+	//ShowLightWindow(*scene.pLight);
 }
 
 void DebugGuiWindow::ShowCameraWindow(Camera& camera)
@@ -79,6 +79,7 @@ void DebugGuiWindow::ShowCameraWindow(Camera& camera)
 
 void DebugGuiWindow::ShowLightWindow(Light& light)
 {
+	/*
 	ImGui::Text("Light");
 	auto isPoint = light.type == LightType::Point;
 	if (ImGui::Checkbox("Point", &isPoint))
@@ -98,4 +99,5 @@ void DebugGuiWindow::ShowLightWindow(Light& light)
 	{
 		light.SetRotation(light.lightRotation[0], light.lightRotation[1], light.lightRotation[2]);
 	}
+	*/
 }

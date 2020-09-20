@@ -7,14 +7,22 @@ class LightConstantBuffer : public Bindable
 public:
 	LightConstantBuffer(Graphics& graphics);
 	void Bind(Graphics& graphics) noexcept override;
-	void SetColor(float r, float g, float b);
-	void SetPosition(float x, float y, float z, float w);
+	void SetLightNumber(int number);
+	void SetColor(int index, float r, float g, float b);
+	void SetPosition(int index, float x, float y, float z, float w);
 
 private:
 	struct LightData
 	{
-		float lightColor[4];
-		float lightPosition[4];
+		struct Light
+		{
+			float color[4];
+			float position[4];
+		} lights[8];
+		int lightNumber;
+		int pad0;
+		int pad1;
+		int pad2;
 	};
 
 	bool needUpdate;

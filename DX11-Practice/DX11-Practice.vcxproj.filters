@@ -108,9 +108,6 @@
     <ClCompile Include="CameraConstantBuffer.cpp">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Attachable.cpp">
-      <Filter>DuEngine\SceneSystem</Filter>
-    </ClCompile>
     <ClCompile Include="AssimpKit.cpp">
       <Filter>DuEngine\Common\Resources</Filter>
     </ClCompile>
@@ -122,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="DebugGuiWindow.cpp">
       <Filter>DuEngine\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +197,6 @@
     <ClInclude Include="DWin32.h">
       <Filter>DuEngine\Common</Filter>
     </ClInclude>
-    <ClInclude Include="Attachable.h">
-      <Filter>DuEngine\SceneSystem</Filter>
-    </ClInclude>
     <ClInclude Include="App.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
@@ -247,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="DebugGuiWindow.h">
       <Filter>DuEngine\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneObject.h">
+      <Filter>DuEngine\SceneSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

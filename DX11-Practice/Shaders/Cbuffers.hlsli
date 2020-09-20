@@ -10,8 +10,17 @@ cbuffer PreDrawBuffer : register(b1)
     matrix transform;
 };
 
+struct Light
+{
+    float4 color;
+    float4 position;
+};
+
 cbuffer LightBuffer : register(b2)
 {
-    float4 lightColor;
-    float4 lightPosition;
+    Light lights[8];
+    int lightNumber;
+    int p0;
+    int p1;
+    int p2;
 };

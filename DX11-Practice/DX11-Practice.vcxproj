@@ -152,7 +152,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="AssimpKit.cpp" />
-    <ClCompile Include="Attachable.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraConstantBuffer.cpp" />
@@ -182,7 +182,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="AssimpKit.h" />
-    <ClInclude Include="Attachable.h" />
+    <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Bindable.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraConstantBuffer.h" />
