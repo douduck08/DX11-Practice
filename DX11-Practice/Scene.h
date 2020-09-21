@@ -25,11 +25,9 @@ private:
 private:
 	float backcolor[3];
 
-	std::unique_ptr<Camera> pCamera;
 	std::shared_ptr<SceneNode> pRootNode;
-
+	std::unique_ptr<Camera> pCamera;
 	std::vector<std::unique_ptr<Model>> pModels;
 	std::vector<std::unique_ptr<Light>> pLights;
-
 	std::unique_ptr<LightConstantBuffer> pLightBuffer = nullptr;
 };

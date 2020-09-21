@@ -37,7 +37,6 @@ App::App()
 	//scene.LoadModelFromFile(win.GetGraphics(), "suzanne", "Models/suzanne.obj");
 	//scene.LoadModelFromFile(win.GetGraphics(), "sponza", "Models/Sponza/sponza.obj");
 	auto rootNode = AssimpKit::LoadModelFromFile(win.GetGraphics(), scene, "sponza", "Models/Sponza/sponza.obj");
-	rootNode->SetPosition(0, -10, 0);
 	rootNode->SetScale(0.1, 0.1, 0.1);
 
 	auto pNode = scene.CreateChildSceneNode("Lights");
@@ -47,14 +46,17 @@ App::App()
 
 	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 1.0f, 0.0f, 0.0f);
 	pChild = pNode->CreateChild("Point R");
+	pChild->SetPosition(0, 10, 10);
 	scene.AddLight(pChild, std::move(pLight));
 
 	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 1.0f, 0.0f);
 	pChild = pNode->CreateChild("Point G");
+	pChild->SetPosition(0, 10, 00);
 	scene.AddLight(pChild, std::move(pLight));
 
 	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 0.0f, 1.0f);
 	pChild = pNode->CreateChild("Point B");
+	pChild->SetPosition(0, 10, -10);
 	scene.AddLight(pChild, std::move(pLight));
 
 	scene.RecalculateId();

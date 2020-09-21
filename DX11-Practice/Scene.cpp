@@ -4,8 +4,14 @@
 Scene::Scene(Graphics& graphics)
 	: backcolor{ 0.2f, 0.8f, 0.8f }
 {
-	pCamera = std::make_unique<Camera>(graphics, 0.3f * 3.1415926f, 1280.f / 720.f, 0.1f, 1000);
 	pRootNode = std::make_unique<SceneNode>("Root");
+
+	auto pCameraNode = pRootNode->CreateChild("Camera");
+	pCamera = std::make_unique<Camera>(graphics, 0.3f * 3.1415926f, 1280.f / 720.f, 0.1f, 1000);
+	pCamera->SetAttachNode(pCameraNode);
+
+	pCameraNode->SetPosition(-100, 10, 0);
+	pCameraNode->SetRotation(0, 90, 0);
 
 	pLightBuffer = std::make_unique<LightConstantBuffer>(graphics);
 }
