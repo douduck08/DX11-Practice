@@ -96,6 +96,7 @@ std::shared_ptr<Material> AssimpKit::ParseMaterial(Graphics& graphics, const aiM
 	{
 		auto pTex = ResourceManager::Resolve<TextureView>(graphics, fileRootPath + texFileName.C_Str(), 0);
 		pMaterial->AddTextureView(pTex);
+		pMaterial->SetDiffuseMapEnable();
 	}
 	if (material.GetTexture(aiTextureType_SPECULAR, 0, &texFileName) == aiReturn_SUCCESS)
 	{

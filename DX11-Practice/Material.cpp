@@ -32,6 +32,11 @@ void Material::AddTextureView(std::shared_ptr<TextureView> textureView)
 	pTextureViews.push_back(textureView);
 }
 
+void Material::SetDiffuseMapEnable()
+{
+	materialData.useDiffuseMap = 1;
+}
+
 void Material::SetSpecularMapEnable()
 {
 	materialData.useSpecularMap = 1;

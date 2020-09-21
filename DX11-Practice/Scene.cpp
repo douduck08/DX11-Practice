@@ -72,6 +72,8 @@ void Scene::UpdateLightConstantBuffer(Graphics& graphics)
 				auto dir = DirectX::XMVector3Transform(DirectX::XMVectorSet(0, 0, 1, 0), rot);
 				pLightBuffer->SetPosition(index, dir.m128_f32[0], dir.m128_f32[1], dir.m128_f32[2], 0);
 			}
+
+			pLightBuffer->SetColor(index, l->lightColor[0], l->lightColor[1], l->lightColor[2]);
 			index += 1;
 		}
 	}

@@ -250,12 +250,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\PixelShader.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Shaders\VertexShader.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Shaders\SimpleLitPixelShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
@@ -277,6 +271,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cbuffers.hlsli">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\BlinnPhongLighting.hlsli">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

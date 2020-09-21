@@ -15,6 +15,7 @@ public:
 	Material(Graphics& graphics, const std::string& name, const std::string& vsFile, const std::string& psFile);
 	void Bind(Graphics& graphics) noexcept override;
 	void AddTextureView(std::shared_ptr<TextureView> textureView);
+	void SetDiffuseMapEnable();
 	void SetSpecularMapEnable();
 	void SetNormalMapEnable();
 
@@ -33,10 +34,10 @@ private:
 
 	struct MaterialData
 	{
+		int useDiffuseMap;
 		int useSpecularMap;
 		int useNormalMap;
 		int pad0;
-		int pad1;
 	} materialData;
 	std::unique_ptr<PixelConstantBuffer<MaterialData>> pMaterialBuffer = nullptr;
 };

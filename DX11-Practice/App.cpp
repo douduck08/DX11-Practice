@@ -40,9 +40,22 @@ App::App()
 	rootNode->SetPosition(0, -10, 0);
 	rootNode->SetScale(0.1, 0.1, 0.1);
 
+	auto pNode = scene.CreateChildSceneNode("Lights");
 	auto pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Directional, 1.0f, 1.0f, 1.0f);
-	auto pNode = scene.CreateChildSceneNode("Light");
-	scene.AddLight(pNode, std::move(pLight));
+	auto pChild = pNode->CreateChild("Directional");
+	scene.AddLight(pChild, std::move(pLight));
+
+	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 1.0f, 0.0f, 0.0f);
+	pChild = pNode->CreateChild("Point R");
+	scene.AddLight(pChild, std::move(pLight));
+
+	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 1.0f, 0.0f);
+	pChild = pNode->CreateChild("Point G");
+	scene.AddLight(pChild, std::move(pLight));
+
+	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 0.0f, 1.0f);
+	pChild = pNode->CreateChild("Point B");
+	scene.AddLight(pChild, std::move(pLight));
 
 	scene.RecalculateId();
 }

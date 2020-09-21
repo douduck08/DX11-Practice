@@ -3,13 +3,13 @@
 
 Light::Light(Graphics& graphics, LightType type, float r, float g, float b)
 	: type(type)
-	, lightColor{ 1, 1, 1 }
+	, lightColor{ r, g, b }
 {
 }
 
-void Light::SetLightType(LightType newType)
+void Light::SetLightType(LightType type)
 {
-	type = newType;
+	this->type = type;
 }
 
 void Light::SetColor(float r, float g, float b)

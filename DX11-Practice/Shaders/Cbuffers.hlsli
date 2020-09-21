@@ -1,3 +1,44 @@
+// common structs/methods
+struct LightParam
+{
+    float4 color;
+    float4 position;
+};
+
+struct Light
+{
+    float3 direction;
+    float3 color;
+};
+
+Light GetLightData(LightParam lightParam, float3 worldPos)
+{
+    Light l;
+    
+    if (lightParam.position.w > 0)
+    {
+        // point light
+        l.direction = lightParam.position.xyz - worldPos.xyz;
+        float dist = length(l.direction);
+        l.direction /= dist;
+        
+        const float attConst = 1.0;
+        const float attLin = 0.045;
+        const float attQuad = 0.0075;
+        float atten = 1.0f / (attConst + attLin * dist + attQuad * (dist * dist));
+        l.color = lightParam.color.rgb * atten;
+    }
+    else
+    {
+        // directional light
+        l.direction = lightParam.position.xyz;
+        l.color = lightParam.color.rgb;
+    }
+    
+    return l;
+}
+
+// constant buffers
 cbuffer CameraBuffer : register(b0)
 {
     matrix cameraView;
@@ -10,15 +51,9 @@ cbuffer PreDrawBuffer : register(b1)
     matrix transform;
 };
 
-struct Light
-{
-    float4 color;
-    float4 position;
-};
-
 cbuffer LightBuffer : register(b2)
 {
-    Light lights[8];
+    LightParam lights[8];
     int lightNumber;
     int p0;
     int p1;

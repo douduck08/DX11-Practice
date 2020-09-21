@@ -1,4 +1,5 @@
 #include "Cbuffers.hlsli"
+#include "BlinnPhongLighting.hlsli"
 
 struct PSIn
 {
@@ -9,61 +10,25 @@ struct PSIn
     float4 bitangent : Bitangent;
     float4 worldPos : WorldPos;
     float2 uv : Texcoord;
-    uint id : SV_PrimitiveID;
 };
 
-cbuffer PreMaterialBuffer : register(b3)
-{
-    int useSpecularMap;
-    int useNormalMap;
-    int pad0;
-    int pad1;
-};
-
-Texture2D diffuseMap : register(t0);
-Texture2D specularMap : register(t1);
-Texture2D normalMap : register(t2);
-SamplerState texSampler : register(s0);
-
-float4 main(PSIn input) : SV_TARGET
+float4 main(PSIn input, uint id : SV_PrimitiveID) : SV_TARGET
 {
     const float2 uv = input.uv;
-    float3 n = input.normal.xyz;
-    if (useNormalMap && length(input.tangent.xyz) > 0)
-    {
-        float3 tanSpaceNormal = normalMap.Sample(texSampler, uv).xyz * 2.0 - 1.0;
-        float3x3 tanToWorld = float3x3(input.tangent.xyz, input.bitangent.xyz, input.normal.xyz);
-        n = normalize(mul(tanSpaceNormal, tanToWorld));
-    }
-    
+    float3 diffColor = GetDiffuseColor(uv);
+    float3 specColor = GetSpecularColor(uv);
+    float3 n = GetWorldNormal(input.normal.xyz, input.tangent.xyz, input.bitangent.xyz, uv);
     float3 v = normalize(cameraPosition.xyz - input.worldPos.xyz);
-    float3 l = lerp(lights[0].position.xyz, lights[0].position.xyz - input.worldPos.xyz, lights[0].position.w);
-    float dist = length(l);
-    l /= dist;
-    
-    const float attConst = 1.0;
-    const float attLin = 0.045;
-    const float attQuad = 0.0075;
-    float att = lights[0].position.w * 1.0f / (attConst + attLin * dist + attQuad * (dist * dist));
-    att = lerp(1.0, att, lights[0].position.w);
-    
-    float nl = saturate(dot(n, l));
-    float3 light = lights[0].color.rgb * att * nl;
 
-    float3 ambient = float3(0.2, 0.2, 0.2);
-    float3 diffuse = (ambient + input.color.rgb * light) * diffuseMap.Sample(texSampler, uv).rgb;
-
-    float3 specColor = 1;
-    float specularPower = 128;
-    if (useSpecularMap)
+    float3 ambient = float3(0.02, 0.02, 0.02);
+    float3 c = 0;
+    for (int idx = 0; idx < lightNumber; idx++)
     {
-        float4 specularSample = specularMap.Sample(texSampler, uv);
-        specColor = specularSample.rgb;
-        // specularPower = pow(2.0f, specularSample.a * 13.0f);
+        Light light = GetLightData(lights[idx], input.worldPos.xyz);
+        float nl = saturate(dot(n, light.direction));
+        c += ambient * diffColor;
+        c += light.color * nl * (diffColor + specColor * SpecularTerm(n, light.direction, v));
     }
-    float3 r = reflect(-l, n);
-    float3 spec = specColor * input.color.rgb * light * pow(saturate(dot(v, r)), specularPower);
-
     
-    return float4(saturate(diffuse + spec), 1.0);
+    return float4(saturate(c), 1.0);
 }

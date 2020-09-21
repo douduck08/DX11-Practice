@@ -12,37 +12,7 @@ void DebugGuiWindow::ShowSceneHierarchy(Scene& scene)
 
 	ImGui::Begin("Hierarchy");
 	ImGui::Columns(2);
-
-	std::stack<SceneNode*> stack;
-	stack.push(scene.pRootNode.get());
-	while (stack.size() > 0)
-	{
-		auto current = stack.top();
-		stack.pop();
-
-		const int selectedId = (pSelectedNode == nullptr) ? -1 : pSelectedNode->id;
-		const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
-			| ((current->id == selectedId) ? ImGuiTreeNodeFlags_Selected : 0)
-			| ((current->pChildren.size() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
-
-		const auto expanded = ImGui::TreeNodeEx(
-			(void*)(intptr_t)current->id, node_flags, (std::to_string(current->id) + ": " + current->name).c_str()
-		);
-
-		if (ImGui::IsItemClicked())
-		{
-			pSelectedNode = current;
-		}
-
-		if (expanded)
-		{
-			for (const auto& pChild : current->pChildren)
-			{
-				stack.push(pChild.get());;
-			}
-			ImGui::TreePop();
-		}
-	}
+	ShowSceneNode(scene.pRootNode.get(), pSelectedNode);
 
 	ImGui::NextColumn();
 	if (pSelectedNode != nullptr)
@@ -57,6 +27,32 @@ void DebugGuiWindow::ShowSceneHierarchy(Scene& scene)
 
 	ShowCameraWindow(*scene.pCamera);
 	//ShowLightWindow(*scene.pLight);
+}
+
+void DebugGuiWindow::ShowSceneNode(SceneNode* node, SceneNode*& pSelectedNode)
+{
+	const int selectedId = (pSelectedNode == nullptr) ? -1 : pSelectedNode->id;
+	const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
+		| ((node->id == selectedId) ? ImGuiTreeNodeFlags_Selected : 0)
+		| ((node->pChildren.size() == 0) ? ImGuiTreeNodeFlags_Leaf : 0);
+
+	const auto expanded = ImGui::TreeNodeEx(
+		(void*)(intptr_t)node->id, node_flags, (std::to_string(node->id) + ": " + node->name).c_str()
+	);
+
+	if (ImGui::IsItemClicked())
+	{
+		pSelectedNode = node;
+	}
+
+	if (expanded)
+	{
+		for (const auto& pChild : node->pChildren)
+		{
+			ShowSceneNode(pChild.get(), pSelectedNode);
+		}
+		ImGui::TreePop();
+	}
 }
 
 void DebugGuiWindow::ShowCameraWindow(Camera& camera)
@@ -101,3 +97,5 @@ void DebugGuiWindow::ShowLightWindow(Light& light)
 	}
 	*/
 }
+
+
