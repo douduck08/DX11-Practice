@@ -18,6 +18,7 @@ public:
 	void SetDiffuseMapEnable();
 	void SetSpecularMapEnable();
 	void SetNormalMapEnable();
+	void SetDepthModeEnable(bool enable);
 
 	static std::string GetUID(const std::string& name, const std::string& vsFile, const std::string& psFile)
 	{
@@ -40,4 +41,7 @@ private:
 		int pad0;
 	} materialData;
 	std::unique_ptr<PixelConstantBuffer<MaterialData>> pMaterialBuffer = nullptr;
+
+	bool depthMode;
+	std::shared_ptr<PixelShader> pDepthPixelShader;
 };

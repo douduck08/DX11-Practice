@@ -248,6 +248,12 @@
     <ClInclude Include="SceneObject.h">
       <Filter>DuEngine\SceneSystem</Filter>
     </ClInclude>
+    <ClInclude Include="DepthStencilState.h">
+      <Filter>DuEngine\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendState.h">
+      <Filter>DuEngine\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\SimpleLitPixelShader.hlsl">
@@ -266,6 +272,9 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Shaders\LitVertexShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\DepthPixelShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

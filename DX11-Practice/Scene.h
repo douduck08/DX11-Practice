@@ -4,6 +4,8 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Model.h"
+#include "BlendState.h"
+#include "DepthStencilState.h"
 
 class Scene
 {
@@ -30,4 +32,9 @@ private:
 	std::vector<std::unique_ptr<Model>> pModels;
 	std::vector<std::unique_ptr<Light>> pLights;
 	std::unique_ptr<LightConstantBuffer> pLightBuffer = nullptr;
+
+	std::unique_ptr<BlendState> pDefaultState;
+	std::unique_ptr<BlendState> pZeroState;
+	std::unique_ptr<DepthStencilState> pLessWriteState;
+	std::unique_ptr<DepthStencilState> pEqualState;
 };

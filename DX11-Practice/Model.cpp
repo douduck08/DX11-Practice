@@ -32,7 +32,8 @@ void Model::SetMesh(const std::shared_ptr<Mesh> pMesh)
 
 void Model::SetMaterial(const std::shared_ptr<Material> pMaterial)
 {
-	AddSharedBind(pMaterial);
+	this->pMaterial = pMaterial;
+	//AddSharedBind(pMaterial);
 }
 
 void Model::AddBind(std::unique_ptr<Bindable> bind)
@@ -45,7 +46,7 @@ void Model::AddSharedBind(std::shared_ptr<Bindable> bind)
 	sharedBinds.push_back(std::move(bind));
 }
 
-void Model::Draw(Graphics& graphics)
+void Model::Draw(Graphics& graphics, bool depthMode)
 {
 	if (IsAttached()) {
 		ModelTransform data;
@@ -61,6 +62,9 @@ void Model::Draw(Graphics& graphics)
 		{
 			b->Bind(graphics);
 		}
+
+		pMaterial->SetDepthModeEnable(depthMode);
+		pMaterial->Bind(graphics);
 		graphics.DrawIndexed(indexCount);
 	}
 }

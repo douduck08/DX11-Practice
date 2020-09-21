@@ -4,20 +4,30 @@
 Material::Material(Graphics& graphics, const std::string& name, const std::string& vsFile, const std::string& psFile)
 	: name(name)
 	, materialData{ 0, 0, 0, 0 }
+	, depthMode(false)
 {
 	pVertexShader = ResourceManager::Resolve<VertexShader>(graphics, vsFile);
 	pPixelShader = ResourceManager::Resolve<PixelShader>(graphics, psFile);
 	pSamplerState = ResourceManager::Resolve<SamplerState>(graphics, 0);
 
 	pMaterialBuffer = std::make_unique<PixelConstantBuffer<MaterialData>>(graphics, MATERIAL_CBUFFER_SLOT);
+
+	pDepthPixelShader = ResourceManager::Resolve<PixelShader>(graphics, "Shaders/DepthPixelShader.cso");
 }
 
 void Material::Bind(Graphics& graphics) noexcept
 {
 	pVertexShader->Bind(graphics);
-	pPixelShader->Bind(graphics);
-	pSamplerState->Bind(graphics);
+	if (depthMode)
+	{
+		pDepthPixelShader->Bind(graphics);
+	}
+	else
+	{
+		pPixelShader->Bind(graphics);
+	}
 
+	pSamplerState->Bind(graphics);
 	for (auto& tex : pTextureViews)
 	{
 		tex->Bind(graphics);
@@ -45,4 +55,9 @@ void Material::SetSpecularMapEnable()
 void Material::SetNormalMapEnable()
 {
 	materialData.useNormalMap = 1;
+}
+
+void Material::SetDepthModeEnable(bool enable)
+{
+	depthMode = enable;
 }

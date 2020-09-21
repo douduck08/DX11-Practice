@@ -17,7 +17,7 @@ public:
 	
 	void SetMesh(const std::shared_ptr<Mesh> pMesh);
 	void SetMaterial(const std::shared_ptr<Material> pMaterial);
-	void Draw(Graphics& graphics);
+	void Draw(Graphics& graphics, bool depthMode = false);
 
 private:
 	void SetGeometry(Graphics& graphics, Geometry& geometry);
@@ -32,6 +32,7 @@ private:
 
 	UINT indexCount = 0;
 	std::unique_ptr<VertexConstantBuffer<ModelTransform>> pTransformBuffer = nullptr;
+	std::shared_ptr<Material> pMaterial = nullptr;
 	std::vector<std::unique_ptr<Bindable>> binds;
 	std::vector<std::shared_ptr<Bindable>> sharedBinds;
 };
