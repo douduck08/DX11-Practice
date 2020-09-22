@@ -8,6 +8,7 @@
 #pragma comment(lib,"D3DCompiler.lib")
 
 Graphics::Graphics(HWND hWnd, UINT width, UINT height)
+	: width(width), height(height)
 {
 	DXGI_SWAP_CHAIN_DESC sd = {};
 	sd.BufferDesc.Width = 0;
@@ -47,30 +48,6 @@ Graphics::Graphics(HWND hWnd, UINT width, UINT height)
 	pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
 	pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget);
 
-	// create depth stensil texture
-	ComPtr<ID3D11Texture2D> pDepthStencil;
-	D3D11_TEXTURE2D_DESC depthDesc = {};
-	depthDesc.Width = width;
-	depthDesc.Height = height;
-	depthDesc.MipLevels = 1u;
-	depthDesc.ArraySize = 1u;
-	depthDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	depthDesc.SampleDesc.Count = 1u;
-	depthDesc.SampleDesc.Quality = 0u;
-	depthDesc.Usage = D3D11_USAGE_DEFAULT;
-	depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	pDevice->CreateTexture2D(&depthDesc, nullptr, &pDepthStencil);
-
-	// create view of depth stensil texture
-	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
-	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	dsvDesc.Texture2D.MipSlice = 0u;
-	pDevice->CreateDepthStencilView(pDepthStencil.Get(), &dsvDesc, &pDSV);
-
-	// bind depth stensil view to OM
-	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
-
 	// configure viewport
 	D3D11_VIEWPORT vp;
 	vp.Width = width;
@@ -100,17 +77,18 @@ ID3D11DeviceContext* Graphics::GetContext()
 	return pContext.Get();
 }
 
-void Graphics::BeginFrame(float r, float g, float b)
+UINT Graphics::GetWidth()
 {
-	float color[] = { r,g,b };
-	Graphics::BeginFrame(color);
+	return width;
 }
 
-void Graphics::BeginFrame(float* backcolor)
+UINT Graphics::GetHeight()
 {
-	pContext->ClearRenderTargetView(pTarget.Get(), backcolor);
-	pContext->ClearDepthStencilView(pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+	return height;
+}
 
+void Graphics::BeginFrame()
+{
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
@@ -122,6 +100,17 @@ void Graphics::EndFrame()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 	pSwap->Present(1u, 0u);
+}
+
+void Graphics::SetColorBufferAsRenderTarget(ID3D11DepthStencilView* depth)
+{
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), depth);
+}
+
+void Graphics::ClearColorBuffer(float r, float g, float b)
+{
+	const float backcolor[] = { r,g,b };
+	pContext->ClearRenderTargetView(pTarget.Get(), backcolor);
 }
 
 void Graphics::DrawIndexed(UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)

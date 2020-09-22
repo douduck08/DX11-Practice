@@ -18,16 +18,20 @@ public:
 	
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetContext();
-	
-	void BeginFrame(float r, float g, float b);
-	void BeginFrame(float* backcolor);
+	UINT GetWidth();
+	UINT GetHeight();
+
+	void BeginFrame();
 	void EndFrame();
+	void SetColorBufferAsRenderTarget(ID3D11DepthStencilView* depth);
+	void ClearColorBuffer(float r, float g, float b);
 	void DrawIndexed(UINT indexCount, UINT startIndexLocation = 0u, INT baseVertexLocation = 0u);
 
 private:
+	UINT width;
+	UINT height;
 	ComPtr<ID3D11Device> pDevice;
 	ComPtr<IDXGISwapChain> pSwap;
 	ComPtr<ID3D11DeviceContext> pContext;
 	ComPtr<ID3D11RenderTargetView> pTarget;
-	ComPtr<ID3D11DepthStencilView> pDSV;
 };

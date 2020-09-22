@@ -15,6 +15,7 @@ Scene::Scene(Graphics& graphics)
 
 	pLightBuffer = std::make_unique<LightConstantBuffer>(graphics);
 
+	pDepthBuffer = std::make_unique<DepthStencilBuffer>(graphics, graphics.GetWidth(), graphics.GetHeight());
 	pDefaultState = std::make_unique<BlendState>(graphics, BlendState::Mode::Default);
 	pZeroState = std::make_unique<BlendState>(graphics, BlendState::Mode::MaskZero);
 	pLessWriteState = std::make_unique<DepthStencilState>(graphics, DepthStencilState::Mode::LessWrite);
@@ -28,11 +29,17 @@ float* Scene::GetBackcolor()
 
 void Scene::Draw(Graphics& graphics)
 {
+	// recaculate and update frame data
 	pRootNode->RecalculateTransform(DirectX::XMMatrixIdentity());
 	pCamera->Bind(graphics);
 
 	UpdateLightConstantBuffer(graphics);
 	pLightBuffer->Bind(graphics);
+
+	// clear buffers
+	graphics.SetColorBufferAsRenderTarget(pDepthBuffer->Get());
+	graphics.ClearColorBuffer(backcolor[0], backcolor[1], backcolor[2]);
+	pDepthBuffer->Clear(graphics);
 	
 	// draw depth
 	pZeroState->Bind(graphics);

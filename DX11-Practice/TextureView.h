@@ -25,7 +25,6 @@ public:
 		textureDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
 		// write image data into top mip level
-		ComPtr<ID3D11Texture2D> pTexture;
 		GetDevice(graphics)->CreateTexture2D(&textureDesc, nullptr, &pTexture);
 		GetContext(graphics)->UpdateSubresource(
 			pTexture.Get(), 0u, nullptr, img.GetPixelsConst(), img.GetWidth() * sizeof(unsigned int), 0u
@@ -54,5 +53,6 @@ public:
 
 private:
 	UINT slot;
+	ComPtr<ID3D11Texture2D> pTexture;
 	ComPtr<ID3D11ShaderResourceView> pTextureView;
 };

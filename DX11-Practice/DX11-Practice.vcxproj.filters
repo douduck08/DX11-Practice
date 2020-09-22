@@ -254,6 +254,9 @@
     <ClInclude Include="BlendState.h">
       <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
+    <ClInclude Include="DepthStencilBuffer.h">
+      <Filter>DuEngine\Bindable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\SimpleLitPixelShader.hlsl">

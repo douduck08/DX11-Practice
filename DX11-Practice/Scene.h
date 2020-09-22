@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Model.h"
+#include "DepthStencilBuffer.h"
 #include "BlendState.h"
 #include "DepthStencilState.h"
 
@@ -33,6 +34,7 @@ private:
 	std::vector<std::unique_ptr<Light>> pLights;
 	std::unique_ptr<LightConstantBuffer> pLightBuffer = nullptr;
 
+	std::unique_ptr<DepthStencilBuffer> pDepthBuffer;
 	std::unique_ptr<BlendState> pDefaultState;
 	std::unique_ptr<BlendState> pZeroState;
 	std::unique_ptr<DepthStencilState> pLessWriteState;
