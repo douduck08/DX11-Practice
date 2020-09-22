@@ -23,12 +23,13 @@ void LightConstantBuffer::SetLightNumber(int number)
 	lightData.lightNumber = number;
 }
 
-void LightConstantBuffer::SetColor(int index, float r, float g, float b)
+void LightConstantBuffer::SetColor(int index, float r, float g, float b, float intensity)
 {
 	needUpdate = true;
 	lightData.lights[index].color[0] = r;
 	lightData.lights[index].color[1] = g;
 	lightData.lights[index].color[2] = b;
+	lightData.lights[index].color[3] = intensity;
 }
 
 void LightConstantBuffer::SetPosition(int index, float x, float y, float z, float w)

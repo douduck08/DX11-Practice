@@ -14,11 +14,13 @@ class Light : public SceneObject
 	friend class DebugGuiWindow;
 
 public:
-	Light(Graphics& graphics, LightType type, float r, float g, float b);
+	Light(Graphics& graphics, LightType type, float r, float g, float b, float intensity = 1);
 	void SetLightType(LightType newType);
 	void SetColor(float r, float g, float b);
+	void SetIntensity(float intensity);
 
 private:
 	LightType type;
 	float lightColor[3];
+	float intensity;
 };

@@ -26,7 +26,7 @@ Light GetLightData(LightParam lightParam, float3 worldPos)
         const float attLin = 0.045;
         const float attQuad = 0.0075;
         float atten = 1.0f / (attConst + attLin * dist + attQuad * (dist * dist));
-        l.color = lightParam.color.rgb * atten;
+        l.color = lightParam.color.rgb * atten * lightParam.color.a;
     }
     else
     {

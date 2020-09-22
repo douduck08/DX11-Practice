@@ -8,7 +8,7 @@ public:
 	LightConstantBuffer(Graphics& graphics);
 	void Bind(Graphics& graphics) noexcept override;
 	void SetLightNumber(int number);
-	void SetColor(int index, float r, float g, float b);
+	void SetColor(int index, float r, float g, float b, float intensity);
 	void SetPosition(int index, float x, float y, float z, float w);
 
 private:

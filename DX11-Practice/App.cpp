@@ -45,19 +45,19 @@ App::App()
 	pChild->SetRotation(-45, 0, 0);
 	scene.AddLight(pChild, std::move(pLight));
 
-	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 1.0f, 0.0f, 0.0f);
+	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 1.0f, 0.0f, 0.0f, 3.0f);
 	pChild = pNode->CreateChild("Point R");
-	pChild->SetPosition(0, 10, 10);
+	pChild->SetPosition(0, 20, 20);
 	scene.AddLight(pChild, std::move(pLight));
 
-	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 1.0f, 0.0f);
+	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 1.0f, 0.0f, 3.0f);
 	pChild = pNode->CreateChild("Point G");
-	pChild->SetPosition(0, 10, 00);
+	pChild->SetPosition(0, 20, 00);
 	scene.AddLight(pChild, std::move(pLight));
 
-	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 0.0f, 1.0f);
+	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 0.0f, 1.0f, 3.0f);
 	pChild = pNode->CreateChild("Point B");
-	pChild->SetPosition(0, 10, -10);
+	pChild->SetPosition(0, 20, -20);
 	scene.AddLight(pChild, std::move(pLight));
 
 	scene.RecalculateId();

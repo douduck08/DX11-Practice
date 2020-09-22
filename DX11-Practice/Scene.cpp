@@ -100,7 +100,7 @@ void Scene::UpdateLightConstantBuffer(Graphics& graphics)
 				pLightBuffer->SetPosition(index, dir.m128_f32[0], dir.m128_f32[1], dir.m128_f32[2], 0);
 			}
 
-			pLightBuffer->SetColor(index, l->lightColor[0], l->lightColor[1], l->lightColor[2]);
+			pLightBuffer->SetColor(index, l->lightColor[0], l->lightColor[1], l->lightColor[2], l->intensity);
 			index += 1;
 		}
 	}
