@@ -20,7 +20,7 @@ float4 main(PSIn input, uint id : SV_PrimitiveID) : SV_TARGET
     float3 n = GetWorldNormal(input.normal.xyz, input.tangent.xyz, input.bitangent.xyz, uv);
     float3 v = normalize(cameraPosition.xyz - input.worldPos.xyz);
 
-    float3 ambient = float3(0.02, 0.02, 0.02);
+    float3 ambient = ambientColor.rgb;
     float3 c = 0;
     for (int idx = 0; idx < lightNumber; idx++)
     {

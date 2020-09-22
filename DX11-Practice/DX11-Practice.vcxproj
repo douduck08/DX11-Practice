@@ -173,7 +173,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="PerFrameConatantBuffer.cpp" />
+    <ClCompile Include="PerFrameConstantBuffer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -211,7 +211,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="PerFrameConatantBuffer.h" />
+    <ClInclude Include="PerFrameConstantBuffer.h" />
     <ClInclude Include="PixelShader.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceManager.h" />

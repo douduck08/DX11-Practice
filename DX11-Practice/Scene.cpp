@@ -2,7 +2,7 @@
 #include <DirectXMath.h>
 
 Scene::Scene(Graphics& graphics)
-	: backcolor{ 0.2f, 0.8f, 0.8f }
+	: backcolor{ 0.2f, 0.8f, 0.8f }, ambientColor { 0.02f, 0.02f, 0.02f }
 {
 	pRootNode = std::make_unique<SceneNode>("Root");
 
@@ -13,6 +13,7 @@ Scene::Scene(Graphics& graphics)
 	pCameraNode->SetPosition(-100, 10, 0);
 	pCameraNode->SetRotation(0, 90, 0);
 
+	pFrameConstantBuffer = std::make_unique<PerFrameConstantBuffer>(graphics);
 	pLightBuffer = std::make_unique<LightConstantBuffer>(graphics);
 
 	pDepthBuffer = std::make_unique<DepthStencilBuffer>(graphics, graphics.GetWidth(), graphics.GetHeight());
@@ -22,16 +23,14 @@ Scene::Scene(Graphics& graphics)
 	pEqualState = std::make_unique<DepthStencilState>(graphics, DepthStencilState::Mode::Equal);
 }
 
-float* Scene::GetBackcolor()
-{
-	return backcolor;
-}
-
 void Scene::Draw(Graphics& graphics)
 {
 	// recaculate and update frame data
 	pRootNode->RecalculateTransform(DirectX::XMMatrixIdentity());
 	pCamera->Bind(graphics);
+
+	pFrameConstantBuffer->SetAmbientColor(ambientColor[0], ambientColor[1], ambientColor[2]);
+	pFrameConstantBuffer->Bind(graphics);
 
 	UpdateLightConstantBuffer(graphics);
 	pLightBuffer->Bind(graphics);

@@ -42,6 +42,7 @@ App::App()
 	auto pNode = scene.CreateChildSceneNode("Lights");
 	auto pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Directional, 1.0f, 1.0f, 1.0f);
 	auto pChild = pNode->CreateChild("Directional");
+	pChild->SetRotation(-45, 0, 0);
 	scene.AddLight(pChild, std::move(pLight));
 
 	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 1.0f, 0.0f, 0.0f);
@@ -64,12 +65,10 @@ App::App()
 
 void App::DoFrame(float t, float dt)
 {
-	// clear buffers
-	win.GetGraphics().BeginFrame(scene.GetBackcolor());
+	win.GetGraphics().BeginFrame();
 
 	// draw
 	scene.Draw(win.GetGraphics());
-
 	DebugGuiWindow::ShowSceneHierarchy(scene);
 
 	// present

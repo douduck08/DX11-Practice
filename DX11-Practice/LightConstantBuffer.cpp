@@ -5,7 +5,7 @@ LightConstantBuffer::LightConstantBuffer(Graphics& graphics)
 	: needUpdate(false)
 	, lightData()
 {
-	pLightBuffer = std::make_unique<SharedConstantBuffer<LightData>>(graphics, lightData, LIGHT_CBUFFER_SLOT);
+	pLightBuffer = std::make_unique<SharedConstantBuffer<LightData>>(graphics, LIGHT_CBUFFER_SLOT);
 }
 
 void LightConstantBuffer::Bind(Graphics& graphics) noexcept

@@ -24,6 +24,7 @@ void DebugGuiWindow::ShowSceneHierarchy(Scene& scene)
 	ImGui::End();
 
 	ImGui::ColorEdit3("Backcolor", scene.backcolor);
+	ImGui::ColorEdit3("Ambient Color", scene.ambientColor);
 
 	ShowCameraWindow(*scene.pCamera);
 	//ShowLightWindow(*scene.pLight);

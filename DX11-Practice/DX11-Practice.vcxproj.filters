@@ -99,9 +99,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClCompile>
-    <ClCompile Include="PerFrameConatantBuffer.cpp">
-      <Filter>DuEngine\Bindable\HighLevel</Filter>
-    </ClCompile>
     <ClCompile Include="LightConstantBuffer.cpp">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClCompile>
@@ -122,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="SceneObject.cpp">
       <Filter>DuEngine\SceneSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="PerFrameConstantBuffer.cpp">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +206,6 @@
     <ClInclude Include="Material.h">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClInclude>
-    <ClInclude Include="PerFrameConatantBuffer.h">
-      <Filter>DuEngine\Bindable\HighLevel</Filter>
-    </ClInclude>
     <ClInclude Include="LightConstantBuffer.h">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClInclude>
@@ -256,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="DepthStencilBuffer.h">
       <Filter>DuEngine\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="PerFrameConstantBuffer.h">
+      <Filter>DuEngine\Bindable\HighLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

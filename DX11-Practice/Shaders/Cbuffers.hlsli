@@ -39,19 +39,24 @@ Light GetLightData(LightParam lightParam, float3 worldPos)
 }
 
 // constant buffers
-cbuffer CameraBuffer : register(b0)
+cbuffer PerFrameBuffer : register(b0)
+{
+    float4 ambientColor;
+};
+
+cbuffer CameraBuffer : register(b1)
 {
     matrix cameraView;
     matrix cameraProject;
     float4 cameraPosition;
 };
 
-cbuffer PreDrawBuffer : register(b1)
+cbuffer PreDrawBuffer : register(b2)
 {
     matrix transform;
 };
 
-cbuffer LightBuffer : register(b2)
+cbuffer LightBuffer : register(b3)
 {
     LightParam lights[8];
     int lightNumber;

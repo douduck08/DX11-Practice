@@ -1,4 +1,4 @@
-cbuffer PreMaterialBuffer : register(b3)
+cbuffer PreMaterialBuffer : register(b4)
 {
     int useDiffuseMap;
     int useSpecularMap;
