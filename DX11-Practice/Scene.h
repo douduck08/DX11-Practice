@@ -8,6 +8,7 @@
 #include "LightConstantBuffer.h"
 #include "BlendState.h"
 #include "DepthStencilState.h"
+#include "RasterizerState.h"
 
 class Scene
 {
@@ -37,7 +38,9 @@ private:
 	std::unique_ptr<LightConstantBuffer> pLightBuffer = nullptr;
 
 	std::unique_ptr<BlendState> pDefaultState;
-	std::unique_ptr<BlendState> pZeroState;
+	std::unique_ptr<BlendState> pZeroMaskState;
 	std::unique_ptr<DepthStencilState> pLessWriteState;
 	std::unique_ptr<DepthStencilState> pEqualState;
+	std::unique_ptr<RasterizerState> pDefaultRasterizerState;
+	std::unique_ptr<RasterizerState> pShadowRasterizerState;
 };

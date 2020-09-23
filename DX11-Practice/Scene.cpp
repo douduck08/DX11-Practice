@@ -17,9 +17,11 @@ Scene::Scene(Graphics& graphics)
 	pLightBuffer = std::make_unique<LightConstantBuffer>(graphics);
 
 	pDefaultState = std::make_unique<BlendState>(graphics, BlendState::Mode::Default);
-	pZeroState = std::make_unique<BlendState>(graphics, BlendState::Mode::MaskZero);
+	pZeroMaskState = std::make_unique<BlendState>(graphics, BlendState::Mode::MaskZero);
 	pLessWriteState = std::make_unique<DepthStencilState>(graphics, DepthStencilState::Mode::LessWrite);
 	pEqualState = std::make_unique<DepthStencilState>(graphics, DepthStencilState::Mode::Equal);
+	pDefaultRasterizerState = std::make_unique<RasterizerState>(graphics, RasterizerState::Mode::Default);
+	pShadowRasterizerState = std::make_unique<RasterizerState>(graphics, RasterizerState::Mode::Shadow);
 }
 
 void Scene::Draw(Graphics& graphics)
@@ -36,8 +38,9 @@ void Scene::Draw(Graphics& graphics)
 		mainLight->CaculateShadowData(pCamera.get());
 		mainLight->BindShadowData(graphics);
 
-		pZeroState->Bind(graphics);
+		pZeroMaskState->Bind(graphics);
 		pLessWriteState->Bind(graphics);
+		pShadowRasterizerState->Bind(graphics);
 		for (auto& m : pModels)
 		{
 			m->Draw(graphics, true);
@@ -61,8 +64,9 @@ void Scene::Draw(Graphics& graphics)
 	graphics.ClearBuffer(backcolor[0], backcolor[1], backcolor[2]);
 	
 	// draw depth
-	pZeroState->Bind(graphics);
+	pZeroMaskState->Bind(graphics);
 	pLessWriteState->Bind(graphics);
+	pDefaultRasterizerState->Bind(graphics);
 	for (auto& m : pModels)
 	{
 		m->Draw(graphics, true);
@@ -71,6 +75,7 @@ void Scene::Draw(Graphics& graphics)
 	// shading
 	pDefaultState->Bind(graphics);
 	pEqualState->Bind(graphics);
+	pDefaultRasterizerState->Bind(graphics);
 	for (auto& m : pModels)
 	{
 		m->Draw(graphics);
