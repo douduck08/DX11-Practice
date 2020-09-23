@@ -43,7 +43,8 @@ void Scene::Draw(Graphics& graphics)
 			m->Draw(graphics, true);
 		}
 
-		//mainLight->BindShadowMap(graphics);
+		graphics.SetNullRenderTarget();
+		mainLight->BindShadowMap(graphics);
 	}
 
 	// update frame data
@@ -68,7 +69,6 @@ void Scene::Draw(Graphics& graphics)
 	}
 
 	// shading
-	mainLight->BindShadowMap(graphics);
 	pDefaultState->Bind(graphics);
 	pEqualState->Bind(graphics);
 	for (auto& m : pModels)

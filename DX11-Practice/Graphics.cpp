@@ -128,6 +128,11 @@ void Graphics::SetRenderTarget()
 	pContext->RSSetViewports(1u, &vp);
 }
 
+void Graphics::SetNullRenderTarget()
+{
+	pContext->OMSetRenderTargets(0u, nullptr, nullptr);
+}
+
 void Graphics::ClearBuffer(float r, float g, float b, bool clearColor, bool clearDepth)
 {
 	if (clearColor)

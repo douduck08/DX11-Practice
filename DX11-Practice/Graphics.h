@@ -24,6 +24,7 @@ public:
 	void BeginFrame();
 	void EndFrame();
 	void SetRenderTarget();
+	void SetNullRenderTarget();
 	void ClearBuffer(float r, float g, float b, bool clearColor = true, bool clearDepth = true);
 	void DrawIndexed(UINT indexCount, UINT startIndexLocation = 0u, INT baseVertexLocation = 0u);
 
