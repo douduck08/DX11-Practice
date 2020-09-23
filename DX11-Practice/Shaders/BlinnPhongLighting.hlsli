@@ -5,10 +5,18 @@ cbuffer PreMaterialBuffer : register(b4)
     int useNormalMap;
 };
 
+cbuffer ShadowBuffer : register(b5)
+{
+    matrix shadowMatrix;
+};
+
 Texture2D diffuseMap : register(t0);
 Texture2D specularMap : register(t1);
 Texture2D normalMap : register(t2);
+Texture2D shadowMap : register(t3);
+
 SamplerState texSampler : register(s0);
+SamplerComparisonState shadowSampler : register(s1);
 
 float3 GetWorldNormal(float3 normal, float3 tangent, float3 bitangent, float2 uv)
 {
@@ -54,4 +62,13 @@ float SpecularTerm(float3 n, float3 l, float3 v)
     const float specularPower = 128;
     float3 h = normalize(l + v);
     return pow(saturate(dot(h, n)), specularPower);
+}
+
+float GetShadow(float4 shadowPos)
+{
+    // TODO: PCF, Percentage Closer Filtering
+    shadowPos.xyz /= shadowPos.w;
+    float depth = shadowPos.z;
+    float2 uv = shadowPos.xy;
+    return shadowMap.SampleCmpLevelZero(shadowSampler, uv, depth).r;
 }

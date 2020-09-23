@@ -15,12 +15,12 @@ public:
 		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 		samplerDesc.MaxAnisotropy = D3D11_REQ_MAXANISOTROPY;
 
-		GetDevice(graphics)->CreateSamplerState(&samplerDesc, &pSampler);
+		GetDevice(graphics)->CreateSamplerState(&samplerDesc, &pSamplerState);
 	}
 
 	void Bind(Graphics& graphics) noexcept override
 	{
-		GetContext(graphics)->PSSetSamplers(slot, 1, pSampler.GetAddressOf());
+		GetContext(graphics)->PSSetSamplers(slot, 1, pSamplerState.GetAddressOf());
 	}
 
 	static std::string GetUID(UINT slot)
@@ -32,5 +32,5 @@ public:
 
 private:
 	UINT slot;
-	ComPtr<ID3D11SamplerState> pSampler;
+	ComPtr<ID3D11SamplerState> pSamplerState;
 };

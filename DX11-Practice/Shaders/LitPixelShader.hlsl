@@ -9,6 +9,7 @@ struct PSIn
     float4 tangent : Tangent;
     float4 bitangent : Bitangent;
     float4 worldPos : WorldPos;
+    float4 shadowPos : ShadowPos;
     float2 uv : Texcoord;
 };
 
@@ -25,6 +26,12 @@ float4 main(PSIn input, uint id : SV_PrimitiveID) : SV_TARGET
     for (int idx = 0; idx < lightNumber; idx++)
     {
         Light light = GetLightData(lights[idx], input.worldPos.xyz);
+        if (lights[idx].position.w == 0)
+        {
+            float shadow = GetShadow(input.shadowPos);
+            light.color *= shadow;
+        }
+        
         float nl = saturate(dot(n, light.direction));
         c += ambient * diffColor;
         c += light.color * nl * (diffColor + specColor * SpecularTerm(n, light.direction, v));

@@ -1,4 +1,5 @@
 #include "Cbuffers.hlsli"
+#include "BlinnPhongLighting.hlsli"
 
 struct VSIn
 {
@@ -17,21 +18,23 @@ struct VSOut
     float4 tangent : Tangent;
     float4 bitangent : Bitangent;
     float4 worldPos : WorldPos;
+    float4 shadowPos : ShadowPos;
     float2 uv : Texcoord;
 };
 
 VSOut main(VSIn input)
 {
     matrix matrix_VP = mul(cameraProject, cameraView);
-    matrix matrix_MVP = mul(matrix_VP, transform);
-
+    float4 worldPos = mul(transform, float4(input.pos, 1));
+    
     VSOut o;
-    o.position = mul(matrix_MVP, float4(input.pos, 1));
+    o.position = mul(matrix_VP, worldPos);
     o.color = float4(1, 1, 1, 1);
     o.normal = float4(input.normal, 0);
     o.tangent = float4(input.tangent, 0);
     o.bitangent = float4(input.bitangent, 0);
-    o.worldPos = mul(transform, float4(input.pos, 1));
+    o.worldPos = worldPos;
+    o.shadowPos = mul(shadowMatrix, o.worldPos);
     o.uv = input.texcoord;
     return o;
 }

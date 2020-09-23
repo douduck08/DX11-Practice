@@ -12,6 +12,7 @@ public:
 	Camera(Graphics& graphics, float fovY, float aspectRatio, float nearZ, float farZ);
 	void Bind(Graphics& graphics);
 	void SetCameraView(float originX, float originY, float originZ, float radius, float pitch, float yaw, float roll);
+	DirectX::XMFLOAT3 GetPosition();
 
 private:
 	void SetCameraView();

@@ -16,7 +16,6 @@ Scene::Scene(Graphics& graphics)
 	pFrameConstantBuffer = std::make_unique<PerFrameConstantBuffer>(graphics);
 	pLightBuffer = std::make_unique<LightConstantBuffer>(graphics);
 
-	pDepthBuffer = std::make_unique<DepthStencilBuffer>(graphics, graphics.GetWidth(), graphics.GetHeight());
 	pDefaultState = std::make_unique<BlendState>(graphics, BlendState::Mode::Default);
 	pZeroState = std::make_unique<BlendState>(graphics, BlendState::Mode::MaskZero);
 	pLessWriteState = std::make_unique<DepthStencilState>(graphics, DepthStencilState::Mode::LessWrite);
@@ -25,8 +24,29 @@ Scene::Scene(Graphics& graphics)
 
 void Scene::Draw(Graphics& graphics)
 {
-	// recaculate and update frame data
+	// recaculate transform
 	pRootNode->RecalculateTransform(DirectX::XMMatrixIdentity());
+
+	// render shadowmap
+	auto& mainLight = pLights[0]; // test code
+	if (mainLight->IsCastingShadow())
+	{
+		mainLight->SetShadowMapAsRenderTarget(graphics);
+		mainLight->ClearShadowMap(graphics);
+		mainLight->CaculateShadowData(pCamera.get());
+		mainLight->BindShadowData(graphics);
+
+		pZeroState->Bind(graphics);
+		pLessWriteState->Bind(graphics);
+		for (auto& m : pModels)
+		{
+			m->Draw(graphics, true);
+		}
+
+		//mainLight->BindShadowMap(graphics);
+	}
+
+	// update frame data
 	pCamera->Bind(graphics);
 
 	pFrameConstantBuffer->SetAmbientColor(ambientColor[0], ambientColor[1], ambientColor[2]);
@@ -36,9 +56,8 @@ void Scene::Draw(Graphics& graphics)
 	pLightBuffer->Bind(graphics);
 
 	// clear buffers
-	graphics.SetColorBufferAsRenderTarget(pDepthBuffer->Get());
-	graphics.ClearColorBuffer(backcolor[0], backcolor[1], backcolor[2]);
-	pDepthBuffer->Clear(graphics);
+	graphics.SetRenderTarget();
+	graphics.ClearBuffer(backcolor[0], backcolor[1], backcolor[2]);
 	
 	// draw depth
 	pZeroState->Bind(graphics);
@@ -49,6 +68,7 @@ void Scene::Draw(Graphics& graphics)
 	}
 
 	// shading
+	mainLight->BindShadowMap(graphics);
 	pDefaultState->Bind(graphics);
 	pEqualState->Bind(graphics);
 	for (auto& m : pModels)

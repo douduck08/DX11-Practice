@@ -23,8 +23,8 @@ public:
 
 	void BeginFrame();
 	void EndFrame();
-	void SetColorBufferAsRenderTarget(ID3D11DepthStencilView* depth);
-	void ClearColorBuffer(float r, float g, float b);
+	void SetRenderTarget();
+	void ClearBuffer(float r, float g, float b, bool clearColor = true, bool clearDepth = true);
 	void DrawIndexed(UINT indexCount, UINT startIndexLocation = 0u, INT baseVertexLocation = 0u);
 
 private:
@@ -34,4 +34,6 @@ private:
 	ComPtr<IDXGISwapChain> pSwap;
 	ComPtr<ID3D11DeviceContext> pContext;
 	ComPtr<ID3D11RenderTargetView> pTarget;
+	ComPtr<ID3D11Texture2D> pDepthStencil;
+	ComPtr<ID3D11DepthStencilView> pDepthStencilView;
 };

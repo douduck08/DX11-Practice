@@ -251,11 +251,11 @@
     <ClInclude Include="BlendState.h">
       <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
-    <ClInclude Include="DepthStencilBuffer.h">
-      <Filter>DuEngine\Bindable</Filter>
-    </ClInclude>
     <ClInclude Include="PerFrameConstantBuffer.h">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>DuEngine\Bindable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

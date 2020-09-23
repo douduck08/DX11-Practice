@@ -183,7 +183,7 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="AssimpKit.h" />
     <ClInclude Include="BlendState.h" />
-    <ClInclude Include="DepthStencilBuffer.h" />
+    <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="DepthStencilState.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="Bindable.h" />

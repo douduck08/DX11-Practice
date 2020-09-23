@@ -5,7 +5,7 @@
 #include "Light.h"
 #include "Model.h"
 #include "PerFrameConstantBuffer.h"
-#include "DepthStencilBuffer.h"
+#include "LightConstantBuffer.h"
 #include "BlendState.h"
 #include "DepthStencilState.h"
 
@@ -36,7 +36,6 @@ private:
 	std::unique_ptr<PerFrameConstantBuffer> pFrameConstantBuffer = nullptr;
 	std::unique_ptr<LightConstantBuffer> pLightBuffer = nullptr;
 
-	std::unique_ptr<DepthStencilBuffer> pDepthBuffer;
 	std::unique_ptr<BlendState> pDefaultState;
 	std::unique_ptr<BlendState> pZeroState;
 	std::unique_ptr<DepthStencilState> pLessWriteState;

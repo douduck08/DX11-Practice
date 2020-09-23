@@ -48,15 +48,26 @@ Graphics::Graphics(HWND hWnd, UINT width, UINT height)
 	pSwap->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
 	pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &pTarget);
 
-	// configure viewport
-	D3D11_VIEWPORT vp;
-	vp.Width = width;
-	vp.Height = height;
-	vp.MinDepth = 0;
-	vp.MaxDepth = 1;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
-	pContext->RSSetViewports(1u, &vp);
+	// create depth stensil texture
+	ComPtr<ID3D11Texture2D> pDepthStencil;
+	D3D11_TEXTURE2D_DESC depthDesc = {};
+	depthDesc.Width = width;
+	depthDesc.Height = height;
+	depthDesc.MipLevels = 1u;
+	depthDesc.ArraySize = 1u;
+	depthDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthDesc.SampleDesc.Count = 1u;
+	depthDesc.SampleDesc.Quality = 0u;
+	depthDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	pDevice->CreateTexture2D(&depthDesc, nullptr, &pDepthStencil);
+
+	// create view of depth stensil texture
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Texture2D.MipSlice = 0u;
+	pDevice->CreateDepthStencilView(pDepthStencil.Get(), &dsvDesc, &pDepthStencilView);
 
 	// init imgui d3d impl
 	ImGui_ImplDX11_Init(pDevice.Get(), pContext.Get());
@@ -102,15 +113,32 @@ void Graphics::EndFrame()
 	pSwap->Present(1u, 0u);
 }
 
-void Graphics::SetColorBufferAsRenderTarget(ID3D11DepthStencilView* depth)
+void Graphics::SetRenderTarget()
 {
-	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), depth);
+	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDepthStencilView.Get());
+
+	// configure viewport
+	D3D11_VIEWPORT vp;
+	vp.Width = static_cast<FLOAT>(width);
+	vp.Height = static_cast<FLOAT>(height);
+	vp.MinDepth = 0;
+	vp.MaxDepth = 1;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	pContext->RSSetViewports(1u, &vp);
 }
 
-void Graphics::ClearColorBuffer(float r, float g, float b)
+void Graphics::ClearBuffer(float r, float g, float b, bool clearColor, bool clearDepth)
 {
-	const float backcolor[] = { r,g,b };
-	pContext->ClearRenderTargetView(pTarget.Get(), backcolor);
+	if (clearColor)
+	{
+		const float backcolor[] = { r,g,b };
+		pContext->ClearRenderTargetView(pTarget.Get(), backcolor);
+	}
+	if (clearDepth)
+	{
+		pContext->ClearDepthStencilView(pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+	}
 }
 
 void Graphics::DrawIndexed(UINT indexCount, UINT startIndexLocation, INT baseVertexLocation)
