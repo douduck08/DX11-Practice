@@ -28,7 +28,7 @@ float4 main(PSIn input, uint id : SV_PrimitiveID) : SV_TARGET
         Light light = GetLightData(lights[idx], input.worldPos.xyz);
         if (lights[idx].position.w == 0)
         {
-            float shadow = GetShadow(input.shadowPos);
+            float shadow = GetShadowPCF(input.shadowPos);
             light.color *= shadow;
         }
         

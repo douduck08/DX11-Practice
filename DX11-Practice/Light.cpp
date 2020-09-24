@@ -7,9 +7,15 @@ Light::Light(Graphics& graphics, LightType type, float r, float g, float b, floa
 {
 	if (castShadow)
 	{
+		const auto size = 2048u;
+		shadowData.shadowMapSize.x = static_cast<float>(size);
+		shadowData.shadowMapSize.y = static_cast<float>(size);
+		shadowData.shadowMapSize.z = 1.0f / shadowData.shadowMapSize.x;
+		shadowData.shadowMapSize.w = 1.0f / shadowData.shadowMapSize.y;
+
 		pCameraBuffer = std::make_unique<CameraConstantBuffer>(graphics);
 		pShadowDataBuffer = std::make_unique<SharedConstantBuffer<ShadowData>>(graphics, SHADOW_CBUFFER_SLOT);
-		pShadowMap = std::make_unique<ShadowMap>(graphics, 2048u, 2048u, 3u);
+		pShadowMap = std::make_unique<ShadowMap>(graphics, size, size, 3u);
 	}
 }
 

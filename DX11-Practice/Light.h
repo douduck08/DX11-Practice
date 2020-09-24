@@ -38,6 +38,7 @@ private:
 	struct ShadowData
 	{
 		DirectX::XMFLOAT4X4 shadowMatrix;
+		DirectX::XMFLOAT4 shadowMapSize;
 	};
 
 	ShadowData shadowData;

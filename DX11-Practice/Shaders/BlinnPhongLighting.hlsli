@@ -8,6 +8,7 @@ cbuffer PreMaterialBuffer : register(b4)
 cbuffer ShadowBuffer : register(b5)
 {
     matrix shadowMatrix;
+    float4 shadowMapSize;
 };
 
 Texture2D diffuseMap : register(t0);
@@ -66,9 +67,25 @@ float SpecularTerm(float3 n, float3 l, float3 v)
 
 float GetShadow(float4 shadowPos)
 {
-    // TODO: PCF, Percentage Closer Filtering
     shadowPos.xyz /= shadowPos.w;
-    float depth = shadowPos.z;
-    float2 uv = shadowPos.xy;
-    return shadowMap.SampleCmpLevelZero(shadowSampler, uv, depth).r;
+    return shadowMap.SampleCmpLevelZero(shadowSampler, shadowPos.xy, shadowPos.z).r;
+}
+
+float GetShadowPCF(float4 shadowPos)
+{
+    const float2 offset = shadowMapSize.zw;
+    const float2 offsets[9] =
+    {
+        float2(-offset.x, -offset.y), float2(0.0f, -offset.y), float2(offset.x, -offset.y),
+        float2(-offset.x, 0.0f),      float2(0.0f, 0.0f),      float2(offset.x, 0.0f),
+        float2(-offset.x, offset.y),  float2(0.0f, offset.y),  float2(offset.x, offset.y)
+    };
+
+    shadowPos.xyz /= shadowPos.w;
+    float shadow = 0;
+    for (int i = 0; i < 9; i++)
+    {
+        shadow += shadowMap.SampleCmpLevelZero(shadowSampler, shadowPos.xy + offsets[i], shadowPos.z).r;
+    }
+    return shadow / 9.0f;
 }
