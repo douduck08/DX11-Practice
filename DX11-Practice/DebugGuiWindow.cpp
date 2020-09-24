@@ -4,28 +4,18 @@
 #include "Camera.h"
 #include "Light.h"
 #include "imgui/imgui.h"
-#include <stack>
 
-void DebugGuiWindow::ShowSceneHierarchy(Scene& scene)
+void DebugGuiWindow::Show(Scene& scene)
 {
 	static SceneNode* pSelectedNode;
+	ShowSceneHierarchy(scene, pSelectedNode);
+	ShowSceneProperties(scene, pSelectedNode);
+}
 
+void DebugGuiWindow::ShowSceneHierarchy(Scene& scene, SceneNode*& pSelectedNode)
+{
 	ImGui::Begin("Hierarchy");
 	ShowSceneNode(scene.pRootNode.get(), pSelectedNode);
-	ImGui::End();
-
-	ImGui::Begin("Properties");
-	ImGui::Text("Scene Properties");
-	ImGui::ColorEdit3("Backcolor", scene.backcolor);
-	ImGui::ColorEdit3("Ambient Color", scene.ambientColor);
-
-	ImGui::Text("Node Properties");
-	if (pSelectedNode != nullptr)
-	{
-		ImGui::InputFloat3("Position", &(pSelectedNode->position.x));
-		ImGui::InputFloat3("Rotation", &(pSelectedNode->rotation.x));
-		ImGui::InputFloat3("Scale", &(pSelectedNode->scale.x));
-	}
 	ImGui::End();
 }
 
@@ -55,34 +45,65 @@ void DebugGuiWindow::ShowSceneNode(SceneNode* node, SceneNode*& pSelectedNode)
 	}
 }
 
-void DebugGuiWindow::ShowCameraWindow(Camera& camera)
+void DebugGuiWindow::ShowSceneProperties(Scene& scene, SceneNode*& pSelectedNode)
 {
+	ImGui::Begin("Properties");
+	{
+		ImGui::Text("Scene");
+		ImGui::ColorEdit3("Backcolor", scene.backcolor);
+		ImGui::ColorEdit3("Ambient Color", scene.ambientColor);
+	}
 	
+	{
+		static int selectedLight = -1;
+		const auto lightName = selectedLight == -1 ? "Select Light.." : scene.pLights[selectedLight]->pNode->name;
+		
+		ImGui::Separator();
+		ImGui::Text("Light");
+		if (ImGui::Button(lightName.c_str()))
+		{
+			ImGui::OpenPopup("light_popup");
+		}
+
+		if (ImGui::BeginPopup("light_popup"))
+		{
+			for (int i = 0; i < scene.pLights.size(); i++)
+			{
+				if (ImGui::Selectable(scene.pLights[i]->pNode->name.c_str()))
+				{
+					selectedLight = i;
+				}
+			}
+			ImGui::EndPopup();
+		}
+
+		if (selectedLight != -1)
+		{
+			ImGui::ColorEdit3("Color", scene.pLights[selectedLight]->lightColor);
+			ImGui::SliderFloat("Intensity", &scene.pLights[selectedLight]->intensity, 0, 5);
+		}
+		else
+		{
+			ImGui::NewLine();
+			ImGui::NewLine();
+		}
+	}
+
+	{
+		ImGui::Separator();
+		ImGui::Text("Selected Node");
+		if (pSelectedNode != nullptr)
+		{
+			ImGui::InputFloat3("Position", &(pSelectedNode->position.x));
+			ImGui::InputFloat3("Rotation", &(pSelectedNode->rotation.x));
+			ImGui::InputFloat3("Scale", &(pSelectedNode->scale.x));
+		}
+		else
+		{
+			ImGui::NewLine();
+			ImGui::NewLine();
+			ImGui::NewLine();
+		}
+	}
+	ImGui::End();
 }
-
-void DebugGuiWindow::ShowLightWindow(Light& light)
-{
-	/*
-	ImGui::Text("Light");
-	auto isPoint = light.type == LightType::Point;
-	if (ImGui::Checkbox("Point", &isPoint))
-	{
-		light.SetLightType(isPoint ? LightType::Point : LightType::Directional);
-	}
-	if (ImGui::ColorEdit3("Color", light.lightColor))
-	{
-		light.pLightBuffer->SetColor(light.lightColor[0], light.lightColor[1], light.lightColor[2]);
-	}
-	if (ImGui::InputFloat3("Position", light.lightPosition))
-	{
-		light.SetPosition(light.lightPosition[0], light.lightPosition[1], light.lightPosition[2]);
-	}
-
-	if (ImGui::InputFloat3("Rotation", light.lightRotation))
-	{
-		light.SetRotation(light.lightRotation[0], light.lightRotation[1], light.lightRotation[2]);
-	}
-	*/
-}
-
-

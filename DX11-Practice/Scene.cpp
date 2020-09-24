@@ -11,7 +11,7 @@ Scene::Scene(Graphics& graphics)
 	pCamera->SetAttachNode(pCameraNode);
 
 	pCameraNode->SetPosition(-100, 10, 0);
-	pCameraNode->SetRotation(0, 90, 0);
+	pCameraNode->SetRotation(-10, 90, 0);
 
 	pFrameConstantBuffer = std::make_unique<PerFrameConstantBuffer>(graphics);
 	pLightBuffer = std::make_unique<LightConstantBuffer>(graphics);

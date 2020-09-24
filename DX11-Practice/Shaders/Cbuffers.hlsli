@@ -32,7 +32,7 @@ Light GetLightData(LightParam lightParam, float3 worldPos)
     {
         // directional light
         l.direction = lightParam.position.xyz;
-        l.color = lightParam.color.rgb;
+        l.color = lightParam.color.rgb * lightParam.color.a;
     }
     
     return l;

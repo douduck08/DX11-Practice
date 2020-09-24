@@ -1,27 +1,29 @@
 #include "Model.h"
 #include "SlotConfig.h"
 
-void Model::SetGeometry(Graphics& graphics, Geometry& geometry)
-{
-	auto pMesh = ResourceManager::Resolve<Mesh>(graphics, "Cube", geometry.vertices, geometry.indices);
-	AddSharedBind(pMesh);
-	indexCount = pMesh->GetIndexCount();
-	pTransformBuffer = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
-}
+
 
 Model::Model(Graphics& graphics)
 {
 	pTransformBuffer = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
 }
 
-Model::Model(Graphics& graphics, Geometry& geometry)
+Model::Model(Graphics& graphics, const std::string& meshName, Geometry& geometry)
 {
-	SetGeometry(graphics, geometry);
-	AddSharedBind(ResourceManager::Resolve<Material>(
+	pTransformBuffer = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
+	SetGeometry(graphics, meshName, geometry);
+	SetMaterial(ResourceManager::Resolve<Material>(
 		graphics,
-		"SimpleLit",
-		"Shaders/SimpleLitVertexShader.cso", "Shaders/SimpleLitPixelShader.cso"
+		"DefaultLit",
+		"Shaders/LitVertexShader.cso", "Shaders/LitPixelShader.cso"
 	));
+}
+
+void Model::SetGeometry(Graphics& graphics, const std::string& meshName, Geometry& geometry)
+{
+	auto pMesh = ResourceManager::Resolve<Mesh>(graphics, meshName, geometry.vertices, geometry.indices);
+	AddSharedBind(pMesh);
+	indexCount = pMesh->GetIndexCount();
 }
 
 void Model::SetMesh(const std::shared_ptr<Mesh> pMesh)

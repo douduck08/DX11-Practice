@@ -12,7 +12,7 @@ class Model : public SceneObject
 {
 public:
 	Model(Graphics& graphics);
-	Model(Graphics& graphics, Geometry& geometry);
+	Model(Graphics& graphics, const std::string& meshName, Geometry& geometry);
 	~Model() = default;
 	
 	void SetMesh(const std::shared_ptr<Mesh> pMesh);
@@ -20,7 +20,7 @@ public:
 	void Draw(Graphics& graphics, bool depthMode = false);
 
 private:
-	void SetGeometry(Graphics& graphics, Geometry& geometry);
+	void SetGeometry(Graphics& graphics, const std::string& meshName, Geometry& geometry);
 	void AddBind(std::unique_ptr<Bindable> bind);
 	void AddSharedBind(std::shared_ptr<Bindable> bind);
 

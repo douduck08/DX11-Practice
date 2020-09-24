@@ -14,25 +14,17 @@ App::App()
 	std::mt19937 generator(std::random_device{}());
 	std::uniform_real_distribution<float> unif(-5.0, 5.0);
 
-	/*
 	auto cube = Geometry::GenerateCube();
-	auto cubeNode = std::make_unique<SceneNode>("Cubes");
+	auto cubeNode = scene.CreateChildSceneNode("Cubes");
+	cubeNode->SetPosition(0, 50, 0);
+	cubeNode->SetScale(3, 3, 3);
 	for (int i = 0; i < 20; i++) {
-		float x = unif(generator);
-		float y = unif(generator);
-		float z = unif(generator);
+		auto childNode = cubeNode->CreateChild("Cube " + std::to_string(i));
+		childNode->SetPosition(unif(generator), unif(generator), unif(generator));
 
-		auto childNode = std::make_unique<SceneNode>("Cube " + std::to_string(i));
-		childNode->SetPosition(x, y, z);
-
-		auto model = std::make_unique<Model>(win.GetGraphics(), cube);
-		model->AttachToNode(childNode.get());
-		
-		cubeNode->AddChild(std::move(childNode));
-		scene.AddModel(std::move(model));
+		auto model = std::make_unique<Model>(win.GetGraphics(), "Cube", cube);
+		scene.AddModel(childNode, std::move(model));
 	}
-	scene.AddSceneNode(std::move(cubeNode));
-	//*/
 
 	//scene.LoadModelFromFile(win.GetGraphics(), "suzanne", "Models/suzanne.obj");
 	auto suzanneNode = AssimpKit::LoadModelFromFile(win.GetGraphics(), scene, "suzanne", "Models/suzanne.obj");
@@ -74,7 +66,7 @@ void App::DoFrame(float t, float dt)
 
 	// draw
 	scene.Draw(win.GetGraphics());
-	DebugGuiWindow::ShowSceneHierarchy(scene);
+	DebugGuiWindow::Show(scene);
 
 	// present
 	win.GetGraphics().EndFrame();
