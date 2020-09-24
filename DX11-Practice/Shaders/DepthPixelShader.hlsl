@@ -18,6 +18,7 @@ struct PSIn
     float4 tangent : Tangent;
     float4 bitangent : Bitangent;
     float4 worldPos : WorldPos;
+    float4 shadowPos : ShadowPos;
     float2 uv : Texcoord;
 };
 
