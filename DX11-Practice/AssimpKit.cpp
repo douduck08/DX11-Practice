@@ -61,7 +61,8 @@ std::shared_ptr<Mesh> AssimpKit::ParseMesh(Graphics& graphics, const aiMesh& mes
 				{
 					mesh.mVertices[idx].x, mesh.mVertices[idx].y, mesh.mVertices[idx].z,
 					mesh.mNormals[idx].x, mesh.mNormals[idx].y, mesh.mNormals[idx].z,
-					mesh.mTextureCoords[0][idx].x, mesh.mTextureCoords[0][idx].y,
+					//mesh.mTextureCoords[0][idx].x, mesh.mTextureCoords[0][idx].y,
+					0, 0,
 					0, 0, 0,
 					0, 0, 0,
 				}

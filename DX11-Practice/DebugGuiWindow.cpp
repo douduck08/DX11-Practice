@@ -11,10 +11,15 @@ void DebugGuiWindow::ShowSceneHierarchy(Scene& scene)
 	static SceneNode* pSelectedNode;
 
 	ImGui::Begin("Hierarchy");
-	ImGui::Columns(2);
 	ShowSceneNode(scene.pRootNode.get(), pSelectedNode);
+	ImGui::End();
 
-	ImGui::NextColumn();
+	ImGui::Begin("Properties");
+	ImGui::Text("Scene Properties");
+	ImGui::ColorEdit3("Backcolor", scene.backcolor);
+	ImGui::ColorEdit3("Ambient Color", scene.ambientColor);
+
+	ImGui::Text("Node Properties");
 	if (pSelectedNode != nullptr)
 	{
 		ImGui::InputFloat3("Position", &(pSelectedNode->position.x));
@@ -22,12 +27,6 @@ void DebugGuiWindow::ShowSceneHierarchy(Scene& scene)
 		ImGui::InputFloat3("Scale", &(pSelectedNode->scale.x));
 	}
 	ImGui::End();
-
-	ImGui::ColorEdit3("Backcolor", scene.backcolor);
-	ImGui::ColorEdit3("Ambient Color", scene.ambientColor);
-
-	ShowCameraWindow(*scene.pCamera);
-	//ShowLightWindow(*scene.pLight);
 }
 
 void DebugGuiWindow::ShowSceneNode(SceneNode* node, SceneNode*& pSelectedNode)
@@ -58,20 +57,7 @@ void DebugGuiWindow::ShowSceneNode(SceneNode* node, SceneNode*& pSelectedNode)
 
 void DebugGuiWindow::ShowCameraWindow(Camera& camera)
 {
-	const float degree2rad = 3.1415926f / 180.0f;
-	static float radius = 10, pitch = 0, yaw = 0, roll = 0;
-
-	ImGui::Text("Camera");
-	ImGui::SliderFloat("Radius", &radius, 0.1f, 100.0f);
-	ImGui::SliderFloat("Pitch", &pitch, -89.0f, 89.0f);
-	ImGui::SliderFloat("Yaw", &yaw, -180.0f, 180.0f);
-	ImGui::SliderFloat("Roll", &roll, -180.0f, 180.0f);
-	if (ImGui::Button("Reset"))
-	{
-		radius = 10, pitch = 0, yaw = 0, roll = 0;
-	}
-
-	camera.SetCameraView(0, 0, 0, radius, pitch * degree2rad, yaw * degree2rad, roll * degree2rad);
+	
 }
 
 void DebugGuiWindow::ShowLightWindow(Light& light)

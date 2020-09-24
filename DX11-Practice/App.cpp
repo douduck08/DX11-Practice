@@ -35,12 +35,17 @@ App::App()
 	//*/
 
 	//scene.LoadModelFromFile(win.GetGraphics(), "suzanne", "Models/suzanne.obj");
+	auto suzanneNode = AssimpKit::LoadModelFromFile(win.GetGraphics(), scene, "suzanne", "Models/suzanne.obj");
+	suzanneNode->SetPosition(0, 20, 0);
+	suzanneNode->SetRotation(0, 90, 0);
+	suzanneNode->SetScale(10, 10, 10);
+
 	//scene.LoadModelFromFile(win.GetGraphics(), "sponza", "Models/Sponza/sponza.obj");
-	auto rootNode = AssimpKit::LoadModelFromFile(win.GetGraphics(), scene, "sponza", "Models/Sponza/sponza.obj");
-	rootNode->SetScale(0.1, 0.1, 0.1);
+	auto sponzaNode = AssimpKit::LoadModelFromFile(win.GetGraphics(), scene, "sponza", "Models/Sponza/sponza.obj");
+	sponzaNode->SetScale(0.1, 0.1, 0.1);
 
 	auto pNode = scene.CreateChildSceneNode("Lights");
-	auto pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Directional, 0.8f, 0.8f, 0.8f, 0.8f, true);
+	auto pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Directional, 1.0f, 1.0f, 1.0f, 0.8f, true);
 	auto pChild = pNode->CreateChild("Directional");
 	pChild->SetRotation(-75, -50, 0);
 	scene.AddLight(pChild, std::move(pLight));
