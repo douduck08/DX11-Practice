@@ -6,13 +6,6 @@ Scene::Scene(Graphics& graphics)
 {
 	pRootNode = std::make_unique<SceneNode>("Root");
 
-	auto pCameraNode = pRootNode->CreateChild("Camera");
-	pCamera = std::make_unique<Camera>(graphics, 0.3f * 3.1415926f, 1280.f / 720.f, 0.1f, 1000);
-	pCamera->SetAttachNode(pCameraNode);
-
-	pCameraNode->SetPosition(-100, 10, 0);
-	pCameraNode->SetRotation(-10, 90, 0);
-
 	pFrameConstantBuffer = std::make_unique<PerFrameConstantBuffer>(graphics);
 	pLightBuffer = std::make_unique<LightConstantBuffer>(graphics);
 
@@ -35,7 +28,7 @@ void Scene::Draw(Graphics& graphics)
 	{
 		mainLight->SetShadowMapAsRenderTarget(graphics);
 		mainLight->ClearShadowMap(graphics);
-		mainLight->CaculateShadowData(pCamera.get());
+		mainLight->CaculateShadowData(pMainCamera.get());
 		mainLight->BindShadowData(graphics);
 
 		pZeroMaskState->Bind(graphics);
@@ -51,7 +44,7 @@ void Scene::Draw(Graphics& graphics)
 	}
 
 	// update frame data
-	pCamera->Bind(graphics);
+	pMainCamera->Bind(graphics);
 
 	pFrameConstantBuffer->SetAmbientColor(ambientColor[0], ambientColor[1], ambientColor[2]);
 	pFrameConstantBuffer->Bind(graphics);
@@ -82,26 +75,73 @@ void Scene::Draw(Graphics& graphics)
 	}
 }
 
-void Scene::AddModel(std::shared_ptr<SceneNode> pNode, std::unique_ptr<Model> pModel)
+std::shared_ptr<SceneNode> Scene::GetRootNode()
 {
-	pModel->SetAttachNode(pNode);
-	pModels.push_back(std::move(pModel));
+	return pRootNode;
 }
 
-void Scene::AddLight(std::shared_ptr<SceneNode> pNode, std::unique_ptr<Light> pLight)
-{
-	pLight->SetAttachNode(pNode);
-	pLights.push_back(std::move(pLight));
-}
-
-std::shared_ptr<SceneNode> Scene::CreateChildSceneNode(const std::string& name)
-{
-	return pRootNode->CreateChild(name);
-}
-
-void Scene::RecalculateId()
+void Scene::RecalculateNodeId()
 {
 	pRootNode->RecalculateId(0);
+}
+
+std::shared_ptr<Camera> Scene::CreateCamera(Graphics& graphics, const std::string& name)
+{
+	auto pCameraNode = pRootNode->CreateChildNode(name);
+	auto pCamera = std::make_shared<Camera>(graphics, 0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 1000);
+	pCamera->SetAttachNode(pCameraNode);
+	pCameras.push_back(pCamera);
+	return pCamera;
+}
+
+std::shared_ptr<Camera> Scene::CreateCamera(Graphics& graphics, std::shared_ptr<SceneNode> pParentNode, const std::string& name)
+{
+	auto pCameraNode = pParentNode->CreateChildNode(name);
+	auto pCamera = std::make_shared<Camera>(graphics, 0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 1000);
+	pCamera->SetAttachNode(pCameraNode);
+	pCameras.push_back(pCamera);
+	return pCamera;
+}
+
+void Scene::SetMainCamera(std::shared_ptr<Camera> pCamera)
+{
+	pMainCamera = pCamera;
+}
+
+std::shared_ptr<Light> Scene::CreateLight(Graphics& graphics, const std::string& name)
+{
+	auto pLightNode = pRootNode->CreateChildNode(name);
+	auto pLight = std::make_shared<Light>(graphics, LightType::Point, 1.0f, 1.0f, 1.0f, 1.0f, false);
+	pLight->SetAttachNode(pLightNode);
+	pLights.push_back(pLight);
+	return pLight;
+}
+
+std::shared_ptr<Light> Scene::CreateLight(Graphics& graphics, std::shared_ptr<SceneNode> pParentNode, const std::string& name)
+{
+	auto pLightNode = pParentNode->CreateChildNode(name);
+	auto pLight = std::make_shared<Light>(graphics, LightType::Point, 1.0f, 1.0f, 1.0f, 1.0f, false);
+	pLight->SetAttachNode(pLightNode);
+	pLights.push_back(pLight);
+	return pLight;
+}
+
+std::shared_ptr<Model> Scene::CreateModel(Graphics& graphics, const std::string& name)
+{
+	auto pModelNode = pRootNode->CreateChildNode(name);
+	auto pModel = std::make_shared<Model>(graphics);
+	pModel->SetAttachNode(pModelNode);
+	pModels.push_back(pModel);
+	return pModel;
+}
+
+std::shared_ptr<Model> Scene::CreateModel(Graphics& graphics, std::shared_ptr<SceneNode> pParentNode, const std::string& name)
+{
+	auto pModelNode = pParentNode->CreateChildNode(name);
+	auto pModel = std::make_shared<Model>(graphics);
+	pModel->SetAttachNode(pModelNode);
+	pModels.push_back(pModel);
+	return pModel;
 }
 
 void Scene::UpdateLightConstantBuffer(Graphics& graphics)

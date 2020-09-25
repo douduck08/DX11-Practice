@@ -3,9 +3,18 @@
 #include <DirectXMath.h>
 
 Light::Light(Graphics& graphics, LightType type, float r, float g, float b, float intensity, bool castShadow)
-	: type(type), lightColor{ r, g, b }, intensity(intensity), castShadow(castShadow), shadowData()
+	: type(type), lightColor{ r, g, b }, intensity(intensity)
+	, castShadow(), shadowData()
 {
-	if (castShadow)
+	SetLightType(graphics, type, castShadow);
+}
+
+void Light::SetLightType(Graphics& graphics, LightType type, bool castShadow)
+{
+	this->castShadow = castShadow && type == LightType::Directional;
+	this->type = type;
+
+	if (this->castShadow && pCameraBuffer == nullptr)
 	{
 		const auto size = 2048u;
 		shadowData.shadowMapSize.x = static_cast<float>(size);
@@ -17,11 +26,6 @@ Light::Light(Graphics& graphics, LightType type, float r, float g, float b, floa
 		pShadowDataBuffer = std::make_unique<SharedConstantBuffer<ShadowData>>(graphics, SHADOW_CBUFFER_SLOT);
 		pShadowMap = std::make_unique<ShadowMap>(graphics, size, size, 3u);
 	}
-}
-
-void Light::SetLightType(LightType type)
-{
-	this->type = type;
 }
 
 void Light::SetColor(float r, float g, float b)

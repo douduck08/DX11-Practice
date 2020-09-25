@@ -1,22 +1,9 @@
 #include "Model.h"
 #include "SlotConfig.h"
 
-
-
 Model::Model(Graphics& graphics)
 {
 	pTransformBuffer = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
-}
-
-Model::Model(Graphics& graphics, const std::string& meshName, Geometry& geometry)
-{
-	pTransformBuffer = std::make_unique<VertexConstantBuffer<ModelTransform>>(graphics, TRANSFORM_CBUFFER_SLOT);
-	SetGeometry(graphics, meshName, geometry);
-	SetMaterial(ResourceManager::Resolve<Material>(
-		graphics,
-		"DefaultLit",
-		"Shaders/LitVertexShader.cso", "Shaders/LitPixelShader.cso"
-	));
 }
 
 void Model::SetGeometry(Graphics& graphics, const std::string& meshName, Geometry& geometry)
@@ -24,6 +11,12 @@ void Model::SetGeometry(Graphics& graphics, const std::string& meshName, Geometr
 	auto pMesh = ResourceManager::Resolve<Mesh>(graphics, meshName, geometry.vertices, geometry.indices);
 	AddSharedBind(pMesh);
 	indexCount = pMesh->GetIndexCount();
+
+	SetMaterial(ResourceManager::Resolve<Material>(
+		graphics,
+		"DefaultLit",
+		"Shaders/LitVertexShader.cso", "Shaders/LitPixelShader.cso"
+	));
 }
 
 void Model::SetMesh(const std::shared_ptr<Mesh> pMesh)

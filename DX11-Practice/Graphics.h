@@ -20,6 +20,7 @@ public:
 	ID3D11DeviceContext* GetContext();
 	UINT GetWidth();
 	UINT GetHeight();
+	float GetAspectRatio();
 
 	void BeginFrame();
 	void EndFrame();

@@ -16,7 +16,7 @@ std::shared_ptr<SceneNode> SceneNode::GetPointer()
 	return shared_from_this();
 }
 
-std::shared_ptr<SceneNode> SceneNode::CreateChild(const std::string& name)
+std::shared_ptr<SceneNode> SceneNode::CreateChildNode(const std::string& name)
 {
 	auto pChild = std::make_shared<SceneNode>(name);
 	AddChild(pChild);

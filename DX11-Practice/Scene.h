@@ -17,10 +17,18 @@ class Scene
 public:
 	Scene(Graphics& graphics);
 	void Draw(Graphics& graphics);
-	void AddModel(std::shared_ptr<SceneNode> pNode, std::unique_ptr<Model> pModel);
-	void AddLight(std::shared_ptr<SceneNode> pNode, std::unique_ptr<Light> pLight);
-	std::shared_ptr<SceneNode> CreateChildSceneNode(const std::string& name);
-	void RecalculateId();
+	std::shared_ptr<SceneNode> GetRootNode();
+	void RecalculateNodeId();
+
+	std::shared_ptr<Camera> CreateCamera(Graphics& graphics, const std::string& name);
+	std::shared_ptr<Camera> CreateCamera(Graphics& graphics, std::shared_ptr<SceneNode> pParentNode, const std::string& name);
+	void SetMainCamera(std::shared_ptr<Camera> pCamera);
+
+	std::shared_ptr<Light> CreateLight(Graphics& graphics, const std::string& name);
+	std::shared_ptr<Light> CreateLight(Graphics& graphics, std::shared_ptr<SceneNode> pParentNode, const std::string& name);
+
+	std::shared_ptr<Model> CreateModel(Graphics& graphics, const std::string& name);
+	std::shared_ptr<Model> CreateModel(Graphics& graphics, std::shared_ptr<SceneNode> pParentNode, const std::string& name);
 
 private:
 	void UpdateLightConstantBuffer(Graphics& graphics);
@@ -29,10 +37,12 @@ private:
 	float backcolor[3];
 	float ambientColor[3];
 
+	std::shared_ptr<Camera> pMainCamera;
 	std::shared_ptr<SceneNode> pRootNode;
-	std::unique_ptr<Camera> pCamera;
-	std::vector<std::unique_ptr<Model>> pModels;
-	std::vector<std::unique_ptr<Light>> pLights;
+
+	std::vector<std::shared_ptr<Camera>> pCameras;
+	std::vector<std::shared_ptr<Light>> pLights;
+	std::vector<std::shared_ptr<Model>> pModels;
 
 	std::unique_ptr<PerFrameConstantBuffer> pFrameConstantBuffer = nullptr;
 	std::unique_ptr<LightConstantBuffer> pLightBuffer = nullptr;

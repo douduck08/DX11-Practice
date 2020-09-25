@@ -17,18 +17,15 @@ std::shared_ptr<SceneNode> AssimpKit::LoadModelFromFile(Graphics& graphics, Scen
 
 	const std::string rootPath = std::filesystem::path(filePath).parent_path().string() + "\\";
 	if (pScene != nullptr) {
-		auto pParentNode = targetScene.CreateChildSceneNode(name);
+		auto pParentNode = targetScene.GetRootNode()->CreateChildNode(name);
 		for (unsigned int i = 0; i < pScene->mNumMeshes; i++)
 		{
 			const auto& mesh = pScene->mMeshes[i];
 			const auto& material = pScene->mMaterials[mesh->mMaterialIndex];
 			
-			auto model = std::make_unique<Model>(graphics);
-			model->SetMesh(AssimpKit::ParseMesh(graphics, *mesh));
-			model->SetMaterial(AssimpKit::ParseMaterial(graphics, *material, rootPath));
-
-			auto pChildNode = pParentNode->CreateChild(mesh->mName.C_Str());
-			targetScene.AddModel(pChildNode, std::move(model));
+			auto pModel = targetScene.CreateModel(graphics, pParentNode, mesh->mName.C_Str());
+			pModel->SetMesh(AssimpKit::ParseMesh(graphics, *mesh));
+			pModel->SetMaterial(AssimpKit::ParseMaterial(graphics, *material, rootPath));
 		}
 
 		return pParentNode;

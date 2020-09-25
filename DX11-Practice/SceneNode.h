@@ -12,7 +12,7 @@ class SceneNode : public std::enable_shared_from_this<SceneNode>
 public:
 	SceneNode(const std::string& name);
 	std::shared_ptr<SceneNode> GetPointer();
-	std::shared_ptr<SceneNode> CreateChild(const std::string& name);
+	std::shared_ptr<SceneNode> CreateChildNode(const std::string& name);
 
 	void RecalculateTransform(DirectX::FXMMATRIX parantTransform);
 	void SetPosition(float x, float y, float z);

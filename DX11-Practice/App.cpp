@@ -14,16 +14,23 @@ App::App()
 	std::mt19937 generator(std::random_device{}());
 	std::uniform_real_distribution<float> unif(-5.0, 5.0);
 
-	auto cube = Geometry::GenerateCube();
-	auto cubeNode = scene.CreateChildSceneNode("Cubes");
-	cubeNode->SetPosition(0, 50, 0);
-	cubeNode->SetScale(3, 3, 3);
-	for (int i = 0; i < 20; i++) {
-		auto childNode = cubeNode->CreateChild("Cube " + std::to_string(i));
-		childNode->SetPosition(unif(generator), unif(generator), unif(generator));
+	auto pMainCamera = scene.CreateCamera(win.GetGraphics(), "MainCamera");
+	scene.SetMainCamera(pMainCamera);
+	pMainCamera->SetPosition(-100, 10, 0);
+	pMainCamera->SetRotation(-10, 90, 0);
 
-		auto model = std::make_unique<Model>(win.GetGraphics(), "Cube", cube);
-		scene.AddModel(childNode, std::move(model));
+	auto pCamera = scene.CreateCamera(win.GetGraphics(), "Camera 2");
+	pCamera->SetPosition(0, 200, 0);
+	pCamera->SetRotation(90, 00, 0);
+	
+	auto cube = Geometry::GenerateCube();
+	auto pCubeNode = scene.GetRootNode()->CreateChildNode("Cubes");
+	pCubeNode->SetPosition(0, 50, 0);
+	pCubeNode->SetScale(3, 3, 3);
+	for (int i = 0; i < 20; i++) {
+		auto pModel = scene.CreateModel(win.GetGraphics(), pCubeNode, "Cube " + std::to_string(i));
+		pModel->SetGeometry(win.GetGraphics(), "Cube", cube);
+		pModel->SetPosition(unif(generator), unif(generator), unif(generator));
 	}
 
 	//scene.LoadModelFromFile(win.GetGraphics(), "suzanne", "Models/suzanne.obj");
@@ -36,28 +43,28 @@ App::App()
 	auto sponzaNode = AssimpKit::LoadModelFromFile(win.GetGraphics(), scene, "sponza", "Models/Sponza/sponza.obj");
 	sponzaNode->SetScale(0.1, 0.1, 0.1);
 
-	auto pNode = scene.CreateChildSceneNode("Lights");
-	auto pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Directional, 1.0f, 1.0f, 1.0f, 0.8f, true);
-	auto pChild = pNode->CreateChild("Directional");
-	pChild->SetRotation(-75, -50, 0);
-	scene.AddLight(pChild, std::move(pLight));
+	auto pLightsNode = scene.GetRootNode()->CreateChildNode("Lights");
+	auto pLight = scene.CreateLight(win.GetGraphics(), pLightsNode, "Directional");
+	pLight->SetLightType(win.GetGraphics(), LightType::Directional, true);
+	pLight->SetIntensity(0.8f);
+	pLight->SetRotation(-75, -50, 0);
 
-	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 1.0f, 0.0f, 0.0f, 2.0f);
-	pChild = pNode->CreateChild("Point R");
-	pChild->SetPosition(0, 10, 20);
-	scene.AddLight(pChild, std::move(pLight));
+	pLight = scene.CreateLight(win.GetGraphics(), pLightsNode, "Point R");
+	pLight->SetColor(1.0f, 0.0f, 0.0f);
+	pLight->SetIntensity(2.0f);
+	pLight->SetPosition(0, 10, 20);
 
-	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 1.0f, 0.0f, 2.0f);
-	pChild = pNode->CreateChild("Point G");
-	pChild->SetPosition(-30, 10, 20);
-	scene.AddLight(pChild, std::move(pLight));
+	pLight = scene.CreateLight(win.GetGraphics(), pLightsNode, "Point G");
+	pLight->SetColor(0.0f, 1.0f, 0.0f);
+	pLight->SetIntensity(2.0f);
+	pLight->SetPosition(-30, 10, 20);
 
-	pLight = std::make_unique<Light>(win.GetGraphics(), LightType::Point, 0.0f, 0.0f, 1.0f, 2.0f);
-	pChild = pNode->CreateChild("Point B");
-	pChild->SetPosition(-60, 10, 20);
-	scene.AddLight(pChild, std::move(pLight));
+	pLight = scene.CreateLight(win.GetGraphics(), pLightsNode, "Point B");
+	pLight->SetColor(0.0f, 0.0f, 1.0f);
+	pLight->SetIntensity(2.0f);
+	pLight->SetPosition(-60, 10, 20);
 
-	scene.RecalculateId();
+	scene.RecalculateNodeId();
 }
 
 void App::DoFrame(float t, float dt)

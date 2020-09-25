@@ -8,7 +8,8 @@
 #include <memory>
 
 enum class LightType {
-	Point, Directional
+	Point,
+	Directional
 };
 
 class Light : public SceneObject
@@ -18,7 +19,7 @@ class Light : public SceneObject
 
 public:
 	Light(Graphics& graphics, LightType type, float r, float g, float b, float intensity = 1, bool castShadow = false);
-	void SetLightType(LightType newType);
+	void SetLightType(Graphics& graphics, LightType newType, bool castShadow);
 	void SetColor(float r, float g, float b);
 	void SetIntensity(float intensity);
 

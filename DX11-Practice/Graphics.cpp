@@ -98,6 +98,11 @@ UINT Graphics::GetHeight()
 	return height;
 }
 
+float Graphics::GetAspectRatio()
+{
+	return static_cast<float>(width) / static_cast<float>(height);
+}
+
 void Graphics::BeginFrame()
 {
 	ImGui_ImplDX11_NewFrame();

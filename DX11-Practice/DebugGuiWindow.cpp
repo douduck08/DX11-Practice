@@ -53,6 +53,28 @@ void DebugGuiWindow::ShowSceneProperties(Scene& scene, SceneNode*& pSelectedNode
 		ImGui::ColorEdit3("Backcolor", scene.backcolor);
 		ImGui::ColorEdit3("Ambient Color", scene.ambientColor);
 	}
+
+	{
+		ImGui::Text("Active Camera");
+		const auto cameraName = scene.pMainCamera->pNode->name;
+
+		if (ImGui::Button(cameraName.c_str()))
+		{
+			ImGui::OpenPopup("camera_popup");
+		}
+
+		if (ImGui::BeginPopup("camera_popup"))
+		{
+			for (int i = 0; i < scene.pCameras.size(); i++)
+			{
+				if (ImGui::Selectable(scene.pCameras[i]->pNode->name.c_str()))
+				{
+					scene.pMainCamera = scene.pCameras[i];
+				}
+			}
+			ImGui::EndPopup();
+		}
+	}
 	
 	{
 		static int selectedLight = -1;
