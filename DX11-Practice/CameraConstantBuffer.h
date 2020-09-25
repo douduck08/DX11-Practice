@@ -11,6 +11,7 @@ public:
 	void SetViewMatrix(DirectX::XMMATRIX matrix);
 	void SetProjectMatrix(DirectX::XMMATRIX matrix);
 	void SetPosition(float x, float y, float z);
+	DirectX::XMMATRIX GetViewProjectMatrix();
 
 private:
 	struct CameraData

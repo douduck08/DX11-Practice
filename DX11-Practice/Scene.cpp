@@ -21,6 +21,14 @@ void Scene::Draw(Graphics& graphics)
 {
 	// recaculate transform
 	pRootNode->RecalculateTransform(DirectX::XMMatrixIdentity());
+	
+	DirectX::XMFLOAT4 planes[6];
+	pMainCamera->GetFrustumPlanes(planes);
+	for (auto& m : pModels)
+	{
+		m->UpdateTransform(graphics);
+		m->UpdateVisible(planes);
+	}
 
 	// render shadowmap
 	auto& mainLight = pLights[0]; // test code

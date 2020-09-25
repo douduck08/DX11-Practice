@@ -36,3 +36,8 @@ void CameraConstantBuffer::SetPosition(float x, float y, float z)
 	cameraData.position[1] = y;
 	cameraData.position[2] = z;
 }
+
+DirectX::XMMATRIX CameraConstantBuffer::GetViewProjectMatrix()
+{
+	return DirectX::XMMatrixMultiply(cameraData.view, cameraData.project);
+}
