@@ -3,7 +3,8 @@
 class DebugGuiWindow
 {
 public:
-	static void Show(class Scene& scene);
+	static void ShowResourceWindow();
+	static void ShowSceneWindow(class Scene& scene);
 
 private:
 	static void ShowSceneHierarchy(class Scene& scene, class SceneNode*& pSelectedNode);

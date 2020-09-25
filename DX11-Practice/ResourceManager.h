@@ -6,6 +6,8 @@
 
 class ResourceManager
 {
+    friend class DebugGuiWindow;
+
 public:
     ResourceManager(const ResourceManager&) = delete;
     ResourceManager(ResourceManager&&) = delete;

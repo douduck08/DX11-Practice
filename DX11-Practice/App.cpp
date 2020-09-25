@@ -73,7 +73,8 @@ void App::DoFrame(float t, float dt)
 
 	// draw
 	scene.Draw(win.GetGraphics());
-	DebugGuiWindow::Show(scene);
+	DebugGuiWindow::ShowSceneWindow(scene);
+	DebugGuiWindow::ShowResourceWindow();
 
 	// present
 	win.GetGraphics().EndFrame();

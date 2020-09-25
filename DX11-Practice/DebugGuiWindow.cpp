@@ -4,8 +4,26 @@
 #include "Camera.h"
 #include "Light.h"
 #include "imgui/imgui.h"
+#include <string>
 
-void DebugGuiWindow::Show(Scene& scene)
+void DebugGuiWindow::ShowResourceWindow()
+{
+	auto& manager = ResourceManager::Instance();
+
+	ImGui::Begin("ResourceManager");
+	auto total = "Resource number: " + std::to_string(manager.resources.size());
+	ImGui::Text(total.c_str());
+
+	ImGui::Separator();
+	for (auto element : manager.resources)
+	{
+		auto info = std::to_string(element.second.use_count() - 1) + " usage: " + element.first;
+		ImGui::Text(info.c_str());
+	}
+	ImGui::End();
+}
+
+void DebugGuiWindow::ShowSceneWindow(Scene& scene)
 {
 	static SceneNode* pSelectedNode;
 	ShowSceneHierarchy(scene, pSelectedNode);
