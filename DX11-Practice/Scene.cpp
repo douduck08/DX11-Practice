@@ -99,7 +99,7 @@ std::shared_ptr<Camera> Scene::CreateCamera(Graphics& graphics, const std::strin
 {
 	auto pCameraNode = pRootNode->CreateChildNode(name);
 	auto pCamera = std::make_shared<Camera>(graphics);
-	pCamera->SetPerspective(0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 1000);
+	pCamera->SetPerspective(0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 300);
 	pCamera->SetAttachNode(pCameraNode);
 	pCameras.push_back(pCamera);
 	return pCamera;
@@ -109,7 +109,7 @@ std::shared_ptr<Camera> Scene::CreateCamera(Graphics& graphics, std::shared_ptr<
 {
 	auto pCameraNode = pParentNode->CreateChildNode(name);
 	auto pCamera = std::make_shared<Camera>(graphics);
-	pCamera->SetPerspective(0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 1000);
+	pCamera->SetPerspective(0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 300);
 	pCamera->SetAttachNode(pCameraNode);
 	pCameras.push_back(pCamera);
 	return pCamera;

@@ -12,7 +12,9 @@ std::shared_ptr<SceneNode> AssimpKit::LoadModelFromFile(Graphics& graphics, Scen
 		aiProcess_JoinIdenticalVertices |
 		aiProcess_ConvertToLeftHanded |
 		aiProcess_GenNormals |
-		aiProcess_CalcTangentSpace
+		aiProcess_CalcTangentSpace |
+		aiProcess_OptimizeGraph |
+		aiProcess_OptimizeMeshes
 	);
 
 	const std::string rootPath = std::filesystem::path(filePath).parent_path().string() + "\\";
