@@ -21,13 +21,11 @@ void Scene::Draw(Graphics& graphics)
 {
 	// recaculate transform
 	pRootNode->RecalculateTransform(DirectX::XMMatrixIdentity());
-	
+	pMainCamera->UpdateTransform();
 	pMainCamera->UpdateFrustomPlanes();
-	auto& frustom = pMainCamera->GetFrustum();
 	for (auto& m : pModels)
 	{
 		m->UpdateTransform(graphics);
-		m->UpdateVisible(frustom);
 	}
 
 	// render shadowmap
@@ -36,14 +34,16 @@ void Scene::Draw(Graphics& graphics)
 	{
 		mainLight->SetShadowMapAsRenderTarget(graphics);
 		mainLight->ClearShadowMap(graphics);
-		mainLight->CaculateShadowData(pMainCamera.get());
+		mainLight->UpdateShadowData(pMainCamera.get());
 		mainLight->BindShadowData(graphics);
 
+		auto& shadowFrustom = mainLight->GetShadowCameraFrustum();
 		pZeroMaskState->Bind(graphics);
 		pLessWriteState->Bind(graphics);
 		pShadowRasterizerState->Bind(graphics);
 		for (auto& m : pModels)
 		{
+			m->UpdateVisible(shadowFrustom);
 			m->Draw(graphics, true);
 		}
 
@@ -52,7 +52,7 @@ void Scene::Draw(Graphics& graphics)
 	}
 
 	// update frame data
-	pMainCamera->Bind(graphics);
+	pMainCamera->BindCameraBuffer(graphics);
 
 	pFrameConstantBuffer->SetAmbientColor(ambientColor[0], ambientColor[1], ambientColor[2]);
 	pFrameConstantBuffer->Bind(graphics);
@@ -65,11 +65,13 @@ void Scene::Draw(Graphics& graphics)
 	graphics.ClearBuffer(backcolor[0], backcolor[1], backcolor[2]);
 	
 	// draw depth
+	auto& frustom = pMainCamera->GetFrustum();
 	pZeroMaskState->Bind(graphics);
 	pLessWriteState->Bind(graphics);
 	pDefaultRasterizerState->Bind(graphics);
 	for (auto& m : pModels)
 	{
+		m->UpdateVisible(frustom);
 		m->Draw(graphics, true);
 	}
 
@@ -96,7 +98,8 @@ void Scene::RecalculateNodeId()
 std::shared_ptr<Camera> Scene::CreateCamera(Graphics& graphics, const std::string& name)
 {
 	auto pCameraNode = pRootNode->CreateChildNode(name);
-	auto pCamera = std::make_shared<Camera>(graphics, 0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 1000);
+	auto pCamera = std::make_shared<Camera>(graphics);
+	pCamera->SetPerspective(0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 1000);
 	pCamera->SetAttachNode(pCameraNode);
 	pCameras.push_back(pCamera);
 	return pCamera;
@@ -105,7 +108,8 @@ std::shared_ptr<Camera> Scene::CreateCamera(Graphics& graphics, const std::strin
 std::shared_ptr<Camera> Scene::CreateCamera(Graphics& graphics, std::shared_ptr<SceneNode> pParentNode, const std::string& name)
 {
 	auto pCameraNode = pParentNode->CreateChildNode(name);
-	auto pCamera = std::make_shared<Camera>(graphics, 0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 1000);
+	auto pCamera = std::make_shared<Camera>(graphics);
+	pCamera->SetPerspective(0.3f * 3.1415926f, graphics.GetAspectRatio(), 0.1f, 1000);
 	pCamera->SetAttachNode(pCameraNode);
 	pCameras.push_back(pCamera);
 	return pCamera;

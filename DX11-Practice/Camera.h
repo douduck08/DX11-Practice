@@ -10,18 +10,23 @@ class Camera : public SceneObject
 	friend class DebugGuiWindow;
 
 public:
-	Camera(Graphics& graphics, float fovY, float aspectRatio, float nearZ, float farZ);
-	void Bind(Graphics& graphics);
-	void SetCameraView(float originX, float originY, float originZ, float radius, float pitch, float yaw, float roll);
-	DirectX::XMFLOAT3 GetPosition();
+	enum class Mode
+	{
+		Perspective,
+		Orthographic,
+	};
 
+	Camera(Graphics& graphics);
+	void SetPerspective(float fovY, float aspectRatio, float nearZ, float farZ);
+	void SetOrthographic(float viewLeft, float viewRight, float viewBottom, float viewTop, float nearZ, float farZ);
+	void BindCameraBuffer(Graphics& graphics);
+	void SetViewMatrix(DirectX::XMFLOAT4X4 view);
+	void UpdateTransform();
 	void UpdateFrustomPlanes();
 	const Frustum& GetFrustum();
 
 private:
-	void SetCameraView();
-
-private:
+	Mode mode;
 	Frustum frustum;
 	std::unique_ptr<CameraConstantBuffer> pCameraBuffer = nullptr;
 };

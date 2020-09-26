@@ -1,10 +1,5 @@
 #include "Frustum.h"
 
-Frustum::Frustum(float fovY, float aspectRatio, float nearZ, float farZ)
-    : fovY(fovY), aspectRatio(aspectRatio), nearZ(nearZ), farZ(farZ)
-{
-}
-
 void Frustum::UpdatePlanes(const DirectX::XMFLOAT4X4& viewProj)
 {
     // Left Frustum Plane

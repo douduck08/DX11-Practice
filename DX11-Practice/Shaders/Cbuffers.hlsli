@@ -48,6 +48,7 @@ cbuffer CameraBuffer : register(b1)
 {
     matrix cameraView;
     matrix cameraProject;
+    matrix cameraVP;
     float4 cameraPosition;
 };
 

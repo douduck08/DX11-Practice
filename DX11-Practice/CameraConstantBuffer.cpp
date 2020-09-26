@@ -3,7 +3,7 @@
 
 CameraConstantBuffer::CameraConstantBuffer(Graphics& graphics)
 	: needUpdate(false)
-	, cameraData{ DirectX::XMMatrixIdentity(), DirectX::XMMatrixIdentity(), { 0, 0, 0, 1 } }
+	, cameraData{}
 {
 	pCameraBuffer = std::make_unique<SharedConstantBuffer<CameraData>>(graphics, cameraData, CAMERA_CBUFFER_SLOT);
 }
@@ -17,16 +17,17 @@ void CameraConstantBuffer::Bind(Graphics& graphics) noexcept
 	pCameraBuffer->Bind(graphics);
 }
 
-void CameraConstantBuffer::SetViewMatrix(DirectX::XMMATRIX matrix)
+void CameraConstantBuffer::SetProjectMatrix(const DirectX::XMFLOAT4X4& project)
 {
 	needUpdate = true;
-	cameraData.view = matrix;
+	cameraData.project = project;
 }
 
-void CameraConstantBuffer::SetProjectMatrix(DirectX::XMMATRIX matrix)
+void CameraConstantBuffer::SetViewMatrix(const DirectX::XMFLOAT4X4& view, const DirectX::XMFLOAT4X4& viewProj)
 {
 	needUpdate = true;
-	cameraData.project = matrix;
+	cameraData.view = view;
+	cameraData.viewProject = viewProj;
 }
 
 void CameraConstantBuffer::SetPosition(float x, float y, float z)
@@ -37,7 +38,18 @@ void CameraConstantBuffer::SetPosition(float x, float y, float z)
 	cameraData.position[2] = z;
 }
 
-DirectX::XMMATRIX CameraConstantBuffer::GetViewProjectMatrix()
+DirectX::XMFLOAT4X4 CameraConstantBuffer::GetProjectMatrix()
 {
-	return DirectX::XMMatrixMultiply(cameraData.view, cameraData.project);
+	return cameraData.project;
 }
+
+DirectX::XMFLOAT4X4 CameraConstantBuffer::GetViewMatrix()
+{
+	return cameraData.view;
+}
+
+DirectX::XMFLOAT4X4 CameraConstantBuffer::GetViewProjectMatrix()
+{
+	return cameraData.viewProject;
+}
+

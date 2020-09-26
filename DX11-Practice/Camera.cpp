@@ -1,60 +1,64 @@
 #include "Camera.h"
 
-Camera::Camera(Graphics& graphics, float fovY, float aspectRatio, float nearZ, float farZ)
-	: frustum(fovY, aspectRatio, nearZ, farZ)
+Camera::Camera(Graphics& graphics)
 {
 	pCameraBuffer = std::make_unique<CameraConstantBuffer>(graphics);
-	pCameraBuffer->SetProjectMatrix(DirectX::XMMatrixPerspectiveFovLH(fovY, aspectRatio, nearZ, farZ));
 }
 
-void Camera::Bind(Graphics& graphics)
+void Camera::SetPerspective(float fovY, float aspectRatio, float nearZ, float farZ)
 {
-	SetCameraView();
+	mode = Mode::Perspective;
+	DirectX::XMFLOAT4X4 proj;
+	DirectX::XMStoreFloat4x4(&proj, DirectX::XMMatrixPerspectiveFovLH(fovY, aspectRatio, nearZ, farZ));
+	pCameraBuffer->SetProjectMatrix(proj);
+}
+
+void Camera::SetOrthographic(float viewLeft, float viewRight, float viewBottom, float viewTop, float nearZ, float farZ)
+{
+	mode = Mode::Orthographic;
+	DirectX::XMFLOAT4X4 proj;
+	DirectX::XMStoreFloat4x4(&proj, DirectX::XMMatrixOrthographicOffCenterLH(viewLeft, viewRight, viewBottom, viewTop, nearZ, farZ));
+	pCameraBuffer->SetProjectMatrix(proj);
+}
+
+void Camera::BindCameraBuffer(Graphics& graphics)
+{
 	pCameraBuffer->Bind(graphics);
 }
 
-void Camera::SetCameraView(float originX, float originY, float originZ, float radius, float pitch, float yaw, float roll)
+void Camera::SetViewMatrix(DirectX::XMFLOAT4X4 view)
 {
-	using namespace DirectX;
-
-	const auto origin = XMVectorSet(originX, originY, originZ, 1.0f);
-	const auto rot = XMMatrixRotationRollPitchYaw(pitch, -yaw, roll);
-
-	const auto up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	const auto upVector = XMVector3Transform(up, rot);
-
-	const auto forward = XMVectorSet(0.0f, 0.0f, radius, 0.0f);
-	const auto lookVector = XMVector3Transform(forward, rot);
-	const auto pos = origin - lookVector;
-
-	pCameraBuffer->SetPosition(pos.m128_f32[0], pos.m128_f32[1], pos.m128_f32[2]);
-	pCameraBuffer->SetViewMatrix(XMMatrixLookAtLH(pos, origin, upVector));
+	auto view_mt = DirectX::XMLoadFloat4x4(&view);
+	auto proj = pCameraBuffer->GetProjectMatrix();
+	auto proj_mt = DirectX::XMLoadFloat4x4(&proj);
+	DirectX::XMFLOAT4X4 viewProj;
+	DirectX::XMStoreFloat4x4(&viewProj, view_mt * proj_mt);
+	pCameraBuffer->SetViewMatrix(view, viewProj);
 }
 
-DirectX::XMFLOAT3 Camera::GetPosition()
+void Camera::UpdateTransform()
 {
-	return pNode->GetPosition();
+	const auto position = pNode->GetPosition();
+	pCameraBuffer->SetPosition(position.x, position.y, position.z);
+
+	const auto transform = pNode->GetTransform();
+	auto view_mt = DirectX::XMMatrixInverse(nullptr, DirectX::XMLoadFloat4x4(&transform));
+	auto proj = pCameraBuffer->GetProjectMatrix();
+	auto proj_mt = DirectX::XMLoadFloat4x4(&proj);
+
+	DirectX::XMFLOAT4X4 view, viewProj;
+	DirectX::XMStoreFloat4x4(&view, view_mt);
+	DirectX::XMStoreFloat4x4(&viewProj, view_mt * proj_mt);
+	pCameraBuffer->SetViewMatrix(view, viewProj);
 }
 
 void Camera::UpdateFrustomPlanes()
 {
-    DirectX::XMFLOAT4X4 viewProj;
-    DirectX::XMStoreFloat4x4(&viewProj, pCameraBuffer->GetViewProjectMatrix());
+    DirectX::XMFLOAT4X4 viewProj = pCameraBuffer->GetViewProjectMatrix();
     frustum.UpdatePlanes(viewProj);
 }
 
 const Frustum& Camera::GetFrustum()
 {
     return frustum;
-}
-
-void Camera::SetCameraView()
-{
-	const auto position = pNode->GetPosition();
-	pCameraBuffer->SetPosition(position.x, position.y, position.z);
-
-	const auto transform = pNode->GetTransform();
-	auto transform_mt = DirectX::XMLoadFloat4x4(&transform);
-	auto view_mt = DirectX::XMMatrixInverse(nullptr, transform_mt);
-	pCameraBuffer->SetViewMatrix(view_mt);
 }

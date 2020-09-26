@@ -24,12 +24,13 @@ public:
 	void SetIntensity(float intensity);
 
 	bool IsCastingShadow();
-	void CaculateShadowData(Camera* camera);
-	
+	void UpdateShadowData(Camera* camera);
 	void BindShadowData(Graphics& graphics);
-	void BindShadowMap(Graphics& graphics);
+	const Frustum& GetShadowCameraFrustum();
+	
 	void SetShadowMapAsRenderTarget(Graphics& graphics);
 	void ClearShadowMap(Graphics& graphics);
+	void BindShadowMap(Graphics& graphics);
 
 private:
 	LightType type;
@@ -44,7 +45,7 @@ private:
 
 	ShadowData shadowData;
 	bool castShadow;
-	std::unique_ptr<CameraConstantBuffer> pCameraBuffer = nullptr;
+	std::unique_ptr<Camera> pShadowCamera = nullptr;
 	std::unique_ptr<SharedConstantBuffer<ShadowData>> pShadowDataBuffer = nullptr;
 	std::unique_ptr<ShadowMap> pShadowMap = nullptr;
 };

@@ -14,7 +14,7 @@ void Light::SetLightType(Graphics& graphics, LightType type, bool castShadow)
 	this->castShadow = castShadow && type == LightType::Directional;
 	this->type = type;
 
-	if (this->castShadow && pCameraBuffer == nullptr)
+	if (this->castShadow && pShadowDataBuffer == nullptr)
 	{
 		const auto size = 2048u;
 		shadowData.shadowMapSize.x = static_cast<float>(size);
@@ -22,7 +22,7 @@ void Light::SetLightType(Graphics& graphics, LightType type, bool castShadow)
 		shadowData.shadowMapSize.z = 1.0f / shadowData.shadowMapSize.x;
 		shadowData.shadowMapSize.w = 1.0f / shadowData.shadowMapSize.y;
 
-		pCameraBuffer = std::make_unique<CameraConstantBuffer>(graphics);
+		pShadowCamera = std::make_unique<Camera>(graphics);
 		pShadowDataBuffer = std::make_unique<SharedConstantBuffer<ShadowData>>(graphics, SHADOW_CBUFFER_SLOT);
 		pShadowMap = std::make_unique<ShadowMap>(graphics, size, size, 3u);
 	}
@@ -45,7 +45,7 @@ bool Light::IsCastingShadow()
 	return castShadow;
 }
 
-void Light::CaculateShadowData(Camera* camera)
+void Light::UpdateShadowData(Camera* camera)
 {
 	using namespace DirectX;
 
@@ -72,8 +72,13 @@ void Light::CaculateShadowData(Camera* camera)
 	float f = centerLightSpace.z + distance;
 	auto proj_mt = XMMatrixOrthographicOffCenterLH(l, r, b, t, n, f);
 
-	pCameraBuffer->SetProjectMatrix(proj_mt);
-	pCameraBuffer->SetViewMatrix(view_mt);
+	pShadowCamera->SetOrthographic(l, r, b, t, n, f);
+
+	XMFLOAT4X4 view;
+	DirectX::XMStoreFloat4x4(&view, view_mt);
+	pShadowCamera->SetViewMatrix(view);
+	//pCameraBuffer->SetProjectMatrix(proj_mt);
+	//pCameraBuffer->SetViewMatrix(view_mt);
 
 	XMMATRIX T(
 		0.5f, 0.0f, 0.0f, 0.0f,
@@ -87,14 +92,14 @@ void Light::CaculateShadowData(Camera* camera)
 
 void Light::BindShadowData(Graphics& graphics)
 {
-	pCameraBuffer->Bind(graphics);
+	pShadowCamera->BindCameraBuffer(graphics);
 	pShadowDataBuffer->Update(graphics, shadowData);
 	pShadowDataBuffer->Bind(graphics);
 }
 
-void Light::BindShadowMap(Graphics& graphics)
+const Frustum& Light::GetShadowCameraFrustum()
 {
-	pShadowMap->Bind(graphics);
+	return pShadowCamera->GetFrustum();
 }
 
 void Light::SetShadowMapAsRenderTarget(Graphics& graphics)
@@ -105,4 +110,9 @@ void Light::SetShadowMapAsRenderTarget(Graphics& graphics)
 void Light::ClearShadowMap(Graphics& graphics)
 {
 	pShadowMap->Clear(graphics);
+}
+
+void Light::BindShadowMap(Graphics& graphics)
+{
+	pShadowMap->Bind(graphics);
 }
