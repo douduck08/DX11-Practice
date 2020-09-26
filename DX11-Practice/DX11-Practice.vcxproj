@@ -152,6 +152,9 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="AssimpKit.cpp" />
+    <ClCompile Include="Bounds.cpp" />
+    <ClCompile Include="DMath.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="Bindable.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -183,6 +186,9 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="AssimpKit.h" />
     <ClInclude Include="BlendState.h" />
+    <ClInclude Include="Bounds.h" />
+    <ClInclude Include="DMath.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="RasterizerState.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="DepthStencilState.h" />

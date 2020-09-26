@@ -37,6 +37,9 @@
     <Filter Include="DuEngine\Common\Resources">
       <UniqueIdentifier>{4411062c-bd22-48a2-acaf-727f3cad5791}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DuEngine\SceneSystem\Common">
+      <UniqueIdentifier>{62b1eea0-9c9c-4ddb-b934-9cb8ece34930}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -122,6 +125,15 @@
     </ClCompile>
     <ClCompile Include="PerFrameConstantBuffer.cpp">
       <Filter>DuEngine\Bindable\HighLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Bounds.cpp">
+      <Filter>DuEngine\SceneSystem\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="DMath.cpp">
+      <Filter>DuEngine\SceneSystem\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>DuEngine\SceneSystem\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +271,15 @@
     </ClInclude>
     <ClInclude Include="RasterizerState.h">
       <Filter>DuEngine\Bindable</Filter>
+    </ClInclude>
+    <ClInclude Include="Bounds.h">
+      <Filter>DuEngine\SceneSystem\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DMath.h">
+      <Filter>DuEngine\SceneSystem\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>DuEngine\SceneSystem\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

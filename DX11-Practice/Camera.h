@@ -2,6 +2,7 @@
 #include <DirectXMath.h>
 #include <memory>
 #include "SceneObject.h"
+#include "Frustum.h"
 #include "CameraConstantBuffer.h"
 
 class Camera : public SceneObject
@@ -13,16 +14,14 @@ public:
 	void Bind(Graphics& graphics);
 	void SetCameraView(float originX, float originY, float originZ, float radius, float pitch, float yaw, float roll);
 	DirectX::XMFLOAT3 GetPosition();
-	void GetFrustumPlanes(DirectX::XMFLOAT4 planes[6]);
+
+	void UpdateFrustomPlanes();
+	const Frustum& GetFrustum();
 
 private:
 	void SetCameraView();
 
 private:
-	float fovY;
-	float aspectRatio;
-	float nearZ;
-	float farZ;
-
+	Frustum frustum;
 	std::unique_ptr<CameraConstantBuffer> pCameraBuffer = nullptr;
 };

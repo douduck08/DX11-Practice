@@ -5,6 +5,7 @@
 #include "ConstantBuffer.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "Frustum.h"
 #include "Geometry.h"
 #include <memory>
 
@@ -18,7 +19,7 @@ public:
 	void SetMesh(const std::shared_ptr<Mesh> pMesh);
 	void SetMaterial(const std::shared_ptr<Material> pMaterial);
 	void UpdateTransform(Graphics& graphics);
-	void UpdateVisible(DirectX::XMFLOAT4 frustumPlanes[6]);
+	void UpdateVisible(const Frustum& frustum);
 	void Draw(Graphics& graphics, bool depthMode = false);
 
 private:

@@ -1,5 +1,6 @@
 #include "Model.h"
 #include "SlotConfig.h"
+#include "DMath.h"
 
 Model::Model(Graphics& graphics)
 {
@@ -40,40 +41,15 @@ void Model::UpdateTransform(Graphics& graphics)
 	}
 }
 
-static float XMPlaneDotCoord(const DirectX::XMFLOAT4* plane, DirectX::XMVECTOR point)
+void Model::UpdateVisible(const Frustum& frustum)
 {
-	using namespace DirectX;
-	auto dot = XMPlaneDotCoord(XMLoadFloat4(plane), point);
-	return dot.m128_f32[0];
-}
-
-void Model::UpdateVisible(DirectX::XMFLOAT4 frustumPlanes[6])
-{
-
 	if (!IsAttached())
 	{
 		isVisible = false;
 		return;
 	}
 
-	for (int i = 0; i < 6; i++)
-	{
-		int out = 0;
-		out += ((XMPlaneDotCoord(&frustumPlanes[i], DirectX::XMVectorSet(bounds.minX, bounds.minY, bounds.minZ, 1.0f)) < 0.0) ? 1 : 0);
-		out += ((XMPlaneDotCoord(&frustumPlanes[i], DirectX::XMVectorSet(bounds.maxX, bounds.minY, bounds.minZ, 1.0f)) < 0.0) ? 1 : 0);
-		out += ((XMPlaneDotCoord(&frustumPlanes[i], DirectX::XMVectorSet(bounds.minX, bounds.maxY, bounds.minZ, 1.0f)) < 0.0) ? 1 : 0);
-		out += ((XMPlaneDotCoord(&frustumPlanes[i], DirectX::XMVectorSet(bounds.maxX, bounds.maxY, bounds.minZ, 1.0f)) < 0.0) ? 1 : 0);
-		out += ((XMPlaneDotCoord(&frustumPlanes[i], DirectX::XMVectorSet(bounds.minX, bounds.minY, bounds.maxZ, 1.0f)) < 0.0) ? 1 : 0);
-		out += ((XMPlaneDotCoord(&frustumPlanes[i], DirectX::XMVectorSet(bounds.maxX, bounds.minY, bounds.maxZ, 1.0f)) < 0.0) ? 1 : 0);
-		out += ((XMPlaneDotCoord(&frustumPlanes[i], DirectX::XMVectorSet(bounds.minX, bounds.maxY, bounds.maxZ, 1.0f)) < 0.0) ? 1 : 0);
-		out += ((XMPlaneDotCoord(&frustumPlanes[i], DirectX::XMVectorSet(bounds.maxX, bounds.maxY, bounds.maxZ, 1.0f)) < 0.0) ? 1 : 0);
-		if (out == 8) {
-			isVisible = false;
-			return;
-		}
-	}
-
-	isVisible = true;
+	isVisible = DMath::BoundsInFrustum(frustum, bounds);
 }
 
 void Model::Draw(Graphics& graphics, bool depthMode)

@@ -22,12 +22,12 @@ void Scene::Draw(Graphics& graphics)
 	// recaculate transform
 	pRootNode->RecalculateTransform(DirectX::XMMatrixIdentity());
 	
-	DirectX::XMFLOAT4 planes[6];
-	pMainCamera->GetFrustumPlanes(planes);
+	pMainCamera->UpdateFrustomPlanes();
+	auto& frustom = pMainCamera->GetFrustum();
 	for (auto& m : pModels)
 	{
 		m->UpdateTransform(graphics);
-		m->UpdateVisible(planes);
+		m->UpdateVisible(frustom);
 	}
 
 	// render shadowmap
